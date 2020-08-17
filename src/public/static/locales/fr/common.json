@@ -1,0 +1,94 @@
+{
+  "page": {
+        "home": {
+            "title": "Leo Fresh",
+            "subtitle": "Tous vos Besoins en Eau"
+        }, 
+        "services": {
+
+        },
+        "portfolio": {
+
+        },
+        "pricing": {
+
+        },
+        "quotation": {
+
+        },
+        "cart": {
+
+        },
+        "about_us": {
+
+        },
+        "contact_us": {
+
+        },
+        "privacy": {
+
+        },
+        "terms": {
+
+        }
+    },"button": {
+    "theme": {
+      "dark": "Mode Sombre",
+      "light": "Mode D'éclairage"
+    },
+
+        "quick_order": "Commandez Vite",
+        "proceed_to_checkout": "Proceed to Checkout",
+        "continue_shopping": "Continue Shopping",
+        "add_to_cart": "Add to Cart",
+        "remove_in_cart": "Remove in Cart",
+        "read_more": "Lire la Suite >"
+  },
+  "menu": {
+    "label": {
+      "select_language": "Choisir la Langue"
+    },
+    "language": {
+      "label": "Langue"
+    },
+    "home": {
+      "label": "Accueil"
+    },
+    "services": {
+      "label": "Services"
+    },
+    "portfolio": {
+      "label": "Portefeuille"
+    },
+    "pricing": {
+      "label": "Prix"
+    },
+    "quotation": {
+      "label": "Devis"
+    },
+    "cart": {
+      "label": "Cart"
+    },
+    "about": {
+      "label": "A Propos de Nous"
+    },
+    "login": {
+      "label": "S'identifier"
+    },
+    "logout": {
+      "label": "Se Déconnecter"
+    },
+    "contact": {
+      "label": "Contactez-nous"
+    },
+    "privacy": {
+      "label": "Politique de Confidentialité"
+    },
+    "terms": {
+      "label": "Conditions D'utilisation"
+    },
+    "hide": {
+      "label": "Hide Menu"
+    }
+  }
+}

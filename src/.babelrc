@@ -1,0 +1,26 @@
+{
+  "presets": [[
+    "next/babel",
+    {
+      "styled-jsx": {
+        "optimizeForSpeed": false
+      }
+    }
+  ]],
+  "plugins": [
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "style": true
+      }
+    ]
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        "transform-es2015-modules-commonjs"
+      ]
+    }
+  }
+}

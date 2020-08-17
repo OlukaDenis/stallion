@@ -1,0 +1,88 @@
+{
+  "page": {
+        "home": {
+            "title": "Leo Fresh",
+            "subtitle": "Todas tus Necesidades de Agua"
+        }, 
+        "services": {
+
+        },
+        "portfolio": {
+
+        },
+        "pricing": {
+
+        },
+        "quotation": {
+
+        },
+        "cart": {
+
+        },
+        "about_us": {
+
+        },
+        "contact_us": {
+
+        },
+        "privacy": {
+
+        },
+        "terms": {
+
+        }
+    },"button": {
+    "theme": {
+      "dark": "Dark Mode",
+      "light": "Light Mode"
+    },
+
+        "quick_order": "Get a Quotation",
+        "proceed_to_checkout": "Proceed to Checkout",
+        "continue_shopping": "Continue Shopping",
+        "add_to_cart": "Add to Cart",
+        "remove_in_cart": "Remove in Cart",
+        "read_more": "Read More >"
+  },
+  "menu": {
+    "label": {
+      "select_language": "Select Language"
+    },
+    "language": {
+      "label": "Language"
+    },
+    "home": {
+      "label": "Home"
+    },
+    "services": {
+      "label": "Services"
+    },
+    "portfolio": {
+      "label": "Portfolio"
+    },
+    "pricing": {
+      "label": "Pricing"
+    },
+    "quotation": {
+      "label": "Quotation"
+    },
+    "cart": {
+      "label": "Cart"
+    },
+    "about": {
+      "label": "About Us"
+    },
+    "contact": {
+      "label": "Contact Us"
+    },
+    "privacy": {
+      "label": "Privacy Policy"
+    },
+    "terms": {
+      "label": "Terms of Service"
+    },
+    "hide": {
+      "label": "Hide Menu"
+    }
+  }
+}

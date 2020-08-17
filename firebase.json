@@ -1,0 +1,20 @@
+{
+  "hosting": {
+    "public": "src/public",
+    "ignore": ["firebase.json", "**/.*", "**/.git/**", "**/node_modules/**", "**/__tests__/**", "**/src/coverage/**", "**/*.test.*", "**/potential_assets/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "nextjsFunc"
+      }
+    ]
+  },
+  "functions": {
+    "source": ".",
+    "ignore": ["**/.git/**", "**/__tests__/**", "**/src/coverage/**", "**/*.test.*", "**/potential_assets/**", "**/node_modules/**"],
+    "predeploy": [
+      "npm --prefix \"$PROJECT_DIR\" install",
+      "npm --prefix \"$PROJECT_DIR\" run build"
+    ]
+  }
+}
