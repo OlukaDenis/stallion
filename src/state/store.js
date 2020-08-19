@@ -3,7 +3,6 @@ import { HYDRATE, createWrapper } from 'next-redux-wrapper'
 import thunkMiddleware from 'redux-thunk'
 import ui from './ui/reducer'
 import user from './user/reducer'
-import cart from './cart/reducer'
 
 const bindMiddleware = (middleware) => {
   if (process.env.NODE_ENV !== 'production') {
@@ -15,8 +14,7 @@ const bindMiddleware = (middleware) => {
 
 const combinedReducer = combineReducers({
   ui,
-  user,
-  cart
+  user
 });
 
 export const reducer = (state, action) => {
@@ -28,7 +26,6 @@ export const reducer = (state, action) => {
     
     if (state.ui) nextState.ui = state.ui; // preserve ui value on client side navigation
     if (state.user) nextState.user = state.user; // preserve user value on client side navigation
-    if (state.cart) nextState.cart = state.cart; // preserve cart value on client side navigation
     return nextState
   } else {
     return combinedReducer(state, action)
@@ -46,7 +43,7 @@ export const makeStore = ({ isServer }) => {
 
     const persistConfig = {
       key: 'leofresh',
-      whitelist: ['ui', 'user', 'cart'], // only whitelisted reducers will be persisted
+      whitelist: ['ui', 'user'], // only whitelisted reducers will be persisted
       storage, // you can use a safer storage
     };
 

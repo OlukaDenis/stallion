@@ -12,7 +12,6 @@ import {
   InfoOutlined,
   SolutionOutlined,
   VerticalAlignTopOutlined,
-  ShoppingCartOutlined,
   UnlockOutlined,
   LockOutlined,
   CaretRightOutlined,
@@ -20,7 +19,6 @@ import {
 } from '@ant-design/icons';
 
 import CustomIcon from './CustomIcon';
-import BadgeIcon from './BadgeIcon';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -55,7 +53,6 @@ export function BaseLayout({
          isLoadingNewPage,
          isLoggedIn,
          userLoggedOut,
-         cartItems,
        }) {
          const getCurrentLanguageIndex = () => {
            const index = supported_languages.findIndex((item) => item.code === i18n.language);
@@ -110,7 +107,16 @@ export function BaseLayout({
              >
                <Layout className="fill-screen">
                  <Head>
-                   <title>Leo Fresh</title>
+                   <title>Super Stallion Logistics</title>
+
+                   <meta name="mobile-web-app-capable" content="yes" />
+                   <meta name="apple-mobile-web-app-capable" content="yes" />
+                   <meta name="application-name" content="Super Stallion Logistics" />
+                   <meta name="apple-mobile-web-app-title" content="Super Stallion Logistics" />
+                   <meta name="msapplication-navbutton-color" content="#000000" />
+                   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+                   <meta name="msapplication-starturl" content="/" />
+                   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
                    <link rel="shortcut icon" href="/favicons/favicon.ico" type="image/x-icon" />
                    <link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-icon-57x57.png" />
@@ -128,7 +134,7 @@ export function BaseLayout({
                    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png" />
                    <meta name="msapplication-TileColor" content="#ffffff" />
                    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
-                   <meta name="theme-color" content="#ffffff" />
+                   <meta name="theme-color" content="#000000" />
                    <meta property="csp-nonce" content={cspNonce} />
                    <meta
                      httpEquiv="Content-Security-Policy"
@@ -144,7 +150,7 @@ export function BaseLayout({
                      name="viewport"
                      content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
                    />
-                   <meta name="description" content="Leo Fresh's website" />
+                   <meta name="description" content="Super Stallion Logistics's website" />
                    <meta
                      name="keywords"
                      content="app, build, create, software, UI, UX, mobile, integration, ecommerce, service, product, cheap, affordable, hybrid, cross, platform, mac, linux, android, ios, windows, web, website, design, developers, development, dev, CBD, Kenya, Mombasa, Nakuru, Eldoret, Nairobi, Nyeri, Kisumu, Kampala, Mbarara, Entebbe, Jinja, Uganda"
@@ -164,7 +170,7 @@ export function BaseLayout({
                      <a>
                        <picture>
                          <source srcSet="/images/webp/logo.webp" type="image/webp"></source>
-                         <img className="site-header-logo" alt="Leo Fresh Logo" src="/images/logo.jpg" />
+                         <img className="site-header-logo" alt="Super Stallion Logistics Logo" src="/images/logo.jpg" />
                        </picture>
                      </a>
                    </Link>
@@ -180,7 +186,7 @@ export function BaseLayout({
                    <div className={`vertical-center-div ${isThemeLightMode ? 'trigger-light' : 'trigger-dark'}`}>
                      <Badge
                        className="menu-badge-icon badge-icon"
-                       count={Object.keys(cartItems).length}
+                       count={3}
                        overflowCount={'99'}
                      >
                        {React.createElement(!isSideMenuShowing ? MenuFoldOutlined : MenuUnfoldOutlined, {
@@ -217,7 +223,7 @@ export function BaseLayout({
                    >
                      <picture>
                        <source srcSet="/images/webp/logo.webp" type="image/webp"></source>
-                       <img className="menu-header-logo" alt="Leo Fresh Logo" src="/images/logo.jpg" />
+                       <img className="menu-header-logo" alt="Super Stallion Logistics Logo" src="/images/logo.jpg" />
                      </picture>
 
                      <div className="theme-mode-switch-in-sider">
@@ -274,21 +280,11 @@ export function BaseLayout({
                        <Menu.Item key="/" icon={<HomeOutlined />}>
                          {t('menu.home.label')}
                        </Menu.Item>
-                       <Menu.Item key="/services" icon={<CloudServerOutlined />}>
-                         {t('menu.services.label')}
+                       <Menu.Item key="/track" icon={<CloudServerOutlined />}>
+                         {t('menu.track.label')}
                        </Menu.Item>
                        <Menu.Item key="/quotation" icon={<UnorderedListOutlined />}>
                          {t('menu.quotation.label')}
-                       </Menu.Item>
-                       <Menu.Item
-                         key="/cart"
-                         icon={
-                           <BadgeIcon count={Object.keys(cartItems).length}>
-                             <ShoppingCartOutlined />
-                           </BadgeIcon>
-                         }
-                       >
-                         {t('menu.cart.label')}
                        </Menu.Item>
                        <Menu.Item
                          key={isLoggedIn ? '/logout' : '/login'}
@@ -327,7 +323,7 @@ export function BaseLayout({
                          key="/hide-or-show-menu"
                          icon={isSideMenuShowing ? <CaretRightOutlined /> : <CaretLeftOutlined />}
                        >
-                         {t('menu.hide.label')}
+                         {isSideMenuShowing ? t('menu.hide.label') : t('menu.show.label')}
                        </Menu.Item>
                      </Menu>
                    </Sider>
@@ -343,7 +339,7 @@ export function BaseLayout({
                  >
                    <div className="vertical-center-div">
                      <p>
-                       Leo Fresh Ltd &copy;{new Date().getFullYear()} | Designed by:{' '}
+                       Super Stallion Logistics &copy;{new Date().getFullYear()} | Designed by:{' '}
                        <a href="https://premar.tech">Premar Systems</a>
                      </p>
                    </div>
@@ -359,7 +355,6 @@ const mapStateToProps = (state) => ({
   isSideMenuShowing: state.ui.isSideMenuShowing,
   isLoadingNewPage: state.ui.isLoadingNewPage,
   isLoggedIn: state.user.isLoggedIn,
-  cartItems: state.cart.items,
 });
 
 const mapDispatchToProps = (dispatch) => {

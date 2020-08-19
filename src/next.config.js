@@ -6,16 +6,10 @@ const fs = require('fs');
 const path = require('path');
 const { nextI18NextRewrites } = require('next-i18next/rewrites');
 const localeSubpaths = {
-    ar: 'ar',
     de: 'de',
     en: 'en',
     es: 'es',
     fr: 'fr',
-    hi: 'hi',
-    ki: 'ki',
-    lg: 'lg',
-    so: 'so',
-    sw: 'sw',
     zh: 'zh',
   }
 

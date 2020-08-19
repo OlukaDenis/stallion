@@ -18,7 +18,7 @@ This README contains the necessary steps to get the web application up and runni
 `$ DEBUG_PRINT_LIMIT=100000 npm run test` -- run the tests using this command (in Linux/Mac) to increase the limit of the logged content of the DOM under test when a test fails. [Read more here.](https://testing-library.com/docs/dom-testing-library/api-helpers#debugging)
 
 * Deployment instructions
-`$ npm run deploy` -- run this command to deploy.
+`$ ssh -i /path/my-key-pair.pem my-instance-user-name@my-instance-public-dns-name` -- run this command to deploy.
 
 ### Contribution guidelines ###
 

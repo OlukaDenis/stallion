@@ -1,43 +1,24 @@
 {
     "page": {
         "home": {
-            "title": "Leo Fresh",
+            "title": "Super Stallion Logistics",
             "subtitle": "All Your Water Needs"
-        }, 
-        "services": {
-
         },
-        "portfolio": {
-
-        },
-        "pricing": {
-
-        },
-        "quotation": {
-
-        },
-        "cart": {
-
-        },
-        "about_us": {
-
-        },
-        "contact_us": {
-
-        },
-        "privacy": {
-
-        },
-        "terms": {
-
-        }
+        "services": {},
+        "portfolio": {},
+        "pricing": {},
+        "quotation": {},
+        "cart": {},
+        "about_us": {},
+        "contact_us": {},
+        "privacy": {},
+        "terms": {}
     },
     "button": {
         "theme": {
             "dark": "Dark Mode",
             "light": "Light Mode"
         },
-
         "quick_order": "Quick Order",
         "proceed_to_checkout": "Proceed to Checkout",
         "continue_shopping": "Continue Shopping",
@@ -47,7 +28,7 @@
     },
     "menu": {
         "label": {
-            "select_language" : "Select Language"
+            "select_language": "Select Language"
         },
         "language": {
             "label": "Language"
@@ -90,6 +71,9 @@
         },
         "hide": {
             "label": "Hide Menu"
+        },
+        "show": {
+            "label": "Show Menu"
         }
     }
 }

@@ -1,99 +1,22 @@
 import BaseLayout from '../components/layout';
-import { Button, Row, Col } from 'antd';
+import { Button, Row } from 'antd';
 
-import { withTranslation, Router } from '../utilities/i18n';
-import { Skeleton, Card } from 'antd';
-import { PlusCircleOutlined, ShoppingCartOutlined, RightOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import { withTranslation } from '../utilities/i18n';
+import { Card } from 'antd';
+import { RightOutlined, } from '@ant-design/icons';
 import { useState } from 'react';
 
 import { Menu, Dropdown } from 'antd';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { setCartItems } from '../state/cart/action';
 import { setIsLoadingNewPage } from '../state/ui/action';
 import { connect } from 'react-redux';
 
 const { Meta } = Card;
 
-const products = [
-  {
-    size: '20L',
-    id: '20l',
-    image: '/images/20L.jpg',
-    webpImage: '/images/webp/20L.webp',
-    name: '20-Litre Bottle',
-    price: '200',
-    description: 'KES. 200',
-  },
-  {
-    size: '10L',
-    id: '10l',
-    image: '/images/10L.jpg',
-    webpImage: '/images/webp/10L.webp',
-    name: '10-Litre Bottle',
-    price: '100',
-    description: 'KES. 100',
-  },
-  {
-    size: '5L',
-    id: '5l',
-    image: '/images/5L.jpg',
-    webpImage: '/images/webp/5L.webp',
-    name: '5-Litre Bottle',
-    price: '50',
-    description: 'KES. 50',
-  },
-  {
-    size: '1L',
-    id: '1l',
-    image: '/images/1L.jpg',
-    webpImage: '/images/webp/1L.webp',
-    name: '1-Litre Bottle',
-    price: '10',
-    description: 'KES. 10',
-  },
-];
-export function HomePage({ t, cartItems, setCartItems, setIsLoadingNewPage, theme: themeMode }) {
+
+export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
   const [isItemLoading, setIsItemLoading] = useState(false);
-
-  const addItemToCart = (item) => {
-    if (cartItems.hasOwnProperty(item.id)) {
-      cartItems[item.id].count++;
-      setCartItems(cartItems);
-    } else {
-      item.count = 1;
-      cartItems[item.id] = item;
-      setCartItems(cartItems);
-    }
-    cartItems[item.id] = item;
-  };
-
-  const addItemToCartAndGoToCart = async (item) => {
-    addItemToCart(item);
-    setIsLoadingNewPage(true);
-    await Router.push('/cart');
-    setIsLoadingNewPage(false);
-  };
-
-  const removeItemFromCart = (item) => {
-    delete cartItems[item.id];
-    setCartItems(cartItems);
-  };
-
-  const menu = (
-    <Menu>
-      {products.map((item) => (
-        <Menu.Item
-          onClick={() => {
-            addItemToCartAndGoToCart(item);
-          }}
-          key={item.id}
-        >
-          {item.name} for {item.description}
-        </Menu.Item>
-      ))}
-    </Menu>
-  );
 
   return (
     <BaseLayout>
@@ -108,71 +31,15 @@ export function HomePage({ t, cartItems, setCartItems, setIsLoadingNewPage, them
               {t('page.home.subtitle')}
             </h3>
 
-            <Dropdown overlay={menu} placement="bottomRight">
-              <Button type="primary" shape="round" size="large">
-                {t('button.quick_order')} <RightOutlined />
-              </Button>
-            </Dropdown>
+            <Button type="primary" shape="round" size="large">
+              {t('button.quick_order')} <RightOutlined />
+            </Button>
           </div>
         </div>
       </section>
 
       <section className="items-section">
-        <Row gutter={[24, 32]} justify="center" className="items-row">
-          {products.map((item) => (
-            <Col key={item.id} xs={22} sm={20} md={10} lg={8} xl={6}>
-              <Card
-                cover={
-                  <Skeleton loading={false} active>
-                    <picture className="card-cover-picture">
-                      <source srcSet={item.webpImage} type="image/webp"></source>
-                      <img onLoad={() => {}} onError={() => {}} alt={`Image of ${item.name}`} src={item.image} />
-                    </picture>
-                  </Skeleton>
-                }
-                hoverable
-                actions={[
-                  <Button
-                    onClick={() => addItemToCartAndGoToCart(item)}
-                    key="order"
-                    size="small"
-                    shape="round"
-                    icon={<ShoppingCartOutlined />}
-                  >
-                    {t('button.quick_order')}
-                  </Button>,
-                  cartItems.hasOwnProperty(item.id) ? (
-                    <Button
-                      onClick={() => removeItemFromCart(item)}
-                      key="remove-cart"
-                      size="small"
-                      type="danger"
-                      shape="round"
-                      icon={<MinusCircleOutlined />}
-                    >
-                      {t('button.remove_in_cart')}
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={() => addItemToCart(item)}
-                      key="cart"
-                      size="small"
-                      type="primary"
-                      shape="round"
-                      icon={<PlusCircleOutlined />}
-                    >
-                      {t('button.add_to_cart')}
-                    </Button>
-                  ),
-                ]}
-              >
-                <Skeleton loading={isItemLoading} avatar active>
-                  <Meta title={item.name} description={item.description} />
-                </Skeleton>
-              </Card>
-            </Col>
-          ))}
-        </Row>
+        <Row gutter={[24, 32]} justify="center" className="items-row"></Row>
       </section>
 
       <style jsx>
@@ -279,12 +146,10 @@ HomePage.propTypes = {
 
 const mapStateToProps = (state) => ({
   theme: state.ui.theme,
-  cartItems: state.cart.items,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setCartItems: bindActionCreators(setCartItems, dispatch),
     setIsLoadingNewPage: bindActionCreators(setIsLoadingNewPage, dispatch),
   };
 };

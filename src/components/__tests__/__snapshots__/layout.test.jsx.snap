@@ -19,7 +19,7 @@ exports[`BaseLayout Component main layout component should match snapshot 1`] = 
           type="image/webp"
         />
         <img
-          alt="Leo Fresh Logo"
+          alt="Super Stallion Logistics Logo"
           className="site-header-logo"
           src="/images/logo.jpg"
         />
@@ -121,7 +121,7 @@ exports[`BaseLayout Component main layout component should match snapshot 1`] = 
             type="image/webp"
           />
           <img
-            alt="Leo Fresh Logo"
+            alt="Super Stallion Logistics Logo"
             className="menu-header-logo"
             src="/images/logo.jpg"
           />
@@ -609,7 +609,7 @@ exports[`BaseLayout Component main layout component should match snapshot 1`] = 
       className="vertical-center-div"
     >
       <p>
-        Leo Fresh Ltd ©
+        Super Stallion Logistics ©
         2020
          | Designed by:
          

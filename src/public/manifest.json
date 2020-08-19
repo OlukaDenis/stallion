@@ -1,8 +1,8 @@
 {
-  "name": "Leo Fresh Water Vendor",
-  "short_name": "Leo Fresh",
-  "theme_color": "#2b76b1",
-  "background_color": "#ffffff",
+  "name": "Super Stallion Logistics Logistics",
+  "short_name": "Super Stallion Logistics",
+  "theme_color": "#000000",
+  "background_color": "#f86942",
   "display": "fullscreen",
   "Scope": "/",
   "start_url": "/",

@@ -3,13 +3,11 @@ import { render } from '@testing-library/react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { reducer } from './state/store';
-import { cartInitialState } from './state/cart/reducer';
 import { uiInitialState } from './state/ui/reducer';
 import { userInitialState } from './state/user/reducer';
 // import { appWithTranslation } from './utilities/i18n'
 
 export const initialState = {
-  cart: cartInitialState,
   ui: uiInitialState,
   user: userInitialState,
 };
