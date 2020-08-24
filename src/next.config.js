@@ -1,6 +1,7 @@
 /* eslint-disable */
 const withLess = require('@zeit/next-less');
-const withPWA = process.env.NODE_ENV === 'production' ? require('next-pwa') : (arg) => arg;
+// const withPWA = process.env.NODE_ENV === 'production' ? require('next-pwa') : (arg) => arg;
+const withPWA = (arg) => arg;
 const lessToJS = require('less-vars-to-js');
 const fs = require('fs');
 const path = require('path');
