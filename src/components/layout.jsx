@@ -142,7 +142,7 @@ export function BaseLayout({
                        'development' === process.env.NODE_ENV
                          ? "default-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline';" // 'nonce-" + cspNonce + "';"
                          : "default-src 'self'; style-src 'self' 'unsafe-inline';" // 'nonce-" + cspNonce + "';"
-                     }  style-src-elem 'self' https://*.googleapis.com 'unsafe-inline';  script-src-elem 'self' https://*.gstatic.com https://*.google.com;  img-src https://* 'self' data:; font-src 'self' data: https://*.gstatic.com; child-src 'none'; connect-src 'self' https://*.googleapis.com; worker-src 'self';frame-src 'self' https://*.google.com https://leo-fresh-test.firebaseapp.com;`}
+                     }  style-src-elem 'self' https://*.googleapis.com 'unsafe-inline';  script-src-elem 'self' https://*.gstatic.com https://*.google.com;  img-src https://* 'self' data:; font-src 'self' data: https://*.gstatic.com; child-src 'none'; connect-src 'self' https://*.googleapis.com; worker-src 'self';frame-src 'self' https://*.google.com https://super-stallion-logistics.firebaseapp.com;`}
                    ></meta>
                    <meta charSet="utf-8" />
                    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />

@@ -7,13 +7,14 @@ import { Router } from '../utilities/i18n';
 import { Card, Skeleton } from 'antd';
 import { Row, Col, List, Divider, Popconfirm, Button } from 'antd';
 import { DeleteOutlined, RightOutlined, LeftOutlined } from '@ant-design/icons';
+import QuotationGenerator from '../components/QuotationGenerator';
 
 export function QuotationPage({ t }) {
   const { Meta } = Card;
 
   return (
     <BaseLayout>
-      
+        <QuotationGenerator />
     </BaseLayout>
   );
 }

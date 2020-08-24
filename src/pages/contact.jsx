@@ -49,11 +49,11 @@ export function Contacts(props) {
           <div className="company-details-layout">
             <Avatar className="user-image" size={100} icon={<UserOutlined />} />
             <div className="company-details">
-              <h4>UHAI PAMOJA</h4>
-              <p>info@premar.tech</p>
-              <p> +254 (0) 715 464 554</p>
-              <p>Keekrok No 30, Keekrok Road</p>
-              <p>Nairobi, Kenya</p>
+              <h4>Super Stallion Logistics</h4>
+              <p>info@superstallion.com</p>
+              <p> +1 15 000 554</p>
+              <p>23, 5th Street</p>
+              <p>Boston, MA</p>
             </div>
           </div>
         </Col>

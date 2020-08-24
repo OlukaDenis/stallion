@@ -36,8 +36,8 @@
         "home": {
             "label": "Home"
         },
-        "services": {
-            "label": "Services"
+        "track": {
+            "label": "Track Shipment"
         },
         "portfolio": {
             "label": "Portfolio"
