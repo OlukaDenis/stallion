@@ -50,10 +50,11 @@ export function Contacts(props) {
             <Avatar className="user-image" size={100} icon={<UserOutlined />} />
             <div className="company-details">
               <h4>Super Stallion Logistics</h4>
-              <p>info@superstallion.com</p>
-              <p> +1 15 000 554</p>
-              <p>23, 5th Street</p>
-              <p>Boston, MA</p>
+              <p>superstallioncarriers@gmail.com</p>
+              {/* <p> +1 15 000 554</p> */}
+              <p>9545 Bauer Ave Nottingham</p>
+              <p>MD 21236</p>
+              <p>Baltimore, MD</p>
             </div>
           </div>
         </Col>
