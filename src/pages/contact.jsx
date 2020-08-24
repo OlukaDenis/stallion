@@ -51,7 +51,7 @@ export function Contacts(props) {
             <div className="company-details">
               <h4>Super Stallion Logistics</h4>
               <p>superstallioncarriers@gmail.com</p>
-              {/* <p> +1 15 000 554</p> */}
+              <p> +1 971 248 0579</p>
               <p>9545 Bauer Ave Nottingham</p>
               <p>MD 21236</p>
               <p>Baltimore, MD</p>
