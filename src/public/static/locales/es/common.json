@@ -1,61 +1,43 @@
 {
   "page": {
-        "home": {
-            "title": "Super Stallion Logistics",
-            "subtitle": "Todas tus Necesidades de Agua"
-        }, 
-        "services": {
-
-        },
-        "portfolio": {
-
-        },
-        "pricing": {
-
-        },
-        "quotation": {
-
-        },
-        "cart": {
-
-        },
-        "about_us": {
-
-        },
-        "contact_us": {
-
-        },
-        "privacy": {
-
-        },
-        "terms": {
-
-        }
-    },"button": {
-    "theme": {
-      "dark": "Dark Mode",
-      "light": "Light Mode"
+    "home": {
+      "title": "Super Stallion Logistics",
+      "subtitle": "Envíe un automóvil, camión o SUV a cualquier lugar y llévelo allí de manera segura"
     },
-
-        "quick_order": "Get a Quotation",
-        "proceed_to_checkout": "Proceed to Checkout",
-        "continue_shopping": "Continue Shopping",
-        "add_to_cart": "Add to Cart",
-        "remove_in_cart": "Remove in Cart",
-        "read_more": "Read More >"
+    "services": {},
+    "portfolio": {},
+    "pricing": {},
+    "quotation": {},
+    "cart": {},
+    "about_us": {},
+    "contact_us": {},
+    "privacy": {},
+    "terms": {}
+  },
+  "button": {
+    "theme": {
+      "dark": "Modo Oscuro",
+      "light": "Modo de Luz"
+    },
+    "quick_order": "Generar Cotización",
+    "proceed_to_checkout": "Proceed to Checkout",
+    "continue_shopping": "Continue Shopping",
+    "add_to_cart": "Add to Cart",
+    "remove_in_cart": "Remove in Cart",
+    "read_more": "Read More >"
   },
   "menu": {
     "label": {
-      "select_language": "Select Language"
+      "select_language": "Seleccione el Idioma"
     },
     "language": {
-      "label": "Language"
+      "label": "Idioma"
     },
     "home": {
-      "label": "Home"
+      "label": "Hogar"
     },
     "track": {
-      "label": "Track Shipment"
+      "label": "Rastrear Envio"
     },
     "portfolio": {
       "label": "Portfolio"
@@ -64,13 +46,19 @@
       "label": "Pricing"
     },
     "quotation": {
-      "label": "Quotation"
+      "label": "Cotización"
     },
     "cart": {
       "label": "Cart"
     },
     "about": {
       "label": "About Us"
+    },
+    "login": {
+      "label": "Login"
+    },
+    "logout": {
+      "label": "Logout"
     },
     "contact": {
       "label": "Contact Us"
@@ -82,10 +70,10 @@
       "label": "Terms of Service"
     },
     "hide": {
-      "label": "Hide Menu"
+      "label": "Ocultar el Menú"
     },
     "show": {
-      "label": "Show Menu"
+      "label": "Muestrame el Menu"
     }
   }
 }

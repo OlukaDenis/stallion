@@ -7,13 +7,13 @@ import zhCN from 'antd/lib/locale-provider/zh_CN';
 
 export const defaultLanguageIndex = 1; // English
 export const supported_languages = [
-  {
-    code: 'de',
-    name: 'Deutsche',
-    flag: '🇩🇪',
-    antdLocale: deDE,
-    textDirection: 'ltr',
-  },
+  // {
+  //   code: 'de',
+  //   name: 'Deutsche',
+  //   flag: '🇩🇪',
+  //   antdLocale: deDE,
+  //   textDirection: 'ltr',
+  // },
   {
     code: 'en',
     name: 'English',
@@ -28,18 +28,18 @@ export const supported_languages = [
     antdLocale: esES,
     textDirection: 'ltr',
   },
-  {
-    code: 'fr',
-    name: 'Française',
-    flag: '🇫🇷',
-    antdLocale: frFR,
-    textDirection: 'ltr',
-  },
-  {
-    code: 'zh',
-    name: '中文',
-    flag: '🇨🇳',
-    antdLocale: zhCN,
-    textDirection: 'ltr',
-  },
+  // {
+  //   code: 'fr',
+  //   name: 'Française',
+  //   flag: '🇫🇷',
+  //   antdLocale: frFR,
+  //   textDirection: 'ltr',
+  // },
+  // {
+  //   code: 'zh',
+  //   name: '中文',
+  //   flag: '🇨🇳',
+  //   antdLocale: zhCN,
+  //   textDirection: 'ltr',
+  // },
 ];

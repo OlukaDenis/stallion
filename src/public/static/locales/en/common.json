@@ -2,7 +2,7 @@
     "page": {
         "home": {
             "title": "Super Stallion Logistics",
-            "subtitle": "All Your Water Needs"
+            "subtitle": "Ship a car, truck or SUV anywhere and get it there safely"
         },
         "services": {},
         "portfolio": {},
@@ -19,7 +19,7 @@
             "dark": "Dark Mode",
             "light": "Light Mode"
         },
-        "quick_order": "Quick Order",
+        "quick_order": "Generate Quote",
         "proceed_to_checkout": "Proceed to Checkout",
         "continue_shopping": "Continue Shopping",
         "add_to_cart": "Add to Cart",

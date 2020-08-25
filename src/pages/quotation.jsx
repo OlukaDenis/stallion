@@ -14,7 +14,11 @@ export function QuotationPage({ t }) {
 
   return (
     <BaseLayout>
-        <QuotationGenerator />
+      <Row gutter={[16, 16]} justify="center">
+        <Col xs={20} sm={18} md={12} lg={10} xl={10}>
+          <QuotationGenerator />
+        </Col>
+      </Row>
     </BaseLayout>
   );
 }

@@ -1,5 +1,5 @@
 import BaseLayout from '../components/layout';
-import { Button, Row } from 'antd';
+import { Button, Row, Col } from 'antd';
 
 import { withTranslation } from '../utilities/i18n';
 import { Card } from 'antd';
@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { setIsLoadingNewPage } from '../state/ui/action';
 import { connect } from 'react-redux';
+import { QuotationGenerator } from '../components/QuotationGenerator';
 
 const { Meta } = Card;
 
@@ -39,7 +40,14 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
       </section>
 
       <section className="items-section">
-        <Row gutter={[24, 32]} justify="center" className="items-row"></Row>
+        <Row gutter={[16, 16]} justify="center">
+          <Col xs={0} sm={0} md={12} lg={14} xl={16}>
+            {'Work in Progress'}
+          </Col>
+          <Col xs={20} sm={20} md={10} lg={8} xl={6}>
+            <QuotationGenerator />
+          </Col>
+        </Row>
       </section>
 
       <style jsx>
