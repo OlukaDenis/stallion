@@ -4,7 +4,7 @@ This README contains the necessary steps to get the web application up and runni
 
 ### Premar Systems Website ###
 * Version: v1.0.0
-* This repo contains the code for the primary website of Premar Systems
+* This repo contains the code for the primary website of Super Stallion Logistics
 
 ### How do I get set up? ###
 
@@ -13,12 +13,17 @@ This README contains the necessary steps to get the web application up and runni
 * Dependencies
 * Database configuration
 ### How to run tests ###
+
 `$ npm test` -- this runs the tests.
+
 `$ npm run test` -- alternatively, this runs the tests.
+
 `$ DEBUG_PRINT_LIMIT=100000 npm run test` -- run the tests using this command (in Linux/Mac) to increase the limit of the logged content of the DOM under test when a test fails. [Read more here.](https://testing-library.com/docs/dom-testing-library/api-helpers#debugging)
 
-* Deployment instructions
-`$ ssh -i /path/my-key-pair.pem my-instance-user-name@my-instance-public-dns-name` -- run this command to deploy.
+### Deployment instructions ###
+
+Run this command to deploy:
+`$ ssh -i /path/my-key-pair.pem my-instance-user-name@my-instance-public-dns-name`
 
 ### Contribution guidelines ###
 
