@@ -3,7 +3,7 @@ import render, { initialState } from '../../test_utils';
 import { screen } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import { Provider } from 'react-redux';
-import BaseLayoutConnected from '../layout';
+import BaseLayoutConnected, { BaseLayout } from '../layout';
 
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';

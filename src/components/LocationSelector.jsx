@@ -1,187 +1,98 @@
-import { FirestoreCollection } from "@react-firebase/firestore";
-import { Form, Input, Row, Col, Select } from "antd";
+import { AutoComplete, Input } from 'antd';
 
-export default class LocationSelector extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { county: null, subcounty: null, ward: null };
-    this.onCountySelected = this.onCountySelected.bind(this);
-    this.onSubCountySelected = this.onSubCountySelected.bind(this);
-  }
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import { useState, useEffect } from 'react';
+import { AimOutlined } from '@ant-design/icons';
 
-  onCountySelected(selectedOptionValue, selectedOption) {
-    this.setState({ county: selectedOption.children });
-  }
+export default function LocationSelector({ icon, placeholder, onSelect }) {
+  const [searchText, setSearchText] = useState('');
+  const [options, setOptions] = useState([]);
 
-  onSubCountySelected(selectedOptionValue, selectedOption) {
-    this.setState({ subcounty: selectedOption.children });
-  }
+  useEffect(() => {
+    if (!searchText || typeof searchText === 'object') return;
 
-  render() {
-    return (
-      <>
-        <Row gutter={[8, 8]}>
-          <Col xs={22} sm={22} md={12} lg={12} xl={12}>
+    if (Number.isNaN(Number(searchText))) {
+      searchByCityName(searchText.toUpperCase());
+    } else {
+      searchByZipCode(searchText);
+    }
+  }, [searchText]);
 
-              <FirestoreCollection path="/counties/">
-                {(d) => {
-                  return d.isLoading ? (
-                    <Form.Item
-                      name="county"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Select your county of permanent residence.',
-                        },
-                      ]}
-                    >
-                      <Select placeholder="County *">
-                        <Select.Option disabled value="loading">
-                          Loading...
-                        </Select.Option>
-                      </Select>
-                    </Form.Item>
-                  ) : (
-                    <Form.Item
-                      name="county"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Select your county of permanent residence.',
-                        },
-                      ]}
-                    >
-                      <Select placeholder="County *" onSelect={this.onCountySelected}>
-                        {d.value.map((county) => (
-                          <Select.Option key={county.code} value={county.code}>
-                            {county.name}
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    </Form.Item>
-                  );
-                }}
-              </FirestoreCollection>
-          </Col>
-          <Col xs={22} sm={22} md={12} lg={12} xl={12}>
+  const formatZipCodeValue = (zipCodeData) =>
+    [zipCodeData.City, zipCodeData.State + ' ' + zipCodeData.Zipcode, 'USA'].join(', ');
 
-              <FirestoreCollection
-                path={"/counties/" + this.state.county + "/subcounties/"}
-              >
-                {(d) => {
-                  return d.isLoading ? (
-                                <Form.Item
-              name="constituency"
-              rules={[
-                {
-                  required: true,
-                  message: "Select your constituency of permanent residence.",
-                },
-              ]}
-            >
-                    <Select
-                      placeholder="Constituency *"
-                      onSelect={this.onSubCountySelected}
-                    >
-                      <Select.Option disabled value="loading">
-                        Loading...
-                      </Select.Option>
-                    </Select>
-                    </Form.Item>
-                  ) : (
-                                <Form.Item
-              name="constituency"
-              rules={[
-                {
-                  required: true,
-                  message: "Select your constituency of permanent residence.",
-                },
-              ]}
-            >
-                    <Select
-                      placeholder="Constituency *"
-                      onSelect={this.onSubCountySelected}
-                    >
-                      {d.value.map((subcounty) => (
-                        <Select.Option
-                          key={subcounty.code}
-                          value={subcounty.code}
-                        >
-                          {subcounty.name}
-                        </Select.Option>
-                      ))}
-                    </Select>
-                    </Form.Item>
-                  );
-                }}
-              </FirestoreCollection>
-          </Col>
-        </Row>
-        <Row gutter={[8, 8]}>
-          <Col xs={22} sm={22} md={12} lg={12} xl={12}>
-           
-              <FirestoreCollection
-                path={
-                  "/counties/" +
-                  this.state.county +
-                  "/subcounties/" +
-                  this.state.subcounty +
-                  "/wards/"
-                }
-              >
-                {(d) => {
-                  return d.isLoading ? (
-                    <Form.Item
-                      name="ward"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Select your ward of permanent residence.',
-                        },
-                      ]}
-                    >
-                      <Select placeholder="Ward *">
-                        <Select.Option disabled value="loading">
-                          Loading...
-                        </Select.Option>
-                      </Select>
-                    </Form.Item>
-                  ) : (
-                    <Form.Item
-                      name="ward"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Select your ward of permanent residence.',
-                        },
-                      ]}
-                    >
-                      <Select placeholder="Ward *">
-                        {d.value.map((ward) => (
-                          <Select.Option key={ward.code} value={ward.code}>
-                            {ward.name}
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    </Form.Item>
-                  );
-                }}
-              </FirestoreCollection>
-          </Col>
-          <Col xs={22} sm={22} md={12} lg={12} xl={12}>
-            <Form.Item
-              name="location"
-              rules={[
-                {
-                  message: "Select your village/estate of permanent residence.",
-                },
-              ]}
-            >
-              <Input placeholder="Village/Estate" />
-            </Form.Item>
-          </Col>
-        </Row>
-      </>
-    );
-  }
+  const formatZipCodeLabel = (zipCodeData) => (
+    <div key={zipCodeData.Zipcode} className="location-option">
+      <AimOutlined /> &nbsp;&nbsp; {formatZipCodeValue(zipCodeData)}
+    </div>
+  );
+
+  const formatCityValue = (cityData) => [cityData.City, cityData.State, 'USA'].join(', ');
+
+  const formatCityLabel = (cityData) => (
+    <div className="location-option">
+      <AimOutlined /> &nbsp;&nbsp; {formatCityValue(cityData)}
+    </div>
+  );
+
+  const searchByZipCode = (zipCode) => {
+    firebase
+      .firestore()
+      .collection('/zip_codes')
+      .where('Zipcode', '>=', zipCode)
+      .orderBy('Zipcode')
+      .limit(6)
+      .get()
+      .then((data) => {
+        const items = [];
+        data.forEach((item) => {
+          const zipCodeData = item.data();
+          items.push({
+            value: formatZipCodeValue(zipCodeData),
+            label: formatZipCodeLabel(zipCodeData),
+            key: zipCodeData.Zipcode,
+          });
+        });
+        setOptions(items);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const searchByCityName = (cityName) => {
+    firebase
+      .firestore()
+      .collection('/cities')
+      .where('City', '>=', cityName)
+      .where('City', '<=', cityName+'Z')
+      .orderBy('City')
+      .limit(6)
+      .get()
+      .then((data) => {
+        const items = [];
+        data.forEach((item) => {
+          const cityData = item.data();
+           items.push({ value: formatCityValue(cityData), label: formatCityLabel(cityData), key: cityData.Location });
+        });
+        setOptions(items);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  return (
+    <AutoComplete
+      onSearch={(value) => {
+        setSearchText(value);
+      }}
+      onSelect={onSelect}
+      style={{ width: '100%' }}
+      options={options}
+    >
+      <Input size="large" placeholder={placeholder} prefix={icon} />
+    </AutoComplete>
+  );
 }

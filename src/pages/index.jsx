@@ -15,10 +15,6 @@ import { QuotationGenerator } from '../components/QuotationGenerator';
 
 const { Meta } = Card;
 
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import { firebaseTestConfig as firebaseConfig } from '../configs';
-
 export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
          const [isItemLoading, setIsItemLoading] = useState(false);
 

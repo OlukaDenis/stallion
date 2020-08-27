@@ -288,6 +288,10 @@ const MyApp = ({ Component, pageProps }) => {
                 background-image: url(/images/hero_img.jpg);
               }
             }
+            .location-option {
+              padding: 5px 0;
+              border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            }
             /* INDEX-PAGE::END */
           `}
         </style>

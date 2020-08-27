@@ -2,12 +2,19 @@ import { AutoComplete, Input, Select, DatePicker, Tooltip, Button } from 'antd';
 import { FlagFilled, FlagOutlined, RightOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import { withTranslation } from '../utilities/i18n';
+import LocationSelector from './LocationSelector';
 const { Option } = Select;
 
 export function QuotationGenerator({ theme }) {
   const options = []; //[{ value: 'Burns Bay Road' }, { value: 'Downing Street' }, { value: 'Wall Street' }];
 
   const isLightMode = theme === 'light';
+
+  const years = [];
+  const currentYear = new Date().getFullYear();
+  for (let i = currentYear; i >= 1904; i--) {
+    years.push(i);
+  }
 
   return (
     <>
@@ -43,15 +50,11 @@ export function QuotationGenerator({ theme }) {
               trigger={['click', 'hover']}
               title="Begin typing a zip code or city and then select a suggested location"
             >
-              <AutoComplete
-                style={{ width: '100%' }}
-                options={options}
-                filterOption={(inputValue, option) =>
-                  option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
-                }
-              >
-                <Input size="large" placeholder="Delivery Location" prefix={<FlagFilled />} />
-              </AutoComplete>
+              <LocationSelector
+                onSelect={(value) => console.log('Selected: ', value)}
+                placeholder="Pickup Location"
+                icon={<FlagFilled />}
+              />
             </Tooltip>
 
             <br />
@@ -60,16 +63,11 @@ export function QuotationGenerator({ theme }) {
               trigger={['click', 'hover']}
               title="Begin typing a zip code or city and then select a suggested location"
             >
-              <AutoComplete
-                style={{ width: '100%' }}
-                options={options}
-                direction="rtl"
-                filterOption={(inputValue, option) =>
-                  option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
-                }
-              >
-                <Input size="large" placeholder="Delivery Location" prefix={<FlagOutlined />} />
-              </AutoComplete>
+              <LocationSelector
+                onSelect={(value) => console.log('Selected: ', value)}
+                placeholder="Delivery Location"
+                icon={<FlagOutlined />}
+              />
             </Tooltip>
           </div>
 
@@ -94,19 +92,31 @@ export function QuotationGenerator({ theme }) {
               isLightMode ? 'quotation_input-container' : 'quotation_input-container quotation_input-container_dark'
             }
           >
-            <Select size="large" placeholder="Year" style={{ width: '100%' }}>
-              <Option value="2020">2020</Option>
-              <Option value="2019">2019</Option>
+            <Select size="large" defaultValue={'label'} placeholder="Year →" style={{ width: '100%' }}>
+              <Option disabled key="label" value="label">
+                Year →
+              </Option>
+              {years.map((year) => (
+                <Option key={year} value={year}>
+                  {year}
+                </Option>
+              ))}
             </Select>
             <br />
             <br />
-            <Select size="large" placeholder="Make" style={{ width: '100%' }}>
+            <Select size="large" defaultValue={'label'} placeholder="Make →" style={{ width: '100%' }}>
+              <Option disabled key="label" value="label">
+                Make →
+              </Option>
               <Option value="bmw">BMW</Option>
               <Option value="toyota">Toyota</Option>
             </Select>
             <br />
             <br />
-            <Select size="large" placeholder="Model" style={{ width: '100%' }}>
+            <Select size="large" defaultValue={'label'} placeholder="Model →" style={{ width: '100%' }}>
+              <Option disabled key="label" value="label">
+                Model →
+              </Option>
               <Option value="markii">Mark II</Option>
               <Option value="markx">MarkX</Option>
             </Select>
