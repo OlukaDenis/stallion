@@ -19,7 +19,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { firebaseTestConfig as firebaseConfig } from '../configs';
 
-export function HomePage({ csvData, t, setIsLoadingNewPage, theme: themeMode }) {
+export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
          const [isItemLoading, setIsItemLoading] = useState(false);
 
          return (
@@ -46,8 +46,6 @@ export function HomePage({ csvData, t, setIsLoadingNewPage, theme: themeMode }) 
                <Row gutter={[16, 16]} justify="center">
                  <Col xs={0} sm={0} md={12} lg={14} xl={16}>
                    {'Work in Progress: '}
-                   {csvData}
-                   {/* {csvData.map(zipData => zipData.Zipcode + '<br />')} */}
                  </Col>
                  <Col xs={20} sm={20} md={10} lg={8} xl={6}>
                    <QuotationGenerator />
@@ -149,69 +147,9 @@ export function HomePage({ csvData, t, setIsLoadingNewPage, theme: themeMode }) 
          );
        }
 
-// HomePage.getInitialProps = async () => {
-//   return {
-//     namespacesRequired: ['common'],
-//   };
-// };
-
-export const getServerSideProps = async (context) => {
-  const neatCsv = require('neat-csv');
-  const fs = require('fs-extra');
-
-  const rawData = await fs.readFile(
-    '/Users/admin/Documents/PREMAR/super-stallion-logistics-website/potential_assets/zips/free-zipcode-database-Primary.csv'
-  );
-
-  const csvData = await neatCsv(rawData);
-
-  
-  const altFirebase = firebase.initializeApp(firebaseConfig, 'firebase_alt');
-
-  csvData.map((data) => {
-    delete data.TaxReturnsFiled;
-    delete data.EstimatedPopulation;
-    delete data.TotalWages;
-
-    if (data.Zipcode) {
-      altFirebase
-        .firestore()
-        .doc('/zip_codes/' + data.Zipcode)
-        .set(data)
-        .then((success) => {
-          console.log(data.Zipcode);
-        })
-        .catch((error) => {
-          console.error(data.Zipcode);
-        });
-    }      
-
-    delete data.Zipcode;
-    delete data.ZipCodeType;
-    delete data.LocationType;
-    delete data.Decommisioned;
-
-    if (data.Location) {
-      data.Location = data.Location.replace('/', '-'); 
-
-      altFirebase
-        .firestore()
-        .doc('/cities/' + data.Location)
-        .set(data)
-        .then((success) => {
-          console.log(data.City);
-        })
-        .catch((error) => {
-          console.error(data.City);
-        });
-    }
-  });
-  
-
-  console.log('CSV Length ', csvData.length);
-
+HomePage.getInitialProps = async () => {
   return {
-    props: { namespacesRequired: ['common'], csvData: csvData.length },
+    namespacesRequired: ['common'],
   };
 };
 
