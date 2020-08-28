@@ -1,3 +1,4 @@
+import { Select } from 'antd';
 const { Option } = Select;
 import firebase from 'firebase/app';
 import 'firebase/firestore';
