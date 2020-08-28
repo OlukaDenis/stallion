@@ -13,10 +13,6 @@ import { setIsLoadingNewPage } from '../state/ui/action';
 import { connect } from 'react-redux';
 import { QuotationGenerator } from '../components/QuotationGenerator';
 
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import { firebaseTestConfig as firebaseConfig } from '../configs';
-
 const { Meta } = Card;
 
 export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
@@ -147,173 +143,11 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
   );
 }
 
-// HomePage.getInitialProps = async () => {
-//   return {
-//     namespacesRequired: ['common'],
-//   };
-// };
-
-export const getServerSideProps = async (context) => {
-  const neatCsv = require('neat-csv');
-  const fs = require('fs-extra');
-
-  const rawData = await fs.readFile(
-    '/Users/admin/Documents/PREMAR/super-stallion-logistics-website/potential_assets/cars/vehicles.csv'
-  );
-
-  const csvData = await neatCsv(rawData);
-
-  const altFirebase = firebase.initializeApp(firebaseConfig, 'firebase_alt');
-
-  console.log(csvData);
-
-  const carMakeKeysArr = [];
-  const carModelKeysArr = [];
-  let carMakeKey;
-  let carModelKey;
-
-  csvData.map((data) => {
-    // make: 'Rolls-Royce',
-    // model: 'Brooklands/Brklnds L',
-    const carMake = {
-      year: data.year,
-      make: data.make,
-    };
-
-    carMakeKey = [data.year, data.make].join('_');
-    carMakeKey = carMakeKey.replace(/\//g, '_');
-
-    if (carMakeKeysArr.indexOf(carMakeKey) < 0) {
-      carMakeKeysArr.push(carMakeKey);
-      altFirebase
-        .firestore()
-        .doc('/vehicle_makes/' + carMakeKey)
-        .set(carMake, { merge: true })
-        .then((success) => {
-          console.log('carMakeKey', carMakeKey);
-        })
-        .catch((error) => {
-          console.error('carMakeKey', carMakeKey);
-        });
-    }
-
-    const carModel = {
-      year: data.year,
-      make: data.make,
-      model: data.model,
-    };
-
-    carModelKey = [data.year, data.make, data.model].join('_');
-    carModelKey = carModelKey.replace(/\//g, '_');
-    if (carModelKeysArr.indexOf(carModelKey) < 0) {
-      carModelKeysArr.push(carModelKey);
-      altFirebase
-        .firestore()
-        .doc('/vehicle_models/' + carModelKey)
-        .set(carModel, { merge: true })
-        .then((success) => {
-          console.log('carModelKey', carModelKey);
-        })
-        .catch((error) => {
-          console.error('carModelKey', carModelKey);
-        });
-    }
-  });
-
-  console.log('CSV Length ', csvData.length);
-
+HomePage.getInitialProps = async () => {
   return {
-    props: { namespacesRequired: ['common'], csvData: csvData.length },
+    namespacesRequired: ['common'],
   };
 };
-
-/*
-{
-    barrels08: '29.96454545454546',
-    barrelsA08: '0.0',
-    charge120: '0.0',
-    charge240: '0.0',
-    city08: '9',
-    city08U: '0.0',
-    cityA08: '0',
-    cityA08U: '0.0',
-    cityCD: '0.0',
-    cityE: '0.0',
-    cityUF: '0.0',
-    co2: '-1',
-    co2A: '-1',
-    co2TailpipeAGpm: '0.0',
-    co2TailpipeGpm: '807.9090909090909',
-    comb08: '11',
-    comb08U: '0.0',
-    combA08: '0',
-    combA08U: '0.0',
-    combE: '0.0',
-    combinedCD: '0.0',
-    combinedUF: '0.0',
-    cylinders: '8',
-    displ: '6.8',
-    drive: 'Rear-Wheel Drive',
-    engId: '44001',
-    eng_dscr: '(GUZZLER)  (FFS)      (MPFI)',
-    feScore: '-1',
-    fuelCost08: '3850',
-    fuelCostA08: '0',
-    fuelType: 'Premium',
-    fuelType1: 'Premium Gasoline',
-    ghgScore: '-1',
-    ghgScoreA: '-1',
-    highway08: '13',
-    highway08U: '0.0',
-    highwayA08: '0',
-    highwayA08U: '0.0',
-    highwayCD: '0.0',
-    highwayE: '0.0',
-    highwayUF: '0.0',
-    hlv: '0',
-    hpv: '0',
-    id: '10087',
-    lv2: '0',
-    lv4: '12',
-    make: 'Rolls-Royce',
-    model: 'Brooklands/Brklnds L',
-    mpgData: 'N',
-    phevBlended: 'false',
-    pv2: '0',
-    pv4: '98',
-    range: '0',
-    rangeCity: '0.0',
-    rangeCityA: '0.0',
-    rangeHwy: '0.0',
-    rangeHwyA: '0.0',
-    trany: 'Automatic 4-spd',
-    UCity: '11.1111',
-    UCityA: '0.0',
-    UHighway: '18.0',
-    UHighwayA: '0.0',
-    VClass: 'Midsize Cars',
-    year: '1993',
-    youSaveSpend: '-13250',
-    guzzler: 'T',
-    trans_dscr: '3MODE',
-    tCharger: '',
-    sCharger: '',
-    atvType: '',
-    fuelType2: '',
-    rangeA: '',
-    evMotor: '',
-    mfrCode: '',
-    c240Dscr: '',
-    charge240b: '0.0',
-    c240bDscr: '',
-    createdOn: 'Tue Jan 01 00:00:00 EST 2013',
-    modifiedOn: 'Tue Jan 01 00:00:00 EST 2013',
-    startStop: '',
-    phevCity: '0',
-    phevHwy: '0',
-    phevComb: '0'
-  }
-*/
 
 HomePage.propTypes = {
   t: PropTypes.func.isRequired,
