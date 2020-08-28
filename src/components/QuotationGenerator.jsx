@@ -1,20 +1,14 @@
-import { AutoComplete, Input, Select, DatePicker, Tooltip, Button } from 'antd';
+import { DatePicker, Tooltip, Button } from 'antd';
 import { FlagFilled, FlagOutlined, RightOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import { withTranslation } from '../utilities/i18n';
 import LocationSelector from './LocationSelector';
-const { Option } = Select;
+import CarSelector from './CarSelector';
+
 
 export function QuotationGenerator({ theme }) {
-  const options = []; //[{ value: 'Burns Bay Road' }, { value: 'Downing Street' }, { value: 'Wall Street' }];
 
   const isLightMode = theme === 'light';
-
-  const years = [];
-  const currentYear = new Date().getFullYear();
-  for (let i = currentYear; i >= 1904; i--) {
-    years.push(i);
-  }
 
   return (
     <>
@@ -92,34 +86,11 @@ export function QuotationGenerator({ theme }) {
               isLightMode ? 'quotation_input-container' : 'quotation_input-container quotation_input-container_dark'
             }
           >
-            <Select size="large" defaultValue={'label'} placeholder="Year →" style={{ width: '100%' }}>
-              <Option disabled key="label" value="label">
-                Year →
-              </Option>
-              {years.map((year) => (
-                <Option key={year} value={year}>
-                  {year}
-                </Option>
-              ))}
-            </Select>
-            <br />
-            <br />
-            <Select size="large" defaultValue={'label'} placeholder="Make →" style={{ width: '100%' }}>
-              <Option disabled key="label" value="label">
-                Make →
-              </Option>
-              <Option value="bmw">BMW</Option>
-              <Option value="toyota">Toyota</Option>
-            </Select>
-            <br />
-            <br />
-            <Select size="large" defaultValue={'label'} placeholder="Model →" style={{ width: '100%' }}>
-              <Option disabled key="label" value="label">
-                Model →
-              </Option>
-              <Option value="markii">Mark II</Option>
-              <Option value="markx">MarkX</Option>
-            </Select>
+            <CarSelector
+              onYearChange={(value) => console.log('onYearChange', value)}
+              onMakeChange={(value) => console.log('onMakeChange', value)}
+              onModelChange={(value) => console.log('onModelChange', value)}
+            />
           </div>
 
           <div className={isLightMode ? 'quotation_section' : 'quotation_section quotation_section_dark'}>
