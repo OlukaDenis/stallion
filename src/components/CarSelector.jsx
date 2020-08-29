@@ -1,4 +1,4 @@
-import { Select } from 'antd';
+import { Select, Button } from 'antd';
 const { Option } = Select;
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -18,7 +18,6 @@ export default function CarSelector({ onYearChange, onMakeChange, onModelChange 
   }
 
   useEffect(() => {
-    console.log('year: ', year);
     firebase
       .firestore()
       .collection('/vehicle_makes')
@@ -27,7 +26,6 @@ export default function CarSelector({ onYearChange, onMakeChange, onModelChange 
       .get()
       .then((data) => {
         const items = [];
-        console.log('makes data', data);
         data.forEach((item) => {
           const carMakeData = item.data();
           items.push({
@@ -36,7 +34,6 @@ export default function CarSelector({ onYearChange, onMakeChange, onModelChange 
             key: carMakeData.make,
           });
         });
-        console.log('makes', items);
         setMakes(items);
       })
       .catch((error) => {
@@ -54,7 +51,6 @@ export default function CarSelector({ onYearChange, onMakeChange, onModelChange 
       .get()
       .then((data) => {
         const items = [];
-        console.log('models data', data);
         data.forEach((item) => {
           const carModelData = item.data();
           items.push({
@@ -63,7 +59,6 @@ export default function CarSelector({ onYearChange, onMakeChange, onModelChange 
             key: carModelData.model,
           });
         });
-        console.log('models', items);
         setModels(items);
       })
       .catch((error) => {
@@ -90,7 +85,7 @@ export default function CarSelector({ onYearChange, onMakeChange, onModelChange 
   };
 
   return (
-    <>
+    <div className="car-selector">
       <Select
         onSelect={onYearSelected}
         size="large"
@@ -131,6 +126,19 @@ export default function CarSelector({ onYearChange, onMakeChange, onModelChange 
           </Option>
         ))}
       </Select>
-    </>
+      <br />
+      <br />
+      <Button type="primary" shape="round">
+        Add
+      </Button>
+      <style jsx global>
+        {`
+        .car-selector {
+          border: 0.5px solid gray;
+          padding: 5px;
+        }
+        `}
+      </style>
+    </div>
   );
 }
