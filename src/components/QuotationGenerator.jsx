@@ -1,14 +1,20 @@
-import { DatePicker, Tooltip, Button } from 'antd';
-import { FlagFilled, FlagOutlined, RightOutlined } from '@ant-design/icons';
+import { DatePicker, Tooltip, Button, Divider } from 'antd';
+import { FlagFilled, FlagOutlined, RightOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import { withTranslation } from '../utilities/i18n';
 import LocationSelector from './LocationSelector';
 import CarSelector from './CarSelector';
+import { useState } from 'react';
+import { bindActionCreators } from 'redux';
+import { setOrigin, setDestination, setCars, setPickupDate } from '../state/quote/action';
 
-
-export function QuotationGenerator({ theme }) {
-
+export function QuotationGenerator({ theme, quote, setOrigin, setDestination, setCars, setPickupDate }) {
   const isLightMode = theme === 'light';
+  const [isAddingVehicle, setIsAddingVehicle] = useState(false);
+
+  const toggleIsAddingVehicle = () => {
+    setIsAddingVehicle(!isAddingVehicle);
+  };
 
   return (
     <>
@@ -91,6 +97,24 @@ export function QuotationGenerator({ theme }) {
               onMakeChange={(value) => console.log('onMakeChange', value)}
               onModelChange={(value) => console.log('onModelChange', value)}
             />
+            <Divider orientation="left">
+              {isAddingVehicle ? (
+                <MinusOutlined onClick={toggleIsAddingVehicle} />
+              ) : (
+                <PlusOutlined onClick={toggleIsAddingVehicle} />
+              )}
+              {'  '}
+              <span onClick={toggleIsAddingVehicle}>Add another vehicle</span>
+            </Divider>
+            {isAddingVehicle ? (
+              <CarSelector
+                onYearChange={(value) => console.log('onYearChange', value)}
+                onMakeChange={(value) => console.log('onMakeChange', value)}
+                onModelChange={(value) => console.log('onModelChange', value)}
+              />
+            ) : (
+              <></>
+            )}
           </div>
 
           <div className={isLightMode ? 'quotation_section' : 'quotation_section quotation_section_dark'}>
@@ -230,11 +254,15 @@ export function QuotationGenerator({ theme }) {
 
 const mapStateToProps = (state) => ({
   theme: state.ui.theme,
+  quote: state.quote,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // changeTheme: bindActionCreators(changeTheme, dispatch)
+    setCars: bindActionCreators(setCars, dispatch),
+    setOrigin: bindActionCreators(setOrigin, dispatch),
+    setDestination: bindActionCreators(setDestination, dispatch),
+    setPickupDate: bindActionCreators(setPickupDate, dispatch),
   };
 };
 
