@@ -1,4 +1,4 @@
-import { DatePicker, Tooltip, Button, Divider } from 'antd';
+import { DatePicker, Tooltip, Button, Divider, Alert } from 'antd';
 import { FlagFilled, FlagOutlined, RightOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import { withTranslation } from '../utilities/i18n';
@@ -11,9 +11,15 @@ import { setOrigin, setDestination, setCars, setPickupDate } from '../state/quot
 export function QuotationGenerator({ theme, quote, setOrigin, setDestination, setCars, setPickupDate }) {
   const isLightMode = theme === 'light';
   const [isAddingVehicle, setIsAddingVehicle] = useState(false);
-
+  const [isAddingVehicleError, setIsAddingVehicleError] = useState(false);
+console.log('theme', theme);
   const toggleIsAddingVehicle = () => {
-    setIsAddingVehicle(!isAddingVehicle);
+    if (Object.keys(quote ? quote.cars : {}).length > 0) {
+      setIsAddingVehicleError(false);
+      setIsAddingVehicle(!isAddingVehicle);
+    } else {
+      setIsAddingVehicleError(true);
+    }
   };
 
   return (
@@ -115,6 +121,7 @@ export function QuotationGenerator({ theme, quote, setOrigin, setDestination, se
             ) : (
               <></>
             )}
+            {isAddingVehicleError ? <Alert message="Please complete the first vehicle." type="warning" /> : <></>}
           </div>
 
           <div className={isLightMode ? 'quotation_section' : 'quotation_section quotation_section_dark'}>
