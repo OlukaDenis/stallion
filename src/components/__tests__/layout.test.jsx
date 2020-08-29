@@ -13,30 +13,19 @@ const mockStore = configureMockStore(middlewares);
 let store;
 let baseLayoutComponent;
 
-describe('BaseLayout Component', () => {
-  beforeEach(() => {
-    store = mockStore(initialState);
+test('BaseLayout Component: main layout component should match snapshot', () => {
+  store = mockStore(initialState);
 
-    baseLayoutComponent = renderer.create(
-      <Provider store={store}>
-        <BaseLayoutConnected t={(key) => key}></BaseLayoutConnected>
-      </Provider>
-    );
-  });
-
-  it('main layout component should match snapshot', () => {
-    expect(baseLayoutComponent.toJSON()).toMatchSnapshot();
-  });
+  baseLayoutComponent = renderer.create(
+    <Provider store={store}>
+      <BaseLayoutConnected t={(key) => key}></BaseLayoutConnected>
+    </Provider>
+  );
+  expect(baseLayoutComponent.toJSON()).toMatchSnapshot();
 });
 
-describe('BaseLayout Component', () => {
-
-  beforeEach(() => {
-    store = mockStore(initialState);
-    baseLayoutComponent = render(<BaseLayoutConnected></BaseLayoutConnected>, { initialState: initialState });
-  });
-
-  it('Renders the connected BaseLayout with initialState', () => {
-    expect(screen.getAllByText(/button.theme.light/i)).toHaveLength(2);
-  });
+test('BaseLayout Component: Renders the connected BaseLayout with initialState', () => {
+  store = mockStore(initialState);
+  baseLayoutComponent = render(<BaseLayoutConnected></BaseLayoutConnected>, { initialState: initialState });
+  expect(screen.getAllByText(/button.theme.light/i)).toHaveLength(2);
 });
