@@ -186,8 +186,8 @@ export function BaseLayout({
                    <div className={`vertical-center-div ${isThemeLightMode ? 'trigger-light' : 'trigger-dark'}`}>
                      <Badge
                        className="menu-badge-icon badge-icon"
-                       count={3}
-                       overflowCount={'99'}
+                       count={0}
+                       overflowCount={'0'}
                      >
                        {React.createElement(!isSideMenuShowing ? MenuFoldOutlined : MenuUnfoldOutlined, {
                          className: '',

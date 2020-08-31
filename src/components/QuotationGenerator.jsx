@@ -1,20 +1,26 @@
-import { AutoComplete, Input, Select, DatePicker, Tooltip, Button } from 'antd';
-import { FlagFilled, FlagOutlined, RightOutlined } from '@ant-design/icons';
+import { DatePicker, Tooltip, Button, Divider, Alert } from 'antd';
+import { FlagFilled, FlagOutlined, RightOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import { withTranslation } from '../utilities/i18n';
 import LocationSelector from './LocationSelector';
-const { Option } = Select;
+import CarSelector from './CarSelector';
+import { useState } from 'react';
+import { bindActionCreators } from 'redux';
+import { setOrigin, setDestination, setCars, setPickupDate } from '../state/quote/action';
 
-export function QuotationGenerator({ theme }) {
-  const options = []; //[{ value: 'Burns Bay Road' }, { value: 'Downing Street' }, { value: 'Wall Street' }];
-
+export function QuotationGenerator({ theme, quote, setOrigin, setDestination, setCars, setPickupDate }) {
   const isLightMode = theme === 'light';
-
-  const years = [];
-  const currentYear = new Date().getFullYear();
-  for (let i = currentYear; i >= 1904; i--) {
-    years.push(i);
-  }
+  const [isAddingVehicle, setIsAddingVehicle] = useState(false);
+  const [isAddingVehicleError, setIsAddingVehicleError] = useState(false);
+console.log('theme', theme);
+  const toggleIsAddingVehicle = () => {
+    if (Object.keys(quote ? quote.cars : {}).length > 0) {
+      setIsAddingVehicleError(false);
+      setIsAddingVehicle(!isAddingVehicle);
+    } else {
+      setIsAddingVehicleError(true);
+    }
+  };
 
   return (
     <>
@@ -92,34 +98,30 @@ export function QuotationGenerator({ theme }) {
               isLightMode ? 'quotation_input-container' : 'quotation_input-container quotation_input-container_dark'
             }
           >
-            <Select size="large" defaultValue={'label'} placeholder="Year →" style={{ width: '100%' }}>
-              <Option disabled key="label" value="label">
-                Year →
-              </Option>
-              {years.map((year) => (
-                <Option key={year} value={year}>
-                  {year}
-                </Option>
-              ))}
-            </Select>
-            <br />
-            <br />
-            <Select size="large" defaultValue={'label'} placeholder="Make →" style={{ width: '100%' }}>
-              <Option disabled key="label" value="label">
-                Make →
-              </Option>
-              <Option value="bmw">BMW</Option>
-              <Option value="toyota">Toyota</Option>
-            </Select>
-            <br />
-            <br />
-            <Select size="large" defaultValue={'label'} placeholder="Model →" style={{ width: '100%' }}>
-              <Option disabled key="label" value="label">
-                Model →
-              </Option>
-              <Option value="markii">Mark II</Option>
-              <Option value="markx">MarkX</Option>
-            </Select>
+            <CarSelector
+              onYearChange={(value) => console.log('onYearChange', value)}
+              onMakeChange={(value) => console.log('onMakeChange', value)}
+              onModelChange={(value) => console.log('onModelChange', value)}
+            />
+            <Divider orientation="left">
+              {isAddingVehicle ? (
+                <MinusOutlined onClick={toggleIsAddingVehicle} />
+              ) : (
+                <PlusOutlined onClick={toggleIsAddingVehicle} />
+              )}
+              {'  '}
+              <span onClick={toggleIsAddingVehicle}>Add another vehicle</span>
+            </Divider>
+            {isAddingVehicle ? (
+              <CarSelector
+                onYearChange={(value) => console.log('onYearChange', value)}
+                onMakeChange={(value) => console.log('onMakeChange', value)}
+                onModelChange={(value) => console.log('onModelChange', value)}
+              />
+            ) : (
+              <></>
+            )}
+            {isAddingVehicleError ? <Alert message="Please complete the first vehicle." type="warning" /> : <></>}
           </div>
 
           <div className={isLightMode ? 'quotation_section' : 'quotation_section quotation_section_dark'}>
@@ -259,11 +261,15 @@ export function QuotationGenerator({ theme }) {
 
 const mapStateToProps = (state) => ({
   theme: state.ui.theme,
+  quote: state.quote,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // changeTheme: bindActionCreators(changeTheme, dispatch)
+    setCars: bindActionCreators(setCars, dispatch),
+    setOrigin: bindActionCreators(setOrigin, dispatch),
+    setDestination: bindActionCreators(setDestination, dispatch),
+    setPickupDate: bindActionCreators(setPickupDate, dispatch),
   };
 };
 

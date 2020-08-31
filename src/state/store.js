@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { HYDRATE, createWrapper } from 'next-redux-wrapper'
 import thunkMiddleware from 'redux-thunk'
+import quote from './quote/reducer'
 import ui from './ui/reducer'
 import user from './user/reducer'
 
@@ -14,7 +15,8 @@ const bindMiddleware = (middleware) => {
 
 const combinedReducer = combineReducers({
   ui,
-  user
+  user,
+  quote,
 });
 
 export const reducer = (state, action) => {
@@ -24,6 +26,7 @@ export const reducer = (state, action) => {
       ...action.payload, // apply delta from hydration
     }
     
+    if (state.quote) nextState.quote = state.quote; // preserve quote value on client side navigation
     if (state.ui) nextState.ui = state.ui; // preserve ui value on client side navigation
     if (state.user) nextState.user = state.user; // preserve user value on client side navigation
     return nextState
@@ -42,8 +45,8 @@ export const makeStore = ({ isServer }) => {
     const storage = require('redux-persist/lib/storage').default;
 
     const persistConfig = {
-      key: 'leofresh',
-      whitelist: ['ui', 'user'], // only whitelisted reducers will be persisted
+      key: 'superstallionlogistics',
+      whitelist: ['quote', 'ui', 'user'], // only whitelisted reducers will be persisted
       storage, // you can use a safer storage
     };
 
