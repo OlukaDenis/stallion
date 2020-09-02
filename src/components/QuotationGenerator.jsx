@@ -1,17 +1,41 @@
 import { DatePicker, Tooltip, Button, Divider, Alert, Input } from 'antd';
-import { FlagFilled, FlagOutlined, RightOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
+import {
+  FlagFilled,
+  FlagOutlined,
+  RightOutlined,
+  PlusOutlined,
+  MinusOutlined,
+  UserOutlined,
+  MailOutlined,
+  PhoneOutlined,
+} from '@ant-design/icons';
 import { connect } from 'react-redux';
 import { withTranslation } from '../utilities/i18n';
 import LocationSelector from './LocationSelector';
 import CarSelector from './CarSelector';
 import { useState } from 'react';
 import { bindActionCreators } from 'redux';
-import { setOrigin, setDestination, setCars, setPickupDate } from '../state/quote/action';
+import { setOrigin, setDestination, setCars, setPickupDate, setEmail, setName, setPhone } from '../state/quote/action';
+import moment from 'moment';
+import ClearableInputElement from './ClearableInputElement';
 
-export function QuotationGenerator({ theme, quote, setOrigin, setDestination, setCars, setPickupDate }) {
+export function QuotationGenerator({
+  theme,
+  quote,
+  setOrigin,
+  setDestination,
+  setCars,
+  setPickupDate,
+  setName,
+  setEmail,
+  setPhone,
+}) {
   const isLightMode = theme === 'light';
   const [isAddingVehicle, setIsAddingVehicle] = useState(false);
   const [isAddingVehicleError, setIsAddingVehicleError] = useState(false);
+  const [isMouseOverNameInput, setIsMouseOverNameInput] = useState(false);
+  const [isMouseOverEmailInput, setIsMouseOverEmailInput] = useState(false);
+  const [isMouseOverPhoneInput, setIsMouseOverPhoneInput] = useState(false);
 
   console.log('quote', quote);
 
@@ -59,7 +83,7 @@ export function QuotationGenerator({ theme, quote, setOrigin, setDestination, se
               title="Begin typing a zip code or city and then select a suggested location"
             >
               <LocationSelector
-                onSelect={(value) => console.log('Selected: ', value)}
+                onSelect={(value) => setOrigin(value)}
                 placeholder="Pickup Location"
                 icon={<FlagFilled />}
               />
@@ -72,7 +96,7 @@ export function QuotationGenerator({ theme, quote, setOrigin, setDestination, se
               title="Begin typing a zip code or city and then select a suggested location"
             >
               <LocationSelector
-                onSelect={(value) => console.log('Selected: ', value)}
+                onSelect={(value) => setDestination(value)}
                 placeholder="Delivery Location"
                 icon={<FlagOutlined />}
               />
@@ -155,22 +179,25 @@ export function QuotationGenerator({ theme, quote, setOrigin, setDestination, se
                 placeholder="Ship Date"
                 size="large"
                 style={{ width: '100%' }}
+                defaultValue={moment(quote.pickupDate, 'YYYY-MM-DD')}
                 disabledDate={(moment) => moment.isBefore(new Date())}
                 showToday={false}
-                onChange={setPickupDate}
+                onChange={(date) => {
+                  setPickupDate(date == null ? '' : date.format('YYYY-MM-DD'));
+                }}
               />
             </Tooltip>
 
             {quote.pickupDate ? (
               <div>
                 <br />
-                <Input placeholder="Name" size="large" />
+                <ClearableInputElement value={quote.name} onChange={setName} placeholder="Name" Icon={UserOutlined} />
                 <br />
                 <br />
-                <Input placeholder="Email" size="large" />
+                <ClearableInputElement value={quote.email} onChange={setEmail} placeholder="Email" Icon={MailOutlined} />
                 <br />
                 <br />
-                <Input placeholder="Phone" size="large" />
+                <ClearableInputElement value={quote.phone} onChange={setPhone} placeholder="Phone" Icon={PhoneOutlined} />
               </div>
             ) : (
               <></>
@@ -287,6 +314,9 @@ const mapDispatchToProps = (dispatch) => {
     setOrigin: bindActionCreators(setOrigin, dispatch),
     setDestination: bindActionCreators(setDestination, dispatch),
     setPickupDate: bindActionCreators(setPickupDate, dispatch),
+    setName: bindActionCreators(setName, dispatch),
+    setEmail: bindActionCreators(setEmail, dispatch),
+    setPhone: bindActionCreators(setPhone, dispatch),
   };
 };
 
