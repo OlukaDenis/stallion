@@ -3,6 +3,9 @@ export const quoteActionTypes = {
   SET_DESTINATION: 'SET_DESTINATION',
   SET_CARS: 'SET_CARS',
   SET_PICKUP_DATE: 'SET_PICKUP_DATE',
+  SET_NAME: 'SET_NAME',
+  SET_EMAIL: 'SET_EMAIL',
+  SET_PHONE: 'SET_PHONE',
 };
 
 export const setOrigin = (origin) => (dispatch) => {
@@ -19,4 +22,16 @@ export const setCars = (cars) => (dispatch) => {
 
 export const setPickupDate = (pickupDate) => (dispatch) => {
   return dispatch({ type: quoteActionTypes.SET_PICKUP_DATE, payload: pickupDate });
+};
+
+export const setName = (name) => (dispatch) => {
+  return dispatch({ type: quoteActionTypes.SET_NAME, payload: name });
+};
+
+export const setEmail = (email) => (dispatch) => {
+  return dispatch({ type: quoteActionTypes.SET_EMAIL, payload: email });
+};
+
+export const setPhone = (phone) => (dispatch) => {
+  return dispatch({ type: quoteActionTypes.SET_PHONE, payload: phone });
 };

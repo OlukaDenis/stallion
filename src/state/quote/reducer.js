@@ -5,6 +5,9 @@ export const quoteInitialState = {
   destination: '',
   cars: {},
   pickupDate: '',
+  name: '',
+  email: '',
+  phone: ''
 };
 
 export default function reducer(state = quoteInitialState, action) {
@@ -28,6 +31,21 @@ export default function reducer(state = quoteInitialState, action) {
       return {
         ...state,
         pickupDate: action.payload,
+      };
+    case quoteActionTypes.SET_NAME:
+      return {
+        ...state,
+        name: action.payload,
+      };
+    case quoteActionTypes.SET_EMAIL:
+      return {
+        ...state,
+        email: action.payload,
+      };
+    case quoteActionTypes.SET_PHONE:
+      return {
+        ...state,
+        phone: action.payload,
       };
     default:
       return state;
