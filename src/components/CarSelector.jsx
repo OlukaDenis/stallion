@@ -102,8 +102,8 @@ export default function CarSelector({ onYearChange, onMakeChange, onModelChange 
           </Option>
         ))}
       </Select>
-      <br />
-      <br />
+      
+      
       <Select onSelect={onMakeSelected} size="large" value={make} placeholder="Make →" style={{ width: '100%' }}>
         <Option disabled key="label" value="label">
           Make →
@@ -114,8 +114,8 @@ export default function CarSelector({ onYearChange, onMakeChange, onModelChange 
           </Option>
         ))}
       </Select>
-      <br />
-      <br />
+      
+      
       <Select onSelect={onModelSelected} size="large" value={model} placeholder="Model →" style={{ width: '100%' }}>
         <Option disabled key="label" value="label">
           Model →
@@ -126,11 +126,6 @@ export default function CarSelector({ onYearChange, onMakeChange, onModelChange 
           </Option>
         ))}
       </Select>
-      <br />
-      <br />
-      <Button type="primary" shape="round">
-        Add
-      </Button>
       <style jsx global>
         {`
         .car-selector {
