@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { connect } from 'react-redux';
 import { withTranslation } from '../utilities/i18n';
 
-export const ClearableInputElement = ({ placeholder, value, onChange, Icon, onClear }) => {
+export const ClearableInputElement = ({ placeholder, value, onChange, Icon, onClear, type }) => {
          const [isMouseOverInput, setIsMouseOverInput] = useState(false);
          return (
            <>
@@ -14,6 +14,7 @@ export const ClearableInputElement = ({ placeholder, value, onChange, Icon, onCl
                onMouseOut={() => setIsMouseOverInput(false)}
                placeholder={placeholder}
                size="large"
+               type={type ? type : 'text'}
                value={value}
                onChange={(e) => onChange(e.target.value)}
                suffix={
