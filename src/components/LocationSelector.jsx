@@ -5,7 +5,7 @@ import 'firebase/firestore';
 import { useState, useEffect } from 'react';
 import { AimOutlined } from '@ant-design/icons';
 
-export default function LocationSelector({ icon, placeholder, onSelect }) {
+export default function LocationSelector({ icon, placeholder, onSelect, value }) {
   const [searchText, setSearchText] = useState('');
   const [options, setOptions] = useState([]);
 
@@ -89,6 +89,7 @@ export default function LocationSelector({ icon, placeholder, onSelect }) {
       onSearch={(value) => {
         setSearchText(value);
       }}
+      defaultValue={value}
       onSelect={onSelect}
       style={{ width: '100%' }}
       options={options}
