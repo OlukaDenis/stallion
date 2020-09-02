@@ -200,6 +200,10 @@ const MyApp = ({ Component, pageProps }) => {
               margin: 2px 0;
             }
 
+            .input-element-v-margin {
+              margin: 3px 0;
+            }
+
             .small-margin-v-divider {
               margin: 0 2px;
             }
