@@ -1,4 +1,4 @@
-import { DatePicker, Tooltip, Button, Divider, Alert } from 'antd';
+import { DatePicker, Tooltip, Button, Divider, Alert, Input } from 'antd';
 import { FlagFilled, FlagOutlined, RightOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import { withTranslation } from '../utilities/i18n';
@@ -12,7 +12,9 @@ export function QuotationGenerator({ theme, quote, setOrigin, setDestination, se
   const isLightMode = theme === 'light';
   const [isAddingVehicle, setIsAddingVehicle] = useState(false);
   const [isAddingVehicleError, setIsAddingVehicleError] = useState(false);
-console.log('theme', theme);
+
+  console.log('quote', quote);
+
   const toggleIsAddingVehicle = () => {
     if (Object.keys(quote ? quote.cars : {}).length > 0) {
       setIsAddingVehicleError(false);
@@ -155,10 +157,25 @@ console.log('theme', theme);
                 style={{ width: '100%' }}
                 disabledDate={(moment) => moment.isBefore(new Date())}
                 showToday={false}
+                onChange={setPickupDate}
               />
             </Tooltip>
-          </div>
 
+            {quote.pickupDate ? (
+              <div>
+                <br />
+                <Input placeholder="Name" size="large" />
+                <br />
+                <br />
+                <Input placeholder="Email" size="large" />
+                <br />
+                <br />
+                <Input placeholder="Phone" size="large" />
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
           <Button type="primary" shape="round" size="large" block>
             Calculate Quote <RightOutlined />
           </Button>

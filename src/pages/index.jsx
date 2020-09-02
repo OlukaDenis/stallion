@@ -8,7 +8,7 @@ import PropTypes, { node } from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { setIsLoadingNewPage } from '../state/ui/action';
 import { connect } from 'react-redux';
-import { QuotationGenerator } from '../components/QuotationGenerator';
+import QuotationGenerator from '../components/QuotationGenerator';
 
 const { Meta } = Card;
 
@@ -83,25 +83,27 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
         <Row gutter={[16, 16]} justify="center">
           <Col xs={20} sm={20} md={12} lg={14} xl={16}>
             <Row gutter={[0, 30]}>
-            <Col xs={20} sm={20} md={20} lg={8} xl={8}>
-              <img alt="image" src="/images/image2.jpg" style={imgStyle} />
-            </Col>
-            <Col xs={20} sm={20} md={20} lg={14} xl={14}>
-              <Card >
-                <h2 style={{fontWeight: '900'}}>{t('page.home.our_goal')}</h2>
-                <p> {t('page.home.goal_info')}</p>
-                <p><b>{t('page.home.goal_headline')}</b></p>
-              </Card>
-            </Col>
+              <Col xs={20} sm={20} md={20} lg={8} xl={8}>
+                <img alt="image" src="/images/image2.jpg" style={imgStyle} />
+              </Col>
+              <Col xs={20} sm={20} md={20} lg={14} xl={14}>
+                <Card>
+                  <h2 style={{ fontWeight: '900' }}>{t('page.home.our_goal')}</h2>
+                  <p> {t('page.home.goal_info')}</p>
+                  <p>
+                    <b>{t('page.home.goal_headline')}</b>
+                  </p>
+                </Card>
+              </Col>
             </Row>
             <Row gutter={[0, 30]}>
-              <Col xs={20} sm={20} md={20} lg={22} xl={22}  >
+              <Col xs={20} sm={20} md={20} lg={22} xl={22}>
                 <h2 className="steps-title">{t('page.home.shipping_steps')}</h2>
                 <Card
                   style={{ width: '100%' }}
                   tabList={tabListNoTitle}
                   activeTabKey={key}
-                  onTabChange={key => {
+                  onTabChange={(key) => {
                     onTabChange(key, 'key');
                   }}
                 >
@@ -110,17 +112,17 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
               </Col>
             </Row>
             <Row gutter={[0, 30]}>
-            <Col xs={20} sm={20} md={20} lg={22} xl={22}>
-              <div  className="quote-hero">
-                <div className="quote-hero-overlay">
-                  <h1 style={{fontSize: '2.5rem'}}>{t('page.home.quote_hero_title')}</h1>
-                  <p style={{fontSize: '1.1rem', margin: '20px 0'}}>{t('page.home.quote_hero_desc')}</p>
-                  <Button type="primary" shape="round" size="large">
-                    {t('button.quick_order')} <RightOutlined />
-                  </Button>
-                </div>               
-              </div>
-            </Col>
+              <Col xs={20} sm={20} md={20} lg={22} xl={22}>
+                <div className="quote-hero">
+                  <div className="quote-hero-overlay">
+                    <h1 style={{ fontSize: '2.5rem' }}>{t('page.home.quote_hero_title')}</h1>
+                    <p style={{ fontSize: '1.1rem', margin: '20px 0' }}>{t('page.home.quote_hero_desc')}</p>
+                    <Button type="primary" shape="round" size="large">
+                      {t('button.quick_order')} <RightOutlined />
+                    </Button>
+                  </div>
+                </div>
+              </Col>
             </Row>
           </Col>
           <Col xs={20} sm={20} md={10} lg={8} xl={6}>
@@ -184,7 +186,7 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
           }
 
           .quote-hero {
-            background-image: url("/images/bg2.jpg");
+            background-image: url('/images/bg2.jpg');
             background-size: cover;
             height: 400px;
           }
