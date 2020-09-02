@@ -15,8 +15,20 @@ const { Meta } = Card;
 const imgStyle = {
   objectFit: 'cover',
   height: '100%',
-  width: '100%'
+  width: '100%',
 }
+
+const advImg = {
+  width: 80,
+  height: 60,
+}
+
+const gridStyle = {
+  width: '50%',
+  textAlign: 'center',
+  height: 200,
+};
+
 export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
   const [isItemLoading, setIsItemLoading] = useState(false);
   const [key, setKey] = useState('step1');
@@ -96,7 +108,7 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
             </Row>
             <Row gutter={[0, 30]}>
               <Col xs={20} sm={20} md={20} lg={22} xl={22}  >
-                <h2 className="steps-title">{t('page.home.shipping_steps')}</h2>
+                <h2 className="custom-title">{t('page.home.shipping_steps')}</h2>
                 <Card
                   style={{ width: '100%' }}
                   tabList={tabListNoTitle}
@@ -121,6 +133,61 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                 </div>               
               </div>
             </Col>
+            </Row>
+            <Row gutter={[0, 30]}>
+              <Col xs={20} sm={20} md={20} lg={22} xl={22}>
+              <h2 className="custom-title">{t('page.home.advantage.title')}</h2>
+                <Card>
+                  <Card.Grid style={gridStyle}>
+                    <img 
+                      style={advImg}
+                      src="images/advantage/factory.png"
+                    />
+                    <h3 className="advantage-title">{t('page.home.advantage.01.title')}</h3>
+                    <p>{t('page.home.advantage.01.info')}</p>
+                  </Card.Grid>
+                  <Card.Grid style={gridStyle}>
+                    <img 
+                        style={advImg}
+                        src="images/advantage/delivery.png"
+                      />
+                    <h3 className="advantage-title">{t('page.home.advantage.02.title')}</h3>
+                    <p>{t('page.home.advantage.02.info')}</p>
+                  </Card.Grid>
+                  <Card.Grid style={gridStyle}>
+                  <img 
+                      style={advImg}
+                      src="images/advantage/car.png"
+                    />
+                    <h3 className="advantage-title">{t('page.home.advantage.03.title')}</h3>
+                    <p>{t('page.home.advantage.03.info')}</p>
+                  </Card.Grid>
+                  <Card.Grid style={gridStyle}>
+                    <img 
+                        style={advImg}
+                        src="images/advantage/credit.png"
+                      />
+                    <h3 className="advantage-title">{t('page.home.advantage.04.title')}</h3>
+                    <p>{t('page.home.advantage.04.info')}</p>
+                  </Card.Grid>
+                  <Card.Grid style={gridStyle}>
+                    <img 
+                        style={advImg}
+                        src="images/advantage/office.png"
+                      />
+                    <h3 className="advantage-title">{t('page.home.advantage.05.title')}</h3>
+                    <p>{t('page.home.advantage.05.info')}</p>
+                  </Card.Grid>
+                  <Card.Grid style={gridStyle}>
+                    <img 
+                     style={advImg}
+                      src="images/advantage/location.png"
+                    />
+                    <h3 className="advantage-title">{t('page.home.advantage.06.title')}</h3>
+                    <p>{t('page.home.advantage.06.info')}</p>
+                  </Card.Grid>
+                </Card>
+              </Col>
             </Row>
           </Col>
           <Col xs={20} sm={20} md={10} lg={8} xl={6}>
@@ -202,11 +269,16 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
             flex-direction: column;
             align-items: center;
           }
-          .steps-title {
+          .custom-title {
             color: rgba(255, 255, 255, 0.9);
             background-color: #222;
             padding: 10px 20px;
             margin-bottom: 0;
+          }
+
+          .advantage-title {
+            font-weight: bold;
+            // font-size: 1.3em;
           }
 
           @media only screen and (max-width: 410px) {
