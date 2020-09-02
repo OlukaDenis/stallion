@@ -87,6 +87,7 @@ export default function CarSelector({ onYearChange, onMakeChange, onModelChange 
   return (
     <div className="car-selector">
       <Select
+        className="input-element-v-margin"
         onSelect={onYearSelected}
         size="large"
         defaultValue={'label'}
@@ -102,9 +103,15 @@ export default function CarSelector({ onYearChange, onMakeChange, onModelChange 
           </Option>
         ))}
       </Select>
-      
-      
-      <Select onSelect={onMakeSelected} size="large" value={make} placeholder="Make →" style={{ width: '100%' }}>
+
+      <Select
+        className="input-element-v-margin"
+        onSelect={onMakeSelected}
+        size="large"
+        value={make}
+        placeholder="Make →"
+        style={{ width: '100%' }}
+      >
         <Option disabled key="label" value="label">
           Make →
         </Option>
@@ -114,9 +121,15 @@ export default function CarSelector({ onYearChange, onMakeChange, onModelChange 
           </Option>
         ))}
       </Select>
-      
-      
-      <Select onSelect={onModelSelected} size="large" value={model} placeholder="Model →" style={{ width: '100%' }}>
+
+      <Select
+        className="input-element-v-margin"
+        onSelect={onModelSelected}
+        size="large"
+        value={model}
+        placeholder="Model →"
+        style={{ width: '100%' }}
+      >
         <Option disabled key="label" value="label">
           Model →
         </Option>
@@ -128,10 +141,10 @@ export default function CarSelector({ onYearChange, onMakeChange, onModelChange 
       </Select>
       <style jsx global>
         {`
-        .car-selector {
-          border: 0.5px solid gray;
-          padding: 5px;
-        }
+          .car-selector {
+            border: 0.5px solid gray;
+            padding: 5px;
+          }
         `}
       </style>
     </div>
