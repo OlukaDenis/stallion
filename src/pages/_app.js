@@ -59,7 +59,6 @@ const MyApp = ({ Component, pageProps }) => {
             }
 
             .site-footer {
-              padding: 5px 10px;
               bottom: 0;
             }
 
@@ -75,6 +74,42 @@ const MyApp = ({ Component, pageProps }) => {
 
             .site-footer-dark {
               color: #ddd;
+            }
+
+            .site-footer-dark .footer-item .footer-heading {
+              color: #f86942;
+              border-bottom: 1px solid #888;
+            }
+            .footer-item {
+              padding: 10px 20px 10px 50px;
+            }
+
+            .footer-item ul {
+              list-style: none;
+              padding: 0;
+            }
+
+            .footer-item ul li {
+              padding: 4px 0;
+            }
+
+            .footer-item ul li a {
+              color: #555;
+            }
+
+            .site-footer-dark .footer-item ul li a {
+              color: #ccc;
+            }
+
+            .footer-item ul li a:hover {
+              color: #f86942;
+            }
+
+            .footer-heading {
+              font-weight: 800;
+              border-bottom: 1px solid #ddd;
+              padding-bottom: 4px;
+              margin-right: 40px;
             }
 
             .min-full-height {

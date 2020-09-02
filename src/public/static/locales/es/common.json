@@ -2,7 +2,52 @@
   "page": {
     "home": {
       "title": "Super Stallion Logistics",
-      "subtitle": "Envíe un automóvil, camión o SUV a cualquier lugar y llévelo allí de manera segura"
+      "subtitle": "Envíe un automóvil, camión o SUV a cualquier lugar y llévelo allí de manera segura",
+      "our_goal": "En Super Stallion, nuestro objetivo es hacer que el envío de automóviles sea lo más rápido, seguro y rentable posible.",
+      "goal_info": "Super Stallion Logistics es un proveedor líder de servicios de envío automático puerta a puerta a nivel nacional. Nuestro dedicado equipo de profesionales de envío organizará y transportará su vehículo con cuidado de principio a fin. Ofrecemos envíos de vehículos fiables tanto para particulares como para empresas, moviendo miles de vehículos mensualmente.",
+      "goal_headline": "Permítanos poner nuestra experiencia a trabajar para usted",
+      "shipping_steps": "Enviar su automóvil con Super Stallion Logistics es tan fácil como 1-2-3!",
+      "step1": {
+          "title": "Calcule su cotización de envío de automóvil instantáneo.",
+          "desc": "Obtener una cotización es rápido y fácil con nuestra calculadora de envío de automóviles en línea. Ingrese los detalles de su transporte y revise su cotización - continúe haciendo su reservación en línea o por teléfono."
+      },
+      "step2": {
+          "title": "Su vehículo se recoge en la ubicación de origen.",
+          "desc": "El día de la recolección, su vehículo será cuidadosamente inspeccionado y cargado en el transportador. Realice un seguimiento del estado de su envío en línea en cualquier momento con nuestro práctico rastreador de transporte."
+      },
+      "step3": {
+          "title": "Su vehículo se entrega de manera segura al destino.",
+          "desc": "Su vehículo se descargará de manera segura y se completará una inspección final para confirmar que su vehículo se entregó en las mismas condiciones en las que se recogió."
+      },
+      "quote_hero_title": "Listo para comenzar",
+      "quote_hero_desc": "Calcule el costo de envío instantáneo de su automóvil y vea la disponibilidad del transportista en su área.",
+      "advantage": {
+          "title": "Por qué elegir Super Stallion Logistics",
+          "01": {
+              "title": "Envío automático mejor calificado",
+              "info": "Tenemos miles de reseñas de 5 estrellas para servicios excepcionales de envío de vehículos."
+          }, 
+          "02": {
+              "title": "Servicio puerta a puerta a nivel nacional",
+              "info": "Brindamos servicio directo desde y hacia cualquier ubicación residencial o comercial en los EE. UU."
+          },
+          "03": {
+              "title": "Cobertura completa del vehículo",
+              "info": "Ofrecemos las opciones de cobertura más completas para su total tranquilidad."
+          },
+          "04": {
+              "title": "No se requiere depósito por adelantado",
+              "info": "No paga ni un centavo hasta el día en que está programado la recogida de su envío."
+          },
+          "05": {
+              "title": "Horas de oficina extendidas",
+              "info": "Estamos disponibles después del horario comercial normal en todas las zonas horarias del país."
+          },
+          "06": {
+              "title": "Seguimiento de envíos en línea 24/7",
+              "info": "Puede rastrear el estado de su envío en línea en cualquier momento cuando lo desee."
+          }
+      }
     },
     "services": {},
     "portfolio": {},

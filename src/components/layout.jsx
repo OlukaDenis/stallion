@@ -337,12 +337,58 @@ export function BaseLayout({
                    }}
                    className={`site-footer ${isThemeLightMode ? 'site-footer-light' : 'site-footer-dark'}`}
                  >
-                   <div className="vertical-center-div">
-                     <p>
-                       Super Stallion Logistics &copy;{new Date().getFullYear()} | Designed by:{' '}
-                       <a href="https://premar.tech">Premar Systems</a>
-                     </p>
-                   </div>
+
+                   <Row>
+                     <Col  xs={22} sm={22} md={10} lg={8} xl={8}>
+                       <div className="footer-item">
+                        <h3 className="footer-heading">Quick Links</h3>
+                        <ul>
+                          <li><Link href="/">Track shipment</Link></li>
+                          <li><Link href="/">Quotation</Link></li>
+                          <li><Link href="/">Terms and Conditions</Link></li>
+                          <li><Link href="/">Privacy Policy</Link></li>
+                        </ul>
+                       </div>
+                      
+                     </Col>
+
+                     <Col  xs={22} sm={22} md={10} lg={8} xl={8}>
+                       <div className="footer-item">
+                        <h3 className="footer-heading">Support</h3>
+                        <ul>
+                          <li><Link href="/">How it works</Link></li>
+                          <li><Link href="/">Contact us</Link></li>
+                          <li><Link href="/">About us</Link></li>
+                        </ul>
+                       </div>
+                     
+                     </Col>
+
+                     <Col  xs={22} sm={22} md={10} lg={8} xl={8}>
+                       <div className="text-center">
+                         <img
+                         width="200px"
+                         height="200px"
+                          src="images/logo.jpg" 
+                          alt="Logo"
+                          style={{marginLeft: 10}}
+                        />
+                       </div>
+                     </Col>
+                   </Row>
+
+                   <Row>
+                     <Col xs={22} sm={22} md={22} lg={22} xl={22}>
+                     <Divider />
+                      <div className="vertical-center-div">
+                        <p>
+                          Super Stallion Logistics &copy;{new Date().getFullYear()} | Designed by:{' '}
+                          <a href="https://premar.tech">Premar Systems</a>
+                        </p>
+                      </div>
+                     </Col>
+                   </Row>
+                   
                  </Footer>
                </Layout>
              </ConfigProvider>

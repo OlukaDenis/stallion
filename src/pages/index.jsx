@@ -8,7 +8,7 @@ import PropTypes, { node } from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { setIsLoadingNewPage } from '../state/ui/action';
 import { connect } from 'react-redux';
-import { QuotationGenerator } from '../components/QuotationGenerator';
+import QuotationGenerator from '../components/QuotationGenerator';
 
 const { Meta } = Card;
 
@@ -24,9 +24,9 @@ const advImg = {
 }
 
 const gridStyle = {
-  width: '50%',
+  width: '100%',
   textAlign: 'center',
-  height: 200,
+  minHeight: 250,
 };
 
 export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
@@ -93,18 +93,20 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
 
       <section className="items-section">
         <Row gutter={[16, 16]} justify="center">
-          <Col xs={20} sm={20} md={12} lg={14} xl={16}>
+          <Col xs={24} sm={24} md={12} lg={14} xl={16}>
             <Row gutter={[0, 30]}>
-            <Col xs={20} sm={20} md={20} lg={8} xl={8}>
-              <img alt="image" src="/images/image2.jpg" style={imgStyle} />
-            </Col>
-            <Col xs={20} sm={20} md={20} lg={14} xl={14}>
-              <Card >
-                <h2 style={{fontWeight: '900'}}>{t('page.home.our_goal')}</h2>
-                <p> {t('page.home.goal_info')}</p>
-                <p><b>{t('page.home.goal_headline')}</b></p>
-              </Card>
-            </Col>
+              <Col xs={20} sm={20} md={20} lg={8} xl={8}>
+                <img alt="image" src="/images/image2.jpg" style={imgStyle} />
+              </Col>
+              <Col xs={20} sm={20} md={20} lg={14} xl={14}>
+                <Card>
+                  <h2 style={{ fontWeight: '900' }}>{t('page.home.our_goal')}</h2>
+                  <p> {t('page.home.goal_info')}</p>
+                  <p>
+                    <b>{t('page.home.goal_headline')}</b>
+                  </p>
+                </Card>
+              </Col>
             </Row>
             <Row gutter={[0, 30]}>
               <Col xs={20} sm={20} md={20} lg={22} xl={22}  >
@@ -113,7 +115,7 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                   style={{ width: '100%' }}
                   tabList={tabListNoTitle}
                   activeTabKey={key}
-                  onTabChange={key => {
+                  onTabChange={(key) => {
                     onTabChange(key, 'key');
                   }}
                 >
@@ -122,22 +124,29 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
               </Col>
             </Row>
             <Row gutter={[0, 30]}>
-            <Col xs={20} sm={20} md={20} lg={22} xl={22}>
-              <div  className="quote-hero">
-                <div className="quote-hero-overlay">
-                  <h1 style={{fontSize: '2.5rem'}}>{t('page.home.quote_hero_title')}</h1>
-                  <p style={{fontSize: '1.1rem', margin: '20px 0'}}>{t('page.home.quote_hero_desc')}</p>
-                  <Button type="primary" shape="round" size="large">
-                    {t('button.quick_order')} <RightOutlined />
-                  </Button>
-                </div>               
-              </div>
-            </Col>
+              <Col xs={20} sm={20} md={20} lg={22} xl={22}>
+                <div className="quote-hero">
+                  <div className="quote-hero-overlay">
+                    <Row justify="center">
+                      <Col style={{textAlign: 'center'}}>
+                        <h1 style={{ fontSize: '2.5rem' }}>{t('page.home.quote_hero_title')}</h1>
+                        <p style={{ fontSize: '1.1rem', margin: '20px 0' }}>{t('page.home.quote_hero_desc')}</p>
+                        <Button type="primary" shape="round" size="large">
+                          {t('button.quick_order')} <RightOutlined />
+                        </Button>
+                      </Col>
+                    </Row>
+                  </div>
+                </div>
+              </Col>
             </Row>
             <Row gutter={[0, 30]}>
               <Col xs={20} sm={20} md={20} lg={22} xl={22}>
               <h2 className="custom-title">{t('page.home.advantage.title')}</h2>
+              
                 <Card>
+                  <Row>
+                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                   <Card.Grid style={gridStyle}>
                     <img 
                       style={advImg}
@@ -146,6 +155,9 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                     <h3 className="advantage-title">{t('page.home.advantage.01.title')}</h3>
                     <p>{t('page.home.advantage.01.info')}</p>
                   </Card.Grid>
+                  </Col>
+
+                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                   <Card.Grid style={gridStyle}>
                     <img 
                         style={advImg}
@@ -154,6 +166,9 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                     <h3 className="advantage-title">{t('page.home.advantage.02.title')}</h3>
                     <p>{t('page.home.advantage.02.info')}</p>
                   </Card.Grid>
+                  </Col>
+
+                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                   <Card.Grid style={gridStyle}>
                   <img 
                       style={advImg}
@@ -162,6 +177,9 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                     <h3 className="advantage-title">{t('page.home.advantage.03.title')}</h3>
                     <p>{t('page.home.advantage.03.info')}</p>
                   </Card.Grid>
+                  </Col>
+                  
+                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                   <Card.Grid style={gridStyle}>
                     <img 
                         style={advImg}
@@ -170,6 +188,9 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                     <h3 className="advantage-title">{t('page.home.advantage.04.title')}</h3>
                     <p>{t('page.home.advantage.04.info')}</p>
                   </Card.Grid>
+                  </Col>
+
+                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                   <Card.Grid style={gridStyle}>
                     <img 
                         style={advImg}
@@ -178,6 +199,9 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                     <h3 className="advantage-title">{t('page.home.advantage.05.title')}</h3>
                     <p>{t('page.home.advantage.05.info')}</p>
                   </Card.Grid>
+                  </Col>
+
+                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                   <Card.Grid style={gridStyle}>
                     <img 
                      style={advImg}
@@ -186,7 +210,10 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                     <h3 className="advantage-title">{t('page.home.advantage.06.title')}</h3>
                     <p>{t('page.home.advantage.06.info')}</p>
                   </Card.Grid>
+                  </Col>
+                  </Row>
                 </Card>
+                
               </Col>
             </Row>
           </Col>
@@ -251,7 +278,7 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
           }
 
           .quote-hero {
-            background-image: url("/images/bg2.jpg");
+            background-image: url('/images/bg2.jpg');
             background-size: cover;
             height: 400px;
           }
@@ -259,14 +286,11 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
           .quote-hero-overlay {
             background-color: rgba(255, 255, 255, 0.76);
             display: flex;
-            flex-wrap: wrap;
             padding: 2rem;
             width: 100%;
             height: 400px;
             left: 0;
             position: absolute;
-            justify-content: center;
-            flex-direction: column;
             align-items: center;
           }
           .custom-title {
@@ -278,7 +302,11 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
 
           .advantage-title {
             font-weight: bold;
-            // font-size: 1.3em;
+          }
+
+          .adv-grid {
+            width: 100%;
+            text-align: center;
           }
 
           @media only screen and (max-width: 410px) {

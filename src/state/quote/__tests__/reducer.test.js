@@ -31,11 +31,35 @@ describe('quote reducer', () => {
         });
     })
 
-    it('should handle ' + actions.quoteActionTypes.SET_PICKUP_DATE, () => {
-        const action = getActionObjectFromFunction(actions.setPickupDate('2020-09-10'));
-        expect(quoteReducer(quoteInitialState, action)).toEqual({
-          ...quoteInitialState,
-          pickupDate: '2020-09-10',
-        });
-    })
+  it('should handle ' + actions.quoteActionTypes.SET_PICKUP_DATE, () => {
+    const action = getActionObjectFromFunction(actions.setPickupDate('2020-09-10'));
+    expect(quoteReducer(quoteInitialState, action)).toEqual({
+      ...quoteInitialState,
+      pickupDate: '2020-09-10',
+    });
+  })
+
+  it('should handle ' + actions.quoteActionTypes.SET_NAME, () => {
+    const action = getActionObjectFromFunction(actions.setName('Thomas Marcus'));
+    expect(quoteReducer(quoteInitialState, action)).toEqual({
+      ...quoteInitialState,
+      name: 'Thomas Marcus',
+    });
+  })
+
+  it('should handle ' + actions.quoteActionTypes.SET_EMAIL, () => {
+    const action = getActionObjectFromFunction(actions.setEmail('thomas@gmail.com'));
+    expect(quoteReducer(quoteInitialState, action)).toEqual({
+      ...quoteInitialState,
+      email: 'thomas@gmail.com',
+    });
+  })
+
+  it('should handle ' + actions.quoteActionTypes.SET_PHONE, () => {
+    const action = getActionObjectFromFunction(actions.setPhone('109878787908'));
+    expect(quoteReducer(quoteInitialState, action)).toEqual({
+      ...quoteInitialState,
+      phone: '109878787908',
+    });
+  })
 })

@@ -62,4 +62,37 @@ describe('quote actions', () => {
         }
         return expect(store.dispatch(actions.setPickupDate(payload))).toEqual(expectedAction);
     })
+
+    it('should create an action to set client\'s name', () => {
+
+        const payload = 'Thomas Marcus';
+
+        const expectedAction = {
+            type: actions.quoteActionTypes.SET_NAME,
+            payload
+        }
+        return expect(store.dispatch(actions.setName(payload))).toEqual(expectedAction);
+    })
+
+    it('should create an action to set client\'s email', () => {
+
+        const payload = 'thomas@gmail.com';
+
+        const expectedAction = {
+            type: actions.quoteActionTypes.SET_EMAIL,
+            payload
+        }
+        return expect(store.dispatch(actions.setEmail(payload))).toEqual(expectedAction);
+    })
+
+    it('should create an action to set client\'s phone number', () => {
+
+        const payload = '109878787908';
+
+        const expectedAction = {
+            type: actions.quoteActionTypes.SET_PHONE,
+            payload
+        }
+        return expect(store.dispatch(actions.setPhone(payload))).toEqual(expectedAction);
+    })
 })
