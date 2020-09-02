@@ -3,8 +3,6 @@ import {
   FlagFilled,
   FlagOutlined,
   RightOutlined,
-  PlusOutlined,
-  MinusOutlined,
   UserOutlined,
   MailOutlined,
   PhoneOutlined,
@@ -12,41 +10,24 @@ import {
 import { connect } from 'react-redux';
 import { withTranslation } from '../utilities/i18n';
 import LocationSelector from './LocationSelector';
-import CarSelector from './CarSelector';
 import { useState } from 'react';
 import { bindActionCreators } from 'redux';
 import { setOrigin, setDestination, setCars, setPickupDate, setEmail, setName, setPhone } from '../state/quote/action';
 import moment from 'moment';
 import ClearableInputElement from './ClearableInputElement';
+import SelectedCars from './SelectedCars';
 
 export function QuotationGenerator({
   theme,
   quote,
   setOrigin,
   setDestination,
-  setCars,
   setPickupDate,
   setName,
   setEmail,
   setPhone,
 }) {
   const isLightMode = theme === 'light';
-  const [isAddingVehicle, setIsAddingVehicle] = useState(false);
-  const [isAddingVehicleError, setIsAddingVehicleError] = useState(false);
-  const [isMouseOverNameInput, setIsMouseOverNameInput] = useState(false);
-  const [isMouseOverEmailInput, setIsMouseOverEmailInput] = useState(false);
-  const [isMouseOverPhoneInput, setIsMouseOverPhoneInput] = useState(false);
-
-  console.log('quote', quote);
-
-  const toggleIsAddingVehicle = () => {
-    if (Object.keys(quote ? quote.cars : {}).length > 0) {
-      setIsAddingVehicleError(false);
-      setIsAddingVehicle(!isAddingVehicle);
-    } else {
-      setIsAddingVehicleError(true);
-    }
-  };
 
   return (
     <>
@@ -89,8 +70,8 @@ export function QuotationGenerator({
               />
             </Tooltip>
 
-            <br />
-            <br />
+            
+            
             <Tooltip
               trigger={['click', 'hover']}
               title="Begin typing a zip code or city and then select a suggested location"
@@ -124,30 +105,7 @@ export function QuotationGenerator({
               isLightMode ? 'quotation_input-container' : 'quotation_input-container quotation_input-container_dark'
             }
           >
-            <CarSelector
-              onYearChange={(value) => console.log('onYearChange', value)}
-              onMakeChange={(value) => console.log('onMakeChange', value)}
-              onModelChange={(value) => console.log('onModelChange', value)}
-            />
-            <Divider orientation="left">
-              {isAddingVehicle ? (
-                <MinusOutlined onClick={toggleIsAddingVehicle} />
-              ) : (
-                <PlusOutlined onClick={toggleIsAddingVehicle} />
-              )}
-              {'  '}
-              <span onClick={toggleIsAddingVehicle}>Add another vehicle</span>
-            </Divider>
-            {isAddingVehicle ? (
-              <CarSelector
-                onYearChange={(value) => console.log('onYearChange', value)}
-                onMakeChange={(value) => console.log('onMakeChange', value)}
-                onModelChange={(value) => console.log('onModelChange', value)}
-              />
-            ) : (
-              <></>
-            )}
-            {isAddingVehicleError ? <Alert message="Please complete the first vehicle." type="warning" /> : <></>}
+            <SelectedCars />
           </div>
 
           <div className={isLightMode ? 'quotation_section' : 'quotation_section quotation_section_dark'}>
@@ -179,7 +137,7 @@ export function QuotationGenerator({
                 placeholder="Ship Date"
                 size="large"
                 style={{ width: '100%' }}
-                defaultValue={moment(quote.pickupDate, 'YYYY-MM-DD')}
+                defaultValue={quote.pickupDate ? moment(quote.pickupDate, 'YYYY-MM-DD') : null}
                 disabledDate={(moment) => moment.isBefore(new Date())}
                 showToday={false}
                 onChange={(date) => {
@@ -190,14 +148,24 @@ export function QuotationGenerator({
 
             {quote.pickupDate ? (
               <div>
-                <br />
+                
                 <ClearableInputElement value={quote.name} onChange={setName} placeholder="Name" Icon={UserOutlined} />
-                <br />
-                <br />
-                <ClearableInputElement value={quote.email} onChange={setEmail} placeholder="Email" Icon={MailOutlined} />
-                <br />
-                <br />
-                <ClearableInputElement value={quote.phone} onChange={setPhone} placeholder="Phone" Icon={PhoneOutlined} />
+                
+                
+                <ClearableInputElement
+                  value={quote.email}
+                  onChange={setEmail}
+                  placeholder="Email"
+                  Icon={MailOutlined}
+                />
+                
+                
+                <ClearableInputElement
+                  value={quote.phone}
+                  onChange={setPhone}
+                  placeholder="Phone"
+                  Icon={PhoneOutlined}
+                />
               </div>
             ) : (
               <></>
