@@ -100,7 +100,7 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
               </Col>
               <Col xs={20} sm={20} md={20} lg={14} xl={14}>
                 <Card>
-                  <h2 style={{ fontWeight: '900' }}>{t('page.home.our_goal')}</h2>
+                  <h2 className="s-heading" style={{ fontWeight: '900' }}>{t('page.home.our_goal')}</h2>
                   <p> {t('page.home.goal_info')}</p>
                   <p>
                     <b>{t('page.home.goal_headline')}</b>
@@ -110,7 +110,7 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
             </Row>
             <Row gutter={[0, 30]}>
               <Col xs={20} sm={20} md={20} lg={22} xl={22}  >
-                <h2 className="custom-title">{t('page.home.shipping_steps')}</h2>
+                <h2 className="custom-title s-heading">{t('page.home.shipping_steps')}</h2>
                 <Card
                   style={{ width: '100%' }}
                   tabList={tabListNoTitle}
@@ -142,7 +142,7 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
             </Row>
             <Row gutter={[0, 30]}>
               <Col xs={20} sm={20} md={20} lg={22} xl={22}>
-              <h2 className="custom-title">{t('page.home.advantage.title')}</h2>
+              <h2 className="custom-title s-heading">{t('page.home.advantage.title')}</h2>
               
                 <Card>
                   <Row>
@@ -247,6 +247,10 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
           @media only screen and (max-width: 576px) {
             .top-section-content {
               padding-right: 1em;
+            }
+
+            .s-heading {
+              font-size: 1.2em;
             }
           }
           .items-section {
