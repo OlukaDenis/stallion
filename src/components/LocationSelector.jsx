@@ -91,6 +91,7 @@ export default function LocationSelector({ icon, placeholder, onSelect, value })
       }}
       defaultValue={value}
       onSelect={onSelect}
+      onChange={onSelect}
       style={{ width: '100%' }}
       options={options}
     >
