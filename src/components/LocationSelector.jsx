@@ -85,6 +85,7 @@ export default function LocationSelector({ icon, placeholder, onSelect }) {
 
   return (
     <AutoComplete
+      className="input-element-v-margin"
       onSearch={(value) => {
         setSearchText(value);
       }}
