@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
 import { withTranslation } from '../utilities/i18n';
-import { Row, Col, Steps } from 'antd';
-import { ClockCircleOutlined, FlagFilled, FlagOutlined, CheckOutlined } from '@ant-design/icons';
-import { List } from 'antd/lib/form/Form';
+import { Row, Col, Steps, List, Checkbox, Button, Tooltip } from 'antd';
+import { ClockCircleOutlined, FlagFilled, FlagOutlined, CheckOutlined, RightOutlined, QuestionCircleFilled } from '@ant-design/icons';
 
 const { Step } = Steps;
 
@@ -111,9 +110,7 @@ const QuotationView = ({theme, quote}) => {
               </div>
             </div>
           </div>
-        </div>
 
-        <div className={isLightMode ? 'quotation_body' : 'quotation_body quotation_body_dark'}>
           <div className={isLightMode ? 'quotation_section' : 'quotation_section quotation_section_dark'}>
             <span
               className={
@@ -133,17 +130,76 @@ const QuotationView = ({theme, quote}) => {
                 <div className="label-cell">$1,965</div>
                 <div className="data-cell">
                   <List
-                    grid={{ gutter: 16, column: 2 }}
+                    grid={{
+                      gutter: 8,
+                      xs: 1,
+                      sm: 1,
+                      md: 1,
+                      lg: 2,
+                      xl: 2,
+                      xxl: 2,
+                    }}
                     dataSource={shippingFeatures}
                     renderItem={(item) => (
-                      <List.Item key={item.key}>
-                        <CheckOutlined />
+                      <List.Item className="active-features" key={item.key}>
+                        <CheckOutlined className="green-checkmark" />
                         &nbsp;{item.title}
                       </List.Item>
                     )}
                   />
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div className={isLightMode ? 'quotation_section' : 'quotation_section quotation_section_dark'}>
+            <span
+              className={
+                isLightMode ? 'quotation_section--title' : 'quotation_section--title quotation_section--title_dark'
+              }
+            >
+              Optional Services
+            </span>
+          </div>
+          <div
+            className={
+              isLightMode ? 'quotation_input-container' : 'quotation_input-container quotation_input-container_dark'
+            }
+          >
+            <div className="quotation-optional-services">
+              <div className="header-item">
+                <div className="item-cell">Option</div>
+                <div className="item-cell">Select</div>
+                <div className="item-cell">Amount</div>
+              </div>
+              <div className="service-item">
+                <div className="item-cell">
+                  Top Load&nbsp;
+                  <Tooltip title="Assures preferred placement on the top level of the carrier during transit.">
+                    <QuestionCircleFilled />
+                  </Tooltip>
+                </div>
+                <div className="item-cell">
+                  <Checkbox />
+                </div>
+                <div className="item-cell">+$198</div>
+              </div>
+              <div className="service-item">
+                <div className="item-cell">
+                  Enclosed Carrier&nbsp;
+                  <Tooltip title="Your vehicle will be shipped in a fully enclosed container. This provides maximum protection and higher coverage levels during transit.">
+                    <QuestionCircleFilled />
+                  </Tooltip>
+                </div>
+                <div className="item-cell">
+                  <Checkbox />
+                </div>
+                <div className="item-cell">+$2,162</div>
+              </div>
+              <br />
+              <Button type="primary" shape="round" size="large">
+                Continue & Book Shipment <RightOutlined />
+              </Button>
             </div>
           </div>
         </div>
@@ -159,8 +215,24 @@ const QuotationView = ({theme, quote}) => {
       </Col>
       <style jsx global>
         {`
+          .quotation-optional-services,
           .quotation-details-summary {
             margin: -1rem;
+          }
+          .quotation-optional-services {
+            padding-bottom: 10px;
+          }
+          .quotation-optional-services .header-item,
+          .quotation-optional-services .service-item {
+            display: flex;
+            min-height: 25px;
+          }
+          .quotation-optional-services .header-item {
+            background: rgba(248, 105, 66, 0.3);
+          }
+          .quotation-optional-services .item-cell {
+            border: 0.5px dotted grey;
+            flex: 1;
           }
           .quotation-details-summary .detail-item {
             display: flex;
@@ -182,6 +254,12 @@ const QuotationView = ({theme, quote}) => {
             align-items: center;
             text-align: left;
             border: 0.5px dotted grey;
+          }
+          .active-features {
+            font-size: 10px;
+          }
+          .green-checkmark {
+            color: green;
           }
         `}
       </style>
