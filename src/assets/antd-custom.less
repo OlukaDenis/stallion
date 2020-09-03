@@ -2,12 +2,13 @@
 
 @primary-color: #f86942;
 @primary-color-darker: #f63e0c;
+@primary-color-faded: rgba(248, 105, 66, 0.3);
 
 @btn-primary-color: #fff;
 @btn-primary-bg: @primary-color-darker;
 
 @border-radius-base: 2px;
-@divider-color: rgba(248, 105, 66, 0.3);
+@divider-color: @primary-color-faded;
 // Layout
 @layout-body-background: #f0f2f5;
 @layout-header-background: #000; //#001529;
@@ -26,3 +27,7 @@
 @layout-sider-background-light: #fff;
 @layout-trigger-background-light: #fff;
 @layout-trigger-color-light: @text-color;
+
+// Steps
+// ---
+@process-tail-color: @primary-color-faded;
