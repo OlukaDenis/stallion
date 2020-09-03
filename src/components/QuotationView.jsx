@@ -2,11 +2,28 @@ import { connect } from 'react-redux';
 import { withTranslation } from '../utilities/i18n';
 import { Row, Col, Steps, List, Checkbox, Button, Tooltip } from 'antd';
 import { ClockCircleOutlined, FlagFilled, FlagOutlined, CheckOutlined, RightOutlined, QuestionCircleFilled } from '@ant-design/icons';
+import { useMemo, useEffect } from 'react';
 
 const { Step } = Steps;
 
 const QuotationView = ({theme, quote}) => {
   
+
+  useEffect(() => {
+    // console.log(document.getElementById('map-container'));
+    if (typeof window !== 'undefined' && document.getElementById('map-container')) {
+      var mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
+
+      mapboxgl.accessToken =
+        'pk.eyJ1IjoicHJlbWFyc3lzdGVtcyIsImEiOiJja2VtdmZ6aXAxcnAyMzBwYzZnaTFjaWJzIn0.BQJ4ok3AEE5_2cSq0KlIJg';
+      var map = new mapboxgl.Map({
+        container: 'map-container',
+        style: 'mapbox://styles/mapbox/streets-v11',
+      });
+    }
+  }, []);
+  
+
   const isLightMode = theme === 'light';
 
   const shippingFeatures = [
@@ -40,36 +57,6 @@ const QuotationView = ({theme, quote}) => {
     return 'Encoding: ' + location;
   }
 
-  const position = [51.505, -0.09];
-
-  const getMapElement = () => {
-    if (typeof window === 'undefined') {
-      return <>Loading Map...</>;
-    }
-
-    const RL = require('react-leaflet');
-    const Map = RL.Map; 
-    const TileLayer = RL.TileLayer; 
-    const Marker = RL.Marker; 
-    const Popup = RL.Popup; 
-
-    return (
-      <Map center={position} zoom={8}>
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        />
-        <Marker position={position}>
-          <Popup>
-            A pretty CSS3 popup.
-            <br />
-            Easily customizable.
-          </Popup>
-        </Marker>
-      </Map>
-    );
-  };
-
   return (
     <Row gutter={[32, 48]} justify="center">
       <Col xs={22} sm={20} md={11} lg={10} xl={10}>
@@ -101,10 +88,10 @@ const QuotationView = ({theme, quote}) => {
                 <div className="label-cell">Vehicle(s)</div>
                 <div className="data-cell">
                   {Object.keys(quote.cars).map((key) => (
-                    <>
+                    <span key={key}>
                       {quote.cars[key].year + ' ' + quote.cars[key].make + ' ' + quote.cars[key].model}
                       <br />
-                    </>
+                    </span>
                   ))}
                 </div>
               </div>
@@ -141,7 +128,7 @@ const QuotationView = ({theme, quote}) => {
                     }}
                     dataSource={shippingFeatures}
                     renderItem={(item) => (
-                      <List.Item className="active-features" key={item.key}>
+                      <List.Item className="active-features">
                         <CheckOutlined className="green-checkmark" />
                         &nbsp;{item.title}
                       </List.Item>
@@ -211,7 +198,9 @@ const QuotationView = ({theme, quote}) => {
           <Step title="Delivery" subTitle={quote.destination} icon={<FlagOutlined />} />
         </Steps>
 
-        <div style={{ width: '100%', height: '200px' }}>{getMapElement()}</div>
+        <div id="map-container" style={{ width: '100%', height: '400px' }}>
+          
+        </div>
       </Col>
       <style jsx global>
         {`

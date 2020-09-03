@@ -6,12 +6,16 @@ import { Card } from 'antd';
 import { Row, Col } from 'antd';
 import QuotationGenerator from '../components/QuotationGenerator';
 import QuotationView from '../components/QuotationView';
+import Head from 'next/head';
 
 export function QuotationPage({ t }) {
   const { Meta } = Card;
 
   return (
     <BaseLayout>
+      <Head>
+        <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+      </Head>
       <QuotationView />
 
       {/* <Row gutter={[16, 16]} justify="center">
