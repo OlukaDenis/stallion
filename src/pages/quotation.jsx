@@ -2,23 +2,23 @@ import BaseLayout from '../components/layout';
 import { withTranslation } from '../utilities/i18n';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Router } from '../utilities/i18n';
-import { Card, Skeleton } from 'antd';
-import { Row, Col, List, Divider, Popconfirm, Button } from 'antd';
-import { DeleteOutlined, RightOutlined, LeftOutlined } from '@ant-design/icons';
+import { Card } from 'antd';
+import { Row, Col } from 'antd';
 import QuotationGenerator from '../components/QuotationGenerator';
+import QuotationView from '../components/QuotationView';
 
 export function QuotationPage({ t }) {
   const { Meta } = Card;
 
   return (
     <BaseLayout>
-      <Row gutter={[16, 16]} justify="center">
+      <QuotationView />
+
+      {/* <Row gutter={[16, 16]} justify="center">
         <Col xs={20} sm={18} md={12} lg={10} xl={10}>
           <QuotationGenerator />
         </Col>
-      </Row>
+      </Row> */}
     </BaseLayout>
   );
 }

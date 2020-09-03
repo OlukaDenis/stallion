@@ -142,7 +142,7 @@ export function BaseLayout({
                        'development' === process.env.NODE_ENV
                          ? "default-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline';" // 'nonce-" + cspNonce + "';"
                          : "default-src 'self'; style-src 'self' 'unsafe-inline';" // 'nonce-" + cspNonce + "';"
-                     }  style-src-elem 'self' https://*.googleapis.com 'unsafe-inline';  script-src-elem 'self' https://*.gstatic.com https://*.google.com;  img-src https://* 'self' data:; font-src 'self' data: https://*.gstatic.com; child-src 'none'; connect-src 'self' https://*.googleapis.com; worker-src 'self';frame-src 'self' https://*.google.com https://super-stallion-logistics.firebaseapp.com;`}
+                     }  style-src-elem 'self' https://*.googleapis.com 'unsafe-inline';  script-src-elem 'self' https://*.gstatic.com https://*.google.com;  img-src https://* 'self' data:; font-src 'self' data: https://*.gstatic.com; child-src 'none'; connect-src 'self' https://*.googleapis.com https://*.openstreetmap.org; worker-src 'self';frame-src 'self' https://*.google.com https://super-stallion-logistics.firebaseapp.com;`}
                    ></meta>
                    <meta charSet="utf-8" />
                    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -184,11 +184,7 @@ export function BaseLayout({
                    />
 
                    <div className={`vertical-center-div ${isThemeLightMode ? 'trigger-light' : 'trigger-dark'}`}>
-                     <Badge
-                       className="menu-badge-icon badge-icon"
-                       count={0}
-                       overflowCount={'0'}
-                     >
+                     <Badge className="menu-badge-icon badge-icon" count={0} overflowCount={'0'}>
                        {React.createElement(!isSideMenuShowing ? MenuFoldOutlined : MenuUnfoldOutlined, {
                          className: '',
                          onClick: (e) => {
@@ -202,7 +198,7 @@ export function BaseLayout({
 
                  <Layout className="site-layout" hasSider>
                    <Content
-                     className="no-margin"
+                     className="no-margin main-content-section"
                      onClick={() => {
                        setIsSideMenuShowing(false);
                      }}
