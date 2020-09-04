@@ -244,6 +244,10 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
             padding: 1em;
             padding-right: 80px;
           }
+          .items-section {
+            margin-top: 20px;
+            padding: 20px;
+          }
           @media only screen and (max-width: 576px) {
             .top-section-content {
               padding-right: 1em;
@@ -253,9 +257,10 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
               font-size: 1.2em;
             }
           }
-          .items-section {
-            margin-top: 20px;
-            padding: 20px;
+          @media only screen and (max-width: 720px) {
+            .items-section {
+              padding: 5px;
+            }
           }
           @media only screen and (min-width: 576px) and (max-width: 720px) {
             .items-section {
