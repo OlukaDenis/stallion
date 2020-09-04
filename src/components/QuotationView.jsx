@@ -66,12 +66,16 @@ const QuotationView = ({ theme, quote }) => {
               <div className="detail-item">
                 <div className="label-cell">Vehicle(s)</div>
                 <div className="data-cell">
-                  {Object.keys(quote.cars).map((key) => (
-                    <span key={key}>
-                      {quote.cars[key].year + ' ' + quote.cars[key].make + ' ' + quote.cars[key].model}
-                      <br />
-                    </span>
-                  ))}
+                  <p>
+                    {Object.keys(quote.cars).map((key) => (
+                      <>
+                        <span key={key}>
+                          {quote.cars[key].year + ' ' + quote.cars[key].make + ' ' + quote.cars[key].model}
+                        </span>
+                        <br />
+                      </>
+                    ))}
+                  </p>
                 </div>
               </div>
             </div>
@@ -166,6 +170,7 @@ const QuotationView = ({ theme, quote }) => {
               <Button type="primary" shape="round" size="large">
                 Continue & Book Shipment <RightOutlined />
               </Button>
+              <br/>
               <img src="/images/credit_cards.png" className="payment-options" />
             </div>
           </div>
@@ -224,6 +229,9 @@ const QuotationView = ({ theme, quote }) => {
             align-items: center;
             text-align: left;
             border: 0.5px dotted grey;
+          }
+          .quotation-details-summary .data-cell p {
+            margin: 0px;
           }
           .active-features {
             font-size: 10px;
