@@ -94,11 +94,11 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
       <section className="items-section">
         <Row gutter={[16, 16]} justify="center">
           <Col xs={24} sm={24} md={12} lg={14} xl={16}>
-            <Row gutter={[0, 30]}>
-              <Col xs={20} sm={20} md={20} lg={8} xl={8}>
+            <Row justify="center" gutter={[0, 30]}>
+              <Col xs={22} sm={22} md={20} lg={8} xl={8}>
                 <img alt="image" src="/images/image2.jpg" style={imgStyle} />
               </Col>
-              <Col xs={20} sm={20} md={20} lg={14} xl={14}>
+              <Col xs={22} sm={22} md={20} lg={14} xl={14}>
                 <Card>
                   <h2 className="s-heading" style={{ fontWeight: '900' }}>{t('page.home.our_goal')}</h2>
                   <p> {t('page.home.goal_info')}</p>
@@ -108,8 +108,8 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                 </Card>
               </Col>
             </Row>
-            <Row gutter={[0, 30]}>
-              <Col xs={20} sm={20} md={20} lg={22} xl={22}  >
+            <Row justify="center" gutter={[0, 30]}>
+              <Col xs={22} sm={22} md={20} lg={22} xl={22}  >
                 <h2 className="custom-title s-heading">{t('page.home.shipping_steps')}</h2>
                 <Card
                   style={{ width: '100%' }}
@@ -123,8 +123,8 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                 </Card>
               </Col>
             </Row>
-            <Row gutter={[0, 30]}>
-              <Col xs={20} sm={20} md={20} lg={22} xl={22}>
+            <Row justify="center" gutter={[0, 30]}>
+              <Col xs={22} sm={22} md={20} lg={22} xl={22}>
                 <div className="quote-hero">
                   <div className="quote-hero-overlay">
                     <Row justify="center">
@@ -140,8 +140,8 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                 </div>
               </Col>
             </Row>
-            <Row gutter={[0, 30]}>
-              <Col xs={20} sm={20} md={20} lg={22} xl={22}>
+            <Row justify="center" gutter={[0, 30]}>
+              <Col xs={22} sm={22} md={20} lg={22} xl={22}>
               <h2 className="custom-title s-heading">{t('page.home.advantage.title')}</h2>
               
                 <Card>
@@ -217,7 +217,7 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
               </Col>
             </Row>
           </Col>
-          <Col xs={20} sm={20} md={10} lg={8} xl={6}>
+          <Col xs={22} sm={22} md={10} lg={8} xl={6}>
             <QuotationGenerator />
           </Col>
         </Row>
