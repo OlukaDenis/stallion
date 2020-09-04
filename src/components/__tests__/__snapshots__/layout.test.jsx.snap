@@ -77,7 +77,7 @@ exports[`BaseLayout Component: main layout component should match snapshot 1`] =
     className="ant-layout ant-layout-has-sider site-layout"
   >
     <main
-      className="ant-layout-content no-margin"
+      className="ant-layout-content no-margin main-content-section"
       onClick={[Function]}
     >
       <div
@@ -564,19 +564,153 @@ exports[`BaseLayout Component: main layout component should match snapshot 1`] =
     onClick={[Function]}
   >
     <div
-      className="vertical-center-div"
+      className="ant-row"
+      style={Object {}}
     >
-      <p>
-        Super Stallion Logistics ©
-        2020
-         | Designed by:
-         
-        <a
-          href="https://premar.tech"
+      <div
+        className="ant-col ant-col-xs-22 ant-col-sm-22 ant-col-md-10 ant-col-lg-8 ant-col-xl-8"
+        style={Object {}}
+      >
+        <div
+          className="footer-item"
         >
-          Premar Systems
-        </a>
-      </p>
+          <h3
+            className="footer-heading"
+          >
+            Quick Links
+          </h3>
+          <ul>
+            <li>
+              <a
+                href="/track"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                Track shipment
+              </a>
+            </li>
+            <li>
+              <a
+                href="/quotation"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                Quotation
+              </a>
+            </li>
+            <li>
+              <a
+                href="/terms-of-service"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                Terms of Service
+              </a>
+            </li>
+            <li>
+              <a
+                href="/privacy-policy"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                Privacy Policy
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        className="ant-col ant-col-xs-22 ant-col-sm-22 ant-col-md-10 ant-col-lg-8 ant-col-xl-8"
+        style={Object {}}
+      >
+        <div
+          className="footer-item"
+        >
+          <h3
+            className="footer-heading"
+          >
+            Support
+          </h3>
+          <ul>
+            <li>
+              <a
+                href="/how-it-works"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                How it works
+              </a>
+            </li>
+            <li>
+              <a
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                Contact us
+              </a>
+            </li>
+            <li>
+              <a
+                href="/about-us"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                About us
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        className="ant-col ant-col-xs-22 ant-col-sm-22 ant-col-md-10 ant-col-lg-8 ant-col-xl-8"
+        style={Object {}}
+      >
+        <div
+          className="text-center"
+        >
+          <img
+            alt="Logo"
+            height="200px"
+            src="images/logo.jpg"
+            style={
+              Object {
+                "marginLeft": 10,
+              }
+            }
+            width="200px"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      className="ant-row"
+      style={Object {}}
+    >
+      <div
+        className="ant-col ant-col-xs-22 ant-col-sm-22 ant-col-md-22 ant-col-lg-22 ant-col-xl-22"
+        style={Object {}}
+      >
+        <div
+          className="ant-divider ant-divider-horizontal"
+          role="separator"
+        />
+        <div
+          className="vertical-center-div"
+        >
+          <p>
+            Super Stallion Logistics ©
+            2020
+             | Designed by:
+             
+            <a
+              href="https://premar.tech"
+            >
+              Premar Systems
+            </a>
+          </p>
+        </div>
+      </div>
     </div>
   </footer>
 </section>
