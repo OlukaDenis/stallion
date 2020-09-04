@@ -61,5 +61,69 @@ describe('quote reducer', () => {
       ...quoteInitialState,
       phone: '109878787908',
     });
-  })
+  });
+
+  it('should handle ' + actions.quoteActionTypes.SET_DISTANCE, () => {
+    const action = getActionObjectFromFunction(actions.setDistance(900));
+    expect(quoteReducer(quoteInitialState, action)).toEqual({
+      ...quoteInitialState,
+      distance: 900,
+    });
+  });
+
+  it('should handle ' + actions.quoteActionTypes.SET_DURATION, () => {
+    const action = getActionObjectFromFunction(actions.setDuration(20));
+    expect(quoteReducer(quoteInitialState, action)).toEqual({
+      ...quoteInitialState,
+      duration: 20,
+    });
+  });
+
+  it('should handle ' + actions.quoteActionTypes.SET_ORIGIN_NAME, () => {
+    const action = getActionObjectFromFunction(actions.setOriginName('Brooklyn'));
+    expect(quoteReducer(quoteInitialState, action)).toEqual({
+      ...quoteInitialState,
+      originName: 'Brooklyn',
+    });
+  });
+
+  it('should handle ' + actions.quoteActionTypes.SET_ORIGIN_LAT, () => {
+    const action = getActionObjectFromFunction(actions.setOriginLat(67.7823));
+    expect(quoteReducer(quoteInitialState, action)).toEqual({
+      ...quoteInitialState,
+      originLat: 67.7823,
+    });
+  });
+
+  it('should handle ' + actions.quoteActionTypes.SET_ORIGIN_LON, () => {
+    const action = getActionObjectFromFunction(actions.setOriginLon(83.0903));
+    expect(quoteReducer(quoteInitialState, action)).toEqual({
+      ...quoteInitialState,
+      originLon: 83.0903,
+    });
+  });
+
+  it('should handle ' + actions.quoteActionTypes.SET_DESTINATION_NAME, () => {
+    const action = getActionObjectFromFunction(actions.setDestinationName('Calif'));
+    expect(quoteReducer(quoteInitialState, action)).toEqual({
+      ...quoteInitialState,
+      destinationName: 'Calif',
+    });
+  });
+
+  it('should handle ' + actions.quoteActionTypes.SET_DESTINATION_LAT, () => {
+    const action = getActionObjectFromFunction(actions.setDestinationLat(78.3232));
+    expect(quoteReducer(quoteInitialState, action)).toEqual({
+      ...quoteInitialState,
+      destinationLat: 78.3232,
+    });
+  });
+
+  it('should handle ' + actions.quoteActionTypes.SET_DESTINATION_LON, () => {
+    const action = getActionObjectFromFunction(actions.setDestinationLon(89.3423));
+    expect(quoteReducer(quoteInitialState, action)).toEqual({
+      ...quoteInitialState,
+      destinationLon: 89.3423,
+    });
+  });
 })
