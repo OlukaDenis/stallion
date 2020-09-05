@@ -136,8 +136,8 @@ const MapView = ({
       if (!response || !response.data || response.data.code != 'Ok') return;
       const data = response.data;
 
-      setDistance(data.distance);
-      setDuration(data.duration);
+      setDistance(data.routes[0].distance);
+      setDuration(data.routes[0].duration);
       drawRoute(data.routes[0].geometry.coordinates);
     });
   };
