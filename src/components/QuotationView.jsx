@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { withTranslation } from '../utilities/i18n';
+import { withTranslation, Router } from '../utilities/i18n';
 import { Row, Col, Steps, List, Checkbox, Button, Tooltip } from 'antd';
 import {
   ClockCircleOutlined,
@@ -11,11 +11,19 @@ import {
 } from '@ant-design/icons';
 
 import MapView from './MapView';
+import { setIsLoadingNewPage } from '../state/ui/action';
+import { bindActionCreators } from 'redux';
 
 const { Step } = Steps;
 
-const QuotationView = ({ theme, quote }) => {
+const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
   const isLightMode = theme === 'light';
+
+  const proceedToBook = async () => {
+    setIsLoadingNewPage(true);
+    await Router.push('/book');
+    setIsLoadingNewPage(false);
+  };
 
   const shippingFeatures = [
     {
@@ -167,10 +175,10 @@ const QuotationView = ({ theme, quote }) => {
                 <div className="item-cell cell-3">+$2,162</div>
               </div>
               <br />
-              <Button type="primary" shape="round" size="large">
+              <Button onClick={proceedToBook} type="primary" shape="round" size="large">
                 Continue & Book Shipment <RightOutlined />
               </Button>
-              <br/>
+              <br />
               <img src="/images/credit_cards.png" className="payment-options" />
             </div>
           </div>
@@ -185,7 +193,7 @@ const QuotationView = ({ theme, quote }) => {
 
         <MapView />
       </Col>
-      <style jsx global>
+      <style jsx>
         {`
           .quotation-optional-services,
           .quotation-details-summary {
@@ -257,7 +265,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // setOriginName: bindActionCreators(setOriginName, dispatch),
+    setIsLoadingNewPage: bindActionCreators(setIsLoadingNewPage, dispatch),
   };
 };
 
