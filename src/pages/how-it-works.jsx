@@ -32,15 +32,12 @@ const HowItWorks = ({t}) => {
 
             <Col style={colStyle} xs={22} sm={22} md={20} lg={11} xl={11}>
               <div className="step-item">
-                <h3>Step 1:</h3>
-                <h2>Instant Car Shipping Quote</h2>
-                <p>
-                  Begin by getting an instant quote from our <Link href="/quotation"><a>online car shipping cost calculator<a></a></a></Link>, 
-                  or by speaking with a car shipping specialist at +1 971 248 0579
-                </p>
+                <h3>{t('page.how_it_works.step_one.name')}</h3>
+                <h2>{t('page.how_it_works.step_one.title')}</h2>
+                <p>{t('page.how_it_works.step_one.info')}</p>
                 <div className="step-quoting">
-                  <h4>Secure Online Shipment Reservation</h4>
-                  <p>Schedule a convenient time for pickup via our secure online booking form or by phone with a shipping agent.</p>
+                  <h4>{t('page.how_it_works.step_one.step_quote.title')}</h4>
+                  <p>{t('page.how_it_works.step_one.step_quote.desc')}</p>
                 </div>
               </div>
             </Col>
@@ -50,15 +47,12 @@ const HowItWorks = ({t}) => {
             
             <Col style={colStyle} xs={22} sm={22} md={20} lg={11} xl={11}>
               <div className="step-item">
-                <h3>Step 2:</h3>
-                <h2>Vehicle Pick Up</h2>
-                <p>
-                Your shipment will be assigned to the carrier that can best accommodate your route and timeframe.
-                 On the day of pickup, your vehicle will be safely loaded and will begin heading to the destination.
-                </p>
+                <h3>{t('page.how_it_works.step_two.name')}</h3>
+                <h2>{t('page.how_it_works.step_two.title')}</h2>
+                <p>{t('page.how_it_works.step_two.info')}</p>
                 <div className="step-quoting">
-                  <h4>Online Shipment Tracking</h4>
-                  <p>Track the status of your shipment and get priority support from a live shipping agent with our online transport tracker.</p>
+                  <h4>{t('page.how_it_works.step_two.step_quote.title')}</h4>
+                  <p>{t('page.how_it_works.step_two.step_quote.desc')}</p>
                 </div>
               </div>
             </Col>
@@ -88,15 +82,12 @@ const HowItWorks = ({t}) => {
 
             <Col style={colStyle} xs={22} sm={22} md={20} lg={11} xl={11}>
               <div className="step-item">
-                <h3>Step 3:</h3>
-                <h2>Vehicle Delivery</h2>
-                <p>
-                Upon arrival at the destination, your vehicle will be safely offloaded. 
-                A final inspection is completed and the driver hands over the keys.
-                </p>
+              <h3>{t('page.how_it_works.step_three.name')}</h3>
+                <h2>{t('page.how_it_works.step_three.title')}</h2>
+                <p>{t('page.how_it_works.step_three.info')}</p>
                 <div className="step-quoting">
-                  <h4>That's it! That's all there is to it!</h4>
-                  <p>Join the hundreds of thousands of customers that trusted RoadRunner Auto Transport with the safe delivery of their vehicles.</p>
+                  <h4>{t('page.how_it_works.step_three.step_quote.title')}</h4>
+                  <p>{t('page.how_it_works.step_three.step_quote.desc')}</p>
                 </div>
               </div>
             </Col>

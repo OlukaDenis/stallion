@@ -226,8 +226,8 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
         <Row justify="center" gutter={[10, 0]}>
 
         <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{textAlign: 'center' }}>
-          <div className="service-item" style={{ backgroundImage: `url("/images/hero_img.jpg")`}}>
-            <div className="service-item-overlay" >
+          <div className="service-item">
+           
             <div className="service-item-content">
               <h1>How it works</h1>
               <p>Find how Super Stallion makes vehicle shipping easy as 1-2-3</p>
@@ -236,14 +236,13 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                   {t('button.learn_more')}
                 </Button>
               </Link>
-            </div> 
             </div>             
           </div>
         </Col>
 
         <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{textAlign: 'center' }}>
-          <div className="service-item" style={{ backgroundImage: `url("/images/hero_img.jpg")`}}>
-              <div className="service-item-overlay" >
+          <div className="service-item" >
+             
               <div className="service-item-content">
                 <h1>Shipping Checklist</h1>
                 <p>A list of helpful and good to know tips for you to follow to prepare your vehicle</p>
@@ -253,13 +252,13 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                   </Button>
                 </Link>
               </div>              
-            </div>
+          
           </div>
           </Col>
 
           <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{textAlign: 'center' }}>
-          <div className="service-item" style={{ backgroundImage: `url("/images/hero_img.jpg")`}}>
-              <div className="service-item-overlay">
+          <div className="service-item" >
+              
               <div className="service-item-content">
                 <h1>Our advantage</h1>
                 <p>View the benefits and advantages of shipping with super stallion</p>
@@ -270,7 +269,6 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                 </Link>
               </div>              
             </div>
-          </div>
           </Col>
 
             
@@ -306,27 +304,21 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
 
           .service-item {
             height: 260px;
+            background-color: white;
             background-size: cover;
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
           }
 
           .service-item-content {
             padding: 20px 40px;
           }
 
-          .service-item-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 300px;
-            height: 260px;
-            background-color: #04081d;
-            opacity: 0.8;
-          }
-
-          .service-item h1 {
+          .service-item-content h1 {
             font-weight: 900;
-
+            font-size: 1.5rem;
           }
 
           @media only screen and (max-width: 576px) {
