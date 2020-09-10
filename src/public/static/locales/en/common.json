@@ -69,7 +69,8 @@
         "continue_shopping": "Continue Shopping",
         "add_to_cart": "Add to Cart",
         "remove_in_cart": "Remove in Cart",
-        "read_more": "Read More >"
+        "read_more": "Read More >",
+        "learn_more": "Learn More"
     },
     "menu": {
         "label": {

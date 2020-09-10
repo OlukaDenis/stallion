@@ -70,8 +70,7 @@ const HowItWorks = ({t}) => {
                 height="80%"
                 src="images/step2.png"
                 />
-              </div>
-             
+              </div>       
             </Col>
 
           </Row>
