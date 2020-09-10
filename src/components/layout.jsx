@@ -339,10 +339,10 @@ export function BaseLayout({
                        <div className="footer-item">
                         <h3 className="footer-heading">Quick Links</h3>
                         <ul>
-                          <li><Link href="/track">Track shipment</Link></li>
-                          <li><Link href="/quotation">Quotation</Link></li>
-                          <li><Link href="/terms-of-service">Terms of Service</Link></li>
-                          <li><Link href="/privacy-policy">Privacy Policy</Link></li>
+                          <li><Link href="/track"><a>Track shipment</a></Link></li>
+                          <li><Link href="/quotation"><a>Quotation</a></Link></li>
+                          <li><Link href="/terms-of-service"><a>Terms of Service</a></Link></li>
+                          <li><Link href="/privacy-policy"><a>Privacy Policy</a></Link></li>
                         </ul>
                        </div>
                       
@@ -352,9 +352,9 @@ export function BaseLayout({
                        <div className="footer-item">
                         <h3 className="footer-heading">Support</h3>
                         <ul>
-                          <li><Link href="/how-it-works">How it works</Link></li>
-                          <li><Link href="/contact">Contact us</Link></li>
-                          <li><Link href="/about-us">About us</Link></li>
+                          <li><Link href="/how-it-works"><a>How it works</a></Link></li>
+                          <li><Link href="/contact"><a>Contact us</a></Link></li>
+                          <li><Link href="/about-us"><a>About us</a></Link></li>
                         </ul>
                        </div>
                      

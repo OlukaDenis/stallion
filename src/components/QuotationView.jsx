@@ -1,30 +1,29 @@
 import { connect } from 'react-redux';
-import { withTranslation } from '../utilities/i18n';
+import { withTranslation, Router } from '../utilities/i18n';
 import { Row, Col, Steps, List, Checkbox, Button, Tooltip } from 'antd';
-import { ClockCircleOutlined, FlagFilled, FlagOutlined, CheckOutlined, RightOutlined, QuestionCircleFilled } from '@ant-design/icons';
-import { useMemo, useEffect } from 'react';
+import {
+  ClockCircleOutlined,
+  FlagFilled,
+  FlagOutlined,
+  CheckOutlined,
+  RightOutlined,
+  QuestionCircleFilled,
+} from '@ant-design/icons';
+
+import MapView from './MapView';
+import { setIsLoadingNewPage } from '../state/ui/action';
+import { bindActionCreators } from 'redux';
 
 const { Step } = Steps;
 
-const QuotationView = ({theme, quote}) => {
-  
-
-  useEffect(() => {
-    // console.log(document.getElementById('map-container'));
-    if (typeof window !== 'undefined' && document.getElementById('map-container')) {
-      var mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
-
-      mapboxgl.accessToken =
-        'pk.eyJ1IjoicHJlbWFyc3lzdGVtcyIsImEiOiJja2VtdmZ6aXAxcnAyMzBwYzZnaTFjaWJzIn0.BQJ4ok3AEE5_2cSq0KlIJg';
-      var map = new mapboxgl.Map({
-        container: 'map-container',
-        style: 'mapbox://styles/mapbox/streets-v11',
-      });
-    }
-  }, []);
-  
-
+const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
   const isLightMode = theme === 'light';
+
+  const proceedToBook = async () => {
+    setIsLoadingNewPage(true);
+    await Router.push('/book');
+    setIsLoadingNewPage(false);
+  };
 
   const shippingFeatures = [
     {
@@ -44,18 +43,6 @@ const QuotationView = ({theme, quote}) => {
       title: '24/7 Online Tracking',
     },
   ];
-
-  const geoEncodeLocation = (location) => {
-    
-    if (typeof window !== 'undefined') {
-      const OpenStreetMapProvider = require('leaflet-geosearch').OpenStreetMapProvider;
-      const provider = new OpenStreetMapProvider();
-      console.log('provider', provider);
-      provider.search({ query: location }).then((results) => console.log(location, results));
-    }
-    
-    return 'Encoding: ' + location;
-  }
 
   return (
     <Row gutter={[32, 48]} justify="center">
@@ -87,12 +74,16 @@ const QuotationView = ({theme, quote}) => {
               <div className="detail-item">
                 <div className="label-cell">Vehicle(s)</div>
                 <div className="data-cell">
-                  {Object.keys(quote.cars).map((key) => (
-                    <span key={key}>
-                      {quote.cars[key].year + ' ' + quote.cars[key].make + ' ' + quote.cars[key].model}
-                      <br />
-                    </span>
-                  ))}
+                  <p>
+                    {Object.keys(quote.cars).map((key) => (
+                      <>
+                        <span key={key}>
+                          {quote.cars[key].year + ' ' + quote.cars[key].make + ' ' + quote.cars[key].model}
+                        </span>
+                        <br />
+                      </>
+                    ))}
+                  </p>
                 </div>
               </div>
             </div>
@@ -155,38 +146,40 @@ const QuotationView = ({theme, quote}) => {
           >
             <div className="quotation-optional-services">
               <div className="header-item">
-                <div className="item-cell">Option</div>
-                <div className="item-cell">Select</div>
-                <div className="item-cell">Amount</div>
+                <div className="item-cell cell-1">Option</div>
+                <div className="item-cell cell-2">Select</div>
+                <div className="item-cell cell-3">Amount</div>
               </div>
               <div className="service-item">
-                <div className="item-cell">
+                <div className="item-cell cell-1">
                   Top Load&nbsp;
                   <Tooltip title="Assures preferred placement on the top level of the carrier during transit.">
                     <QuestionCircleFilled />
                   </Tooltip>
                 </div>
-                <div className="item-cell">
+                <div className="item-cell cell-2">
                   <Checkbox />
                 </div>
-                <div className="item-cell">+$198</div>
+                <div className="item-cell cell-3">+$198</div>
               </div>
               <div className="service-item">
-                <div className="item-cell">
+                <div className="item-cell cell-1">
                   Enclosed Carrier&nbsp;
                   <Tooltip title="Your vehicle will be shipped in a fully enclosed container. This provides maximum protection and higher coverage levels during transit.">
                     <QuestionCircleFilled />
                   </Tooltip>
                 </div>
-                <div className="item-cell">
+                <div className="item-cell cell-2">
                   <Checkbox />
                 </div>
-                <div className="item-cell">+$2,162</div>
+                <div className="item-cell cell-3">+$2,162</div>
               </div>
               <br />
-              <Button type="primary" shape="round" size="large">
+              <Button onClick={proceedToBook} type="primary" shape="round" size="large">
                 Continue & Book Shipment <RightOutlined />
               </Button>
+              <br />
+              <img src="/images/credit_cards.png" className="payment-options" />
             </div>
           </div>
         </div>
@@ -198,11 +191,9 @@ const QuotationView = ({theme, quote}) => {
           <Step title="Delivery" subTitle={quote.destination} icon={<FlagOutlined />} />
         </Steps>
 
-        <div id="map-container" style={{ width: '100%', height: '400px' }}>
-          
-        </div>
+        <MapView />
       </Col>
-      <style jsx global>
+      <style jsx>
         {`
           .quotation-optional-services,
           .quotation-details-summary {
@@ -221,7 +212,10 @@ const QuotationView = ({theme, quote}) => {
           }
           .quotation-optional-services .item-cell {
             border: 0.5px dotted grey;
-            flex: 1;
+            flex: 3;
+          }
+          .quotation-optional-services .cell-1 {
+            flex: 5;
           }
           .quotation-details-summary .detail-item {
             display: flex;
@@ -237,18 +231,26 @@ const QuotationView = ({theme, quote}) => {
             background: rgba(248, 105, 66, 0.3);
           }
           .quotation-details-summary .data-cell {
-            flex: 5;
+            flex: 3;
             padding-left: 20px;
             display: flex;
             align-items: center;
             text-align: left;
             border: 0.5px dotted grey;
           }
+          .quotation-details-summary .data-cell p {
+            margin: 0px;
+          }
           .active-features {
             font-size: 10px;
           }
           .green-checkmark {
             color: green;
+          }
+          .payment-options {
+            margin-top: 10px;
+            width: 40%;
+            text-align: center;
           }
         `}
       </style>
@@ -263,7 +265,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // setCars: bindActionCreators(setCars, dispatch),
+    setIsLoadingNewPage: bindActionCreators(setIsLoadingNewPage, dispatch),
   };
 };
 

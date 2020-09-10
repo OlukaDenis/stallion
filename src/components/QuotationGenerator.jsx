@@ -1,14 +1,15 @@
-import { DatePicker, Tooltip, Button, Divider, Alert, Input } from 'antd';
+import { DatePicker, Tooltip, Button, Alert } from 'antd';
 import { FlagFilled, FlagOutlined, RightOutlined, UserOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
-import { withTranslation } from '../utilities/i18n';
+import { withTranslation, Router } from '../utilities/i18n';
 import LocationSelector from './LocationSelector';
 import { bindActionCreators } from 'redux';
 import { setOrigin, setDestination, setCars, setPickupDate, setEmail, setName, setPhone } from '../state/quote/action';
 import moment from 'moment';
 import ClearableInputElement from './ClearableInputElement';
 import SelectedCars from './SelectedCars';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { setIsLoadingNewPage } from '../state/ui/action';
 
 export function QuotationGenerator({
   theme,
@@ -19,6 +20,7 @@ export function QuotationGenerator({
   setName,
   setEmail,
   setPhone,
+  setIsLoadingNewPage
 }) {
 
 
@@ -31,12 +33,18 @@ export function QuotationGenerator({
   const [hasNameError, setHasNameError] = useState(false);
   const [hasPhoneError, setHasPhoneError] = useState(false);
   const [hasEmailError, setHasEmailError] = useState(false);
+  const [hasQuoteDataError, setHasQuoteDataError] = useState(false);
+  const [isDataSubmitted, setIsDataSubmitted] = useState(false);
 
   const isLightMode = theme === 'light';
   const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
   const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  const validateInput = () => {
+  useEffect(() => {
+    setHasQuoteDataError(!isQuoteDataValid(quote));
+  }, [quote]);
+
+  const isQuoteDataValid = (quote) => {
     let isErrorFound = false;
 
     if ((quote.origin.match(/,/g) || []).length) {
@@ -82,21 +90,25 @@ export function QuotationGenerator({
     }
 
     if (isValidPhoneNumber(quote.phone)) {
-      setPhone(isValidPhoneNumber(quote.phone));
       setHasPhoneError(false);
     } else {
       isErrorFound = true;
       setHasPhoneError(true);
     }
-
-    return isErrorFound;
+    return !isErrorFound;
   };
 
 
-  const calculateQuote = () => {
-    console.log('Validating quote={}');
-    if (validateInput()) return;
-    console.log(quote);
+  const calculateQuote = async () => {
+    
+    if (isQuoteDataValid(quote)) {
+      setPhone(isValidPhoneNumber(quote.phone));
+      setIsLoadingNewPage(true);
+      await Router.push('/quotation');
+      setIsLoadingNewPage(false);
+    } else {
+      setIsDataSubmitted(true);
+    }
   };
 
   const isValidPhoneNumber = (phone) => (phoneRegex.test(phone) ? phone.replace(phoneRegex, '($1) $2-$3') : null);
@@ -142,7 +154,11 @@ export function QuotationGenerator({
                 placeholder="Pickup Location"
                 icon={<FlagFilled />}
               />
-              {hasOriginError ? <Alert message="Kindly select a valid origin" type="error" /> : <></>}
+              {isDataSubmitted && hasOriginError ? (
+                <Alert message="Kindly select a valid origin" type="error" />
+              ) : (
+                <></>
+              )}
             </Tooltip>
 
             <Tooltip
@@ -155,7 +171,7 @@ export function QuotationGenerator({
                 placeholder="Delivery Location"
                 icon={<FlagOutlined />}
               />
-              {hasDestinationError ? (
+              {isDataSubmitted && hasDestinationError ? (
                 <Alert message="Kindly select a valid delivery destination" type="error" />
               ) : (
                 <></>
@@ -185,7 +201,7 @@ export function QuotationGenerator({
             }
           >
             <SelectedCars />
-            {hasSelectedCarsError ? (
+            {isDataSubmitted && hasSelectedCarsError ? (
               <Alert message="Kindly add a car, select in order Year > Make > Model" type="error" />
             ) : (
               <></>
@@ -228,13 +244,21 @@ export function QuotationGenerator({
                   setPickupDate(date == null ? '' : date.format('YYYY-MM-DD'));
                 }}
               />
-              {hasPickupDateError ? <Alert message="Kindly select a date for vehicle pickup" type="error" /> : <></>}
+              {isDataSubmitted && hasPickupDateError ? (
+                <Alert message="Kindly select a date for vehicle pickup" type="error" />
+              ) : (
+                <></>
+              )}
             </Tooltip>
 
             {quote.pickupDate ? (
               <div>
                 <ClearableInputElement value={quote.name} onChange={setName} placeholder="Name" Icon={UserOutlined} />
-                {hasNameError ? <Alert message="Kindly enter the shipper's name" type="error" /> : <></>}
+                {isDataSubmitted && hasNameError ? (
+                  <Alert message="Kindly enter the shipper's name" type="error" />
+                ) : (
+                  <></>
+                )}
 
                 <ClearableInputElement
                   type="email"
@@ -243,7 +267,11 @@ export function QuotationGenerator({
                   placeholder="Email"
                   Icon={MailOutlined}
                 />
-                {hasEmailError ? <Alert message="Kindly enter a valid email address" type="error" /> : <></>}
+                {isDataSubmitted && hasEmailError ? (
+                  <Alert message="Kindly enter a valid email address" type="error" />
+                ) : (
+                  <></>
+                )}
 
                 <ClearableInputElement
                   type="tel"
@@ -253,12 +281,25 @@ export function QuotationGenerator({
                   Icon={PhoneOutlined}
                 />
 
-                {hasPhoneError ? <Alert message="Kindly enter a valid phone number" type="error" /> : <></>}
+                {isDataSubmitted && hasPhoneError ? (
+                  <Alert message="Kindly enter a valid phone number" type="error" />
+                ) : (
+                  <></>
+                )}
               </div>
             ) : (
               <></>
             )}
           </div>
+
+          {isDataSubmitted && hasQuoteDataError ? (
+            <>
+              <Alert message="Invalid input! Kindly fix the errors highlighted in the form." type="error" />
+              <br/>
+            </>
+          ) : (
+            <></>
+          )}
           <Button onClick={calculateQuote} type="primary" shape="round" size="large" block>
             Calculate Quote <RightOutlined />
           </Button>
@@ -282,6 +323,7 @@ const mapDispatchToProps = (dispatch) => {
     setName: bindActionCreators(setName, dispatch),
     setEmail: bindActionCreators(setEmail, dispatch),
     setPhone: bindActionCreators(setPhone, dispatch),
+    setIsLoadingNewPage: bindActionCreators(setIsLoadingNewPage, dispatch),
   };
 };
 

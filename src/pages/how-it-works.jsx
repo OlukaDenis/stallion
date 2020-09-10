@@ -35,7 +35,7 @@ const HowItWorks = ({t}) => {
                 <h3>Step 1:</h3>
                 <h2>Instant Car Shipping Quote</h2>
                 <p>
-                  Begin by getting an instant quote from our <Link href="/quotation">online car shipping cost calculator</Link>, 
+                  Begin by getting an instant quote from our <Link href="/quotation"><a>online car shipping cost calculator<a></a></a></Link>, 
                   or by speaking with a car shipping specialist at +1 971 248 0579
                 </p>
                 <div className="step-quoting">
