@@ -9,6 +9,7 @@ import { bindActionCreators } from 'redux';
 import { setIsLoadingNewPage } from '../state/ui/action';
 import { connect } from 'react-redux';
 import QuotationGenerator from '../components/QuotationGenerator';
+import Link from 'next/link';
 
 const { Meta } = Card;
 
@@ -221,6 +222,58 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
             <QuotationGenerator />
           </Col>
         </Row>
+
+        <Row justify="center" gutter={[10, 0]}>
+
+        <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{textAlign: 'center' }}>
+          <div className="service-item">
+           
+            <div className="service-item-content">
+              <h1>How it works</h1>
+              <p>Find how Super Stallion makes vehicle shipping easy as 1-2-3</p>
+              <Link href="/how-it-works">
+                <Button type="primary" shape="round" size="medium">
+                  {t('button.learn_more')}
+                </Button>
+              </Link>
+            </div>             
+          </div>
+        </Col>
+
+        <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{textAlign: 'center' }}>
+          <div className="service-item" >
+             
+              <div className="service-item-content">
+                <h1>Shipping Checklist</h1>
+                <p>A list of helpful and good to know tips for you to follow to prepare your vehicle</p>
+                <Link href="/how-it-works">
+                  <Button type="primary" shape="round" size="medium">
+                    {t('button.learn_more')}
+                  </Button>
+                </Link>
+              </div>              
+          
+          </div>
+          </Col>
+
+          <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{textAlign: 'center' }}>
+          <div className="service-item" >
+              
+              <div className="service-item-content">
+                <h1>Our advantage</h1>
+                <p>View the benefits and advantages of shipping with super stallion</p>
+                <Link href="/how-it-works">
+                  <Button type="primary" shape="round" size="medium">
+                    {t('button.learn_more')}
+                  </Button>
+                </Link>
+              </div>              
+            </div>
+          </Col>
+
+            
+
+        </Row>
       </section>
 
       <style jsx>
@@ -248,6 +301,26 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
             margin-top: 20px;
             padding: 20px;
           }
+
+          .service-item {
+            height: 260px;
+            background-color: white;
+            background-size: cover;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .service-item-content {
+            padding: 20px 40px;
+          }
+
+          .service-item-content h1 {
+            font-weight: 900;
+            font-size: 1.5rem;
+          }
+
           @media only screen and (max-width: 576px) {
             .top-section-content {
               padding-right: 1em;

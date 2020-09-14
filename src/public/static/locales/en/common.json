@@ -57,7 +57,39 @@
         "about_us": {},
         "contact_us": {},
         "privacy": {},
-        "terms": {}
+        "terms": {},
+        "how_it_works": {
+            "step_one": {
+                "image": "images/step1.png",
+                "name": "Step 1",
+                "title": "Instant Car Shipping Quote",
+                "info": "Begin by getting an instant quote from our online car shipping cost calculator, or by speaking with a car shipping specialist at +1 971 248 0579",
+                "step_quote": {
+                    "title": "Secure Online Shipment Reservation",
+                    "desc": "Schedule a convenient time for pickup via our secure online booking form or by phone with a shipping agent."
+                }
+            }, 
+            "step_two": {
+                "image": "images/step2.png",
+                "name": "Step 2",
+                "title": "Vehicle Pick Up",
+                "info": "Your shipment will be assigned to the carrier that can best accommodate your route and timeframe. On the day of pickup, your vehicle will be safely loaded and will begin heading to the destination.",
+                "step_quote": {
+                    "title": "Online Shipment Tracking",
+                    "desc": "Track the status of your shipment and get priority support from a live shipping agent with our online transport tracker."
+                }
+            }, 
+            "step_three": {
+                "image": "images/step3.png",
+                "name": "Step 3",
+                "title": "Vehicle Delivery",
+                "info": "Upon arrival at the destination, your vehicle will be safely offloaded. A final inspection is completed and the driver hands over the keys.",
+                "step_quote": {
+                    "title": "That's it! That's all there is to it!",
+                    "desc": "Join the hundreds of thousands of customers that trusted RoadRunner Auto Transport with the safe delivery of their vehicles."
+                }
+            }
+        }
     },
     "button": {
         "theme": {
@@ -69,7 +101,8 @@
         "continue_shopping": "Continue Shopping",
         "add_to_cart": "Add to Cart",
         "remove_in_cart": "Remove in Cart",
-        "read_more": "Read More >"
+        "read_more": "Read More >",
+        "learn_more": "Learn More"
     },
     "menu": {
         "label": {
