@@ -76,12 +76,12 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
                 <div className="data-cell">
                   <p>
                     {Object.keys(quote.cars).map((key) => (
-                      <>
+                      <React.Fragment  key={key}>
                         <span key={key}>
                           {quote.cars[key].year + ' ' + quote.cars[key].make + ' ' + quote.cars[key].model}
                         </span>
                         <br />
-                      </>
+                      </React.Fragment>
                     ))}
                   </p>
                 </div>
