@@ -3,7 +3,7 @@ import BaseLayout from '../components/layout';
 import { withTranslation } from '../utilities/i18n';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Card, Divider, DatePicker, Tooltip, Row, Col, Select, Input, Checkbox } from 'antd';
+import { Card, Divider, DatePicker, Tooltip, Button, Row, Col, Select, Input, Checkbox } from 'antd';
 import { CalendarOutlined, PhoneOutlined, UserOutlined, ShoppingCartOutlined, EnvironmentOutlined, MailOutlined, AimOutlined } from '@ant-design/icons';
 import { QuotationSummary } from '../components/QuotationSummary';
 const inputStyle = {
@@ -508,6 +508,13 @@ export function BookPage({ t, quote, theme }) {
             <PickupLocation quote={quote} theme={theme} />
             <DeliveryLocation quote={quote} theme={theme} />
             <VehicleDetails quote={quote} theme={theme} />
+
+            <div style={{ display: 'flex', justifyContent: 'center'}}>
+              <Button type="primary" shape="round" size="large" style={{width: 400}} >
+               Submit & Continue
+              </Button>
+            </div>
+            
           </Card>
         </Col>
       </Row>
