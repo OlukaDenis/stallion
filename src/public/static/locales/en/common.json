@@ -56,7 +56,18 @@
         "cart": {},
         "about_us": {},
         "contact_us": {},
-        "privacy": {},
+        "privacy": {
+            "headline": "RoadRunner Auto Transport (“RoadRunner”) understands that your privacy is important to you and to us. As part of the normal operation of RoadRunner’s services, we collect and, in some cases, disclose information about you to third parties. This privacy policy (“Privacy Policy”) shows you what information we gather from you and how we protect it. By using this website and the content contained therein (“Site”) and our services, you consent to the terms described in the most recent version of this Privacy Policy. You should also read our Terms of Use to understand the general rules about your use of this Site, and any additional terms that may apply when you access particular services or materials on certain areas of this Site. “We,” “our” means RoadRunner and its affiliates. “You,” “your,” visitor,” or “user” means the individual accessing this site and our services. This Privacy Policy is incorporated into and subject to the terms of the RoadRunner’s Site Terms of Use.",
+            "paragraph1": {
+                "title": "Minors",
+                "desc": "This Site is not directed towards children. If you are a minor (under the age of 18), you can use this service only with the consent of your parents or legal guardians. If you are a minor, please do not submit any personal information to this Site. IF YOU ARE 13 YEARS OR YOUNGER, PLEASE DO NOT USE THIS SITE OR ANY OF ITS SERVICES FOR ANY PURPOSE AT ANY TIME. This Site is not intended for any children under the age of 13."
+            },
+            "paragraph2": {
+                "title": "Your personal information",
+                "desc": "Personal Data is data that identifies you as an individual or relate to an identifiable individual such as your name, address, email address or other information you provide to us when booking our services.",
+            }
+
+        },
         "terms": {},
         "how_it_works": {
             "step_one": {
