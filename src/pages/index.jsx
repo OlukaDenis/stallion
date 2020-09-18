@@ -2,14 +2,13 @@ import { useState } from 'react';
 import BaseLayout from '../components/layout';
 import { Button, Row, Col, Card, Image, Menu, Dropdown  } from 'antd';
 
-import { withTranslation } from '../utilities/i18n';
+import { Link, withTranslation } from '../utilities/i18n';
 import { RightOutlined, } from '@ant-design/icons';
 import PropTypes, { node } from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { setIsLoadingNewPage } from '../state/ui/action';
 import { connect } from 'react-redux';
 import QuotationGenerator from '../components/QuotationGenerator';
-import Link from 'next/link';
 
 const { Meta } = Card;
 
@@ -85,9 +84,11 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
               {t('page.home.subtitle')}
             </h3>
 
-            <Button type="primary" shape="round" size="large">
-              {t('button.quick_order')} <RightOutlined />
-            </Button>
+            <Link href="#Quotation-Generator">
+              <Button type="primary" shape="round" size="large">
+                {t('button.quick_order')} <RightOutlined />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -101,7 +102,9 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
               </Col>
               <Col xs={22} sm={22} md={20} lg={14} xl={14}>
                 <Card>
-                  <h2 className="s-heading" style={{ fontWeight: '900' }}>{t('page.home.our_goal')}</h2>
+                  <h2 className="s-heading" style={{ fontWeight: '900' }}>
+                    {t('page.home.our_goal')}
+                  </h2>
                   <p> {t('page.home.goal_info')}</p>
                   <p>
                     <b>{t('page.home.goal_headline')}</b>
@@ -110,7 +113,7 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
               </Col>
             </Row>
             <Row justify="center" gutter={[0, 30]}>
-              <Col xs={22} sm={22} md={20} lg={22} xl={22}  >
+              <Col xs={22} sm={22} md={20} lg={22} xl={22}>
                 <h2 className="custom-title s-heading">{t('page.home.shipping_steps')}</h2>
                 <Card
                   style={{ width: '100%' }}
@@ -129,12 +132,14 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                 <div className="quote-hero">
                   <div className="quote-hero-overlay">
                     <Row justify="center">
-                      <Col style={{textAlign: 'center'}}>
+                      <Col style={{ textAlign: 'center' }}>
                         <h1 style={{ fontSize: '2.5rem' }}>{t('page.home.quote_hero_title')}</h1>
                         <p style={{ fontSize: '1.1rem', margin: '20px 0' }}>{t('page.home.quote_hero_desc')}</p>
-                        <Button type="primary" shape="round" size="large">
-                          {t('button.quick_order')} <RightOutlined />
-                        </Button>
+                        <Link href="#Quotation-Generator">
+                          <Button type="primary" shape="round" size="large">
+                            {t('button.quick_order')} <RightOutlined />
+                          </Button>
+                        </Link>
                       </Col>
                     </Row>
                   </div>
@@ -143,78 +148,59 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
             </Row>
             <Row justify="center" gutter={[0, 30]}>
               <Col xs={22} sm={22} md={20} lg={22} xl={22}>
-              <h2 className="custom-title s-heading">{t('page.home.advantage.title')}</h2>
-              
+                <h2 className="custom-title s-heading">{t('page.home.advantage.title')}</h2>
+
                 <Card>
                   <Row>
-                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <Card.Grid style={gridStyle}>
-                    <img 
-                      style={advImg}
-                      src="images/advantage/factory.png"
-                    />
-                    <h3 className="advantage-title">{t('page.home.advantage.01.title')}</h3>
-                    <p>{t('page.home.advantage.01.info')}</p>
-                  </Card.Grid>
-                  </Col>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                      <Card.Grid style={gridStyle}>
+                        <img style={advImg} src="images/advantage/factory.png" />
+                        <h3 className="advantage-title">{t('page.home.advantage.01.title')}</h3>
+                        <p>{t('page.home.advantage.01.info')}</p>
+                      </Card.Grid>
+                    </Col>
 
-                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <Card.Grid style={gridStyle}>
-                    <img 
-                        style={advImg}
-                        src="images/advantage/delivery.png"
-                      />
-                    <h3 className="advantage-title">{t('page.home.advantage.02.title')}</h3>
-                    <p>{t('page.home.advantage.02.info')}</p>
-                  </Card.Grid>
-                  </Col>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                      <Card.Grid style={gridStyle}>
+                        <img style={advImg} src="images/advantage/delivery.png" />
+                        <h3 className="advantage-title">{t('page.home.advantage.02.title')}</h3>
+                        <p>{t('page.home.advantage.02.info')}</p>
+                      </Card.Grid>
+                    </Col>
 
-                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <Card.Grid style={gridStyle}>
-                  <img 
-                      style={advImg}
-                      src="images/advantage/car.png"
-                    />
-                    <h3 className="advantage-title">{t('page.home.advantage.03.title')}</h3>
-                    <p>{t('page.home.advantage.03.info')}</p>
-                  </Card.Grid>
-                  </Col>
-                  
-                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <Card.Grid style={gridStyle}>
-                    <img 
-                        style={advImg}
-                        src="images/advantage/credit.png"
-                      />
-                    <h3 className="advantage-title">{t('page.home.advantage.04.title')}</h3>
-                    <p>{t('page.home.advantage.04.info')}</p>
-                  </Card.Grid>
-                  </Col>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                      <Card.Grid style={gridStyle}>
+                        <img style={advImg} src="images/advantage/car.png" />
+                        <h3 className="advantage-title">{t('page.home.advantage.03.title')}</h3>
+                        <p>{t('page.home.advantage.03.info')}</p>
+                      </Card.Grid>
+                    </Col>
 
-                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <Card.Grid style={gridStyle}>
-                    <img 
-                        style={advImg}
-                        src="images/advantage/office.png"
-                      />
-                    <h3 className="advantage-title">{t('page.home.advantage.05.title')}</h3>
-                    <p>{t('page.home.advantage.05.info')}</p>
-                  </Card.Grid>
-                  </Col>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                      <Card.Grid style={gridStyle}>
+                        <img style={advImg} src="images/advantage/credit.png" />
+                        <h3 className="advantage-title">{t('page.home.advantage.04.title')}</h3>
+                        <p>{t('page.home.advantage.04.info')}</p>
+                      </Card.Grid>
+                    </Col>
 
-                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <Card.Grid style={gridStyle}>
-                    <img 
-                     style={advImg}
-                      src="images/advantage/location.png"
-                    />
-                    <h3 className="advantage-title">{t('page.home.advantage.06.title')}</h3>
-                    <p>{t('page.home.advantage.06.info')}</p>
-                  </Card.Grid>
-                  </Col>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                      <Card.Grid style={gridStyle}>
+                        <img style={advImg} src="images/advantage/office.png" />
+                        <h3 className="advantage-title">{t('page.home.advantage.05.title')}</h3>
+                        <p>{t('page.home.advantage.05.info')}</p>
+                      </Card.Grid>
+                    </Col>
+
+                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                      <Card.Grid style={gridStyle}>
+                        <img style={advImg} src="images/advantage/location.png" />
+                        <h3 className="advantage-title">{t('page.home.advantage.06.title')}</h3>
+                        <p>{t('page.home.advantage.06.info')}</p>
+                      </Card.Grid>
+                    </Col>
                   </Row>
                 </Card>
-                
               </Col>
             </Row>
           </Col>
@@ -224,25 +210,22 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
         </Row>
 
         <Row justify="center" gutter={[10, 0]}>
+          <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{ textAlign: 'center' }}>
+            <div className="service-item">
+              <div className="service-item-content">
+                <h1>How it works</h1>
+                <p>Find how Super Stallion makes vehicle shipping easy as 1-2-3</p>
+                <Link href="/how-it-works">
+                  <Button type="primary" shape="round" size="medium">
+                    {t('button.learn_more')}
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </Col>
 
-        <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{textAlign: 'center' }}>
-          <div className="service-item">
-           
-            <div className="service-item-content">
-              <h1>How it works</h1>
-              <p>Find how Super Stallion makes vehicle shipping easy as 1-2-3</p>
-              <Link href="/how-it-works">
-                <Button type="primary" shape="round" size="medium">
-                  {t('button.learn_more')}
-                </Button>
-              </Link>
-            </div>             
-          </div>
-        </Col>
-
-        <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{textAlign: 'center' }}>
-          <div className="service-item" >
-             
+          <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{ textAlign: 'center' }}>
+            <div className="service-item">
               <div className="service-item-content">
                 <h1>Shipping Checklist</h1>
                 <p>A list of helpful and good to know tips for you to follow to prepare your vehicle</p>
@@ -251,14 +234,12 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                     {t('button.learn_more')}
                   </Button>
                 </Link>
-              </div>              
-          
-          </div>
+              </div>
+            </div>
           </Col>
 
-          <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{textAlign: 'center' }}>
-          <div className="service-item" >
-              
+          <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{ textAlign: 'center' }}>
+            <div className="service-item">
               <div className="service-item-content">
                 <h1>Our advantage</h1>
                 <p>View the benefits and advantages of shipping with super stallion</p>
@@ -267,12 +248,9 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                     {t('button.learn_more')}
                   </Button>
                 </Link>
-              </div>              
+              </div>
             </div>
           </Col>
-
-            
-
         </Row>
       </section>
 
