@@ -108,17 +108,19 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
               <div className="detail-item">
                 <div className="label-cell">
                   $
-                  {Number(Object.keys(quote.cars).reduce(
-                    (total, key) =>
-                      total +
-                      calculateShippingRate(
-                        quote.distance,
-                        quote.cars[key].isTruck,
-                        quote.cars[key].isOperable,
-                        quote.cars[key].hasKeys
-                      ),
-                    0
-                  )).toFixed(2)}
+                  {Number(
+                    Object.keys(quote.cars).reduce(
+                      (total, key) =>
+                        total +
+                        calculateShippingRate(
+                          quote.distance,
+                          quote.cars[key].isTruck,
+                          quote.cars[key].isOperable,
+                          quote.cars[key].hasKeys
+                        ),
+                      0
+                    )
+                  ).toFixed(2)}
                 </div>
                 <div className="data-cell">
                   <List
@@ -141,10 +143,16 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
                   />
                 </div>
               </div>
+              <br />
+              <Button onClick={proceedToBook} type="primary" shape="round" size="large">
+                Continue & Book Shipment <RightOutlined />
+              </Button>
+              <br />
+              <img src="/images/credit_cards.png" className="payment-options" />
             </div>
           </div>
 
-          <div className={isLightMode ? 'quotation_section' : 'quotation_section quotation_section_dark'}>
+          {/* <div className={isLightMode ? 'quotation_section' : 'quotation_section quotation_section_dark'}>
             <span
               className={
                 isLightMode ? 'quotation_section--title' : 'quotation_section--title quotation_section--title_dark'
@@ -195,7 +203,7 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
               <br />
               <img src="/images/credit_cards.png" className="payment-options" />
             </div>
-          </div>
+          </div> */}
         </div>
       </Col>
       <Col xs={22} sm={20} md={11} lg={10} xl={10}>
@@ -213,7 +221,8 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
           .quotation-details-summary {
             margin: -1rem;
           }
-          .quotation-optional-services {
+          .quotation-optional-services,
+          .quotation-details-summary {
             padding-bottom: 10px;
           }
           .quotation-optional-services .header-item,
