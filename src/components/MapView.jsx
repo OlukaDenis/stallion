@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withTranslation } from '../utilities/i18n';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import Axios from 'axios';
 import { bindActionCreators } from 'redux';
 import {
@@ -136,11 +136,13 @@ const MapView = ({
       if (!response || !response.data || response.data.code != 'Ok') return;
       const data = response.data;
 
-      setDistance(data.routes[0].distance);
+      setDistance(convertMetersToMiles(data.routes[0].distance));
       setDuration(data.routes[0].duration);
       drawRoute(data.routes[0].geometry.coordinates);
     });
   };
+
+  const convertMetersToMiles = (meters) => Number(Number((meters / 1000) / 1.609344).toFixed(2))
 
   useEffect(() => {
     (async () => {

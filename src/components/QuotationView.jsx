@@ -13,6 +13,7 @@ import {
 import MapView from './MapView';
 import { setIsLoadingNewPage } from '../state/ui/action';
 import { bindActionCreators } from 'redux';
+import { calculateTotalShippingRate } from '../utilities/calculate_shipping_rate';
 
 const { Step } = Steps;
 
@@ -76,7 +77,7 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
                 <div className="data-cell">
                   <p>
                     {Object.keys(quote.cars).map((key) => (
-                      <React.Fragment  key={key}>
+                      <React.Fragment key={key}>
                         <span key={key}>
                           {quote.cars[key].year + ' ' + quote.cars[key].make + ' ' + quote.cars[key].model}
                         </span>
@@ -105,7 +106,25 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
           >
             <div className="quotation-details-summary">
               <div className="detail-item">
-                <div className="label-cell">$1,965</div>
+                <div className="label-cell">
+                  $
+                  {
+                    calculateTotalShippingRate(quote)
+                  // Number(
+                  //   Object.keys(quote.cars).reduce(
+                  //     (total, key) =>
+                  //       total +
+                  //       calculateShippingRate(
+                  //         quote.distance,
+                  //         quote.cars[key].isTruck,
+                  //         quote.cars[key].isOperable,
+                  //         quote.cars[key].hasKeys
+                  //       ),
+                  //     0
+                  //   )
+                  // ).toFixed(2)
+                  }
+                </div>
                 <div className="data-cell">
                   <List
                     grid={{
@@ -127,10 +146,16 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
                   />
                 </div>
               </div>
+              <br />
+              <Button onClick={proceedToBook} type="primary" shape="round" size="large">
+                Continue & Book Shipment <RightOutlined />
+              </Button>
+              <br />
+              <img src="/images/credit_cards.png" className="payment-options" />
             </div>
           </div>
 
-          <div className={isLightMode ? 'quotation_section' : 'quotation_section quotation_section_dark'}>
+          {/* <div className={isLightMode ? 'quotation_section' : 'quotation_section quotation_section_dark'}>
             <span
               className={
                 isLightMode ? 'quotation_section--title' : 'quotation_section--title quotation_section--title_dark'
@@ -181,7 +206,7 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
               <br />
               <img src="/images/credit_cards.png" className="payment-options" />
             </div>
-          </div>
+          </div> */}
         </div>
       </Col>
       <Col xs={22} sm={20} md={11} lg={10} xl={10}>
@@ -199,7 +224,8 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
           .quotation-details-summary {
             margin: -1rem;
           }
-          .quotation-optional-services {
+          .quotation-optional-services,
+          .quotation-details-summary {
             padding-bottom: 10px;
           }
           .quotation-optional-services .header-item,

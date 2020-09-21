@@ -10,6 +10,8 @@ import ClearableInputElement from './ClearableInputElement';
 import SelectedCars from './SelectedCars';
 import { useState, useEffect } from 'react';
 import { setIsLoadingNewPage } from '../state/ui/action';
+import { isValidPhoneNumber, isValidEmail } from '../utilities/data_validators';
+import useIsValidQuoteData, { useIsValidDestination, useIsValidEmail, useIsValidName, useIsValidOrigin, useIsValidPhoneNumber, useIsValidPickupDate, useIsValidSelectedCars } from '../hooks/QuoteDataValidation';
 
 export function QuotationGenerator({
   theme,
@@ -22,86 +24,24 @@ export function QuotationGenerator({
   setPhone,
   setIsLoadingNewPage
 }) {
-
-
-  const [hasOriginError, setHasOriginError] = useState(false);
-  const [hasDestinationError, setHasDestinationError] = useState(false);
-
-  const [hasSelectedCarsError, setHasSelectedCarsError] = useState(false);
   
-  const [hasPickupDateError, setHasPickupDateError] = useState(false);
-  const [hasNameError, setHasNameError] = useState(false);
-  const [hasPhoneError, setHasPhoneError] = useState(false);
-  const [hasEmailError, setHasEmailError] = useState(false);
-  const [hasQuoteDataError, setHasQuoteDataError] = useState(false);
+  const hasOriginError = !useIsValidOrigin(quote.origin);
+  const hasDestinationError = !useIsValidDestination(quote.destination);
+  const hasSelectedCarsError = !useIsValidSelectedCars(quote.cars);
+  const hasPickupDateError = !useIsValidPickupDate(quote.pickupDate);
+  const hasNameError = !useIsValidName(quote.name);
+  const hasPhoneError = !useIsValidPhoneNumber(quote.phone);
+  const hasEmailError = !useIsValidEmail(quote.email);
+
+  const hasQuoteDataError = !useIsValidQuoteData(quote);
+  
   const [isDataSubmitted, setIsDataSubmitted] = useState(false);
 
   const isLightMode = theme === 'light';
-  const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-  const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-  useEffect(() => {
-    setHasQuoteDataError(!isQuoteDataValid(quote));
-  }, [quote]);
-
-  const isQuoteDataValid = (quote) => {
-    let isErrorFound = false;
-
-    if ((quote.origin.match(/,/g) || []).length) {
-      setHasOriginError(false);
-    } else {
-      isErrorFound = true;
-      setHasOriginError(true);
-    }
-
-    if ((quote.destination.match(/,/g) || []).length) {
-      setHasDestinationError(false);
-    } else {
-      isErrorFound = true;
-      setHasDestinationError(true);
-    }
-
-    if (Object.keys(quote.cars).length > 0) {
-      setHasSelectedCarsError(false);
-    } else {
-      isErrorFound = true;
-      setHasSelectedCarsError(true);
-    }
-
-    if (quote.pickupDate) {
-      setHasPickupDateError(false);
-    } else {
-      isErrorFound = true;
-      setHasPickupDateError(true);
-    }
-
-    if (quote.name) {
-      setHasNameError(false);
-    } else {
-      isErrorFound = true;
-      setHasNameError(true);
-    }
-
-    if (isValidEmail(quote.email)) {
-      setHasEmailError(false);
-    } else {
-      isErrorFound = true;
-      setHasEmailError(true);
-    }
-
-    if (isValidPhoneNumber(quote.phone)) {
-      setHasPhoneError(false);
-    } else {
-      isErrorFound = true;
-      setHasPhoneError(true);
-    }
-    return !isErrorFound;
-  };
-
 
   const calculateQuote = async () => {
     
-    if (isQuoteDataValid(quote)) {
+    if (!hasQuoteDataError) {
       setPhone(isValidPhoneNumber(quote.phone));
       setIsLoadingNewPage(true);
       await Router.push('/quotation');
@@ -111,12 +51,9 @@ export function QuotationGenerator({
     }
   };
 
-  const isValidPhoneNumber = (phone) => (phoneRegex.test(phone) ? phone.replace(phoneRegex, '($1) $2-$3') : null);
-  const isValidEmail = (email) => (emailRegex.test(email) ? email : null);
-
   return (
     <>
-      <div className={isLightMode ? 'quotation' : 'quotation quotation_dark'}>
+      <div id="Quotation-Generator" className={isLightMode ? 'quotation' : 'quotation quotation_dark'}>
         <div className={isLightMode ? 'quotation_header' : 'quotation_header quotation_header_dark'}>
           <h3>Instant Car Shipping Quote</h3>
           <p>Calculate your car shipping rate in 3 easy steps!</p>
@@ -295,7 +232,7 @@ export function QuotationGenerator({
           {isDataSubmitted && hasQuoteDataError ? (
             <>
               <Alert message="Invalid input! Kindly fix the errors highlighted in the form." type="error" />
-              <br/>
+              <br />
             </>
           ) : (
             <></>

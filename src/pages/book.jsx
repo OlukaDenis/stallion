@@ -426,7 +426,7 @@ const ShipmentDetails = ({ quote, theme }) => {
   
   return (
     <>
-      <SectionHeader theme={theme} title="Total Shipping Rate" />
+      <SectionHeader theme={theme} title="Shipment Details" />
       <div
         className={
           isLightMode ? 'quotation_input-container' : 'quotation_input-container quotation_input-container_dark'
@@ -434,41 +434,38 @@ const ShipmentDetails = ({ quote, theme }) => {
       >
         <div className="quotation-details-summary">
           <div className="detail-item">
-
             <Row gutter={[16, 16]}>
               <Col xs={24} sm={24} md={12} lg={12}>
-                  <Tooltip
+                <Tooltip
                   trigger={['click', 'hover']}
                   title="Select the date when your shipment will be available for pickup"
                 >
-                    <DatePicker
-                      placeholder="Ship Date"
-                      size="large"
-                      style={{ width: '100%', height: 45 }}
-                      disabledDate={(moment) => moment.isBefore(new Date())}
-                      showToday={true}
-                      onChange={(date) => {
-                        setPickupDate(date == null ? '' : date.format('YYYY-MM-DD'));
-                      }}
-                    />
-                
+                  <DatePicker
+                    placeholder="Ship Date"
+                    size="large"
+                    style={{ width: '100%', height: 45 }}
+                    disabledDate={(moment) => moment.isBefore(new Date())}
+                    showToday={true}
+                    onChange={(date) => {
+                      setPickupDate(date == null ? '' : date.format('YYYY-MM-DD'));
+                    }}
+                  />
                 </Tooltip>
-
               </Col>
               <Col xs={24} sm={24} md={12} lg={12}>
-                <Tooltip
-                rigger={['click', 'hover']}
-                title="Select how your vehicle is to be shipped, open or enclosed"
-                  >
-                <Select defaultValue="standard"  style={{ width: '100%' }} >
-                  <Option value="standard">Open/Standard</Option>
-                  <Option value="top">Open/Top Load[+$198]</Option>
-                  <Option value="enclosed">Enclosed[+2,162]</Option>
-                </Select>
+                <Tooltip rigger={['click', 'hover']} title="Select how your vehicle is to be shipped, open or enclosed">
+                  <Select defaultValue="standard" style={{ width: '100%' }}>
+                    <Option value="standard">Open/Standard</Option>
+                    <Option disabled value="top">
+                      Open/Top Load[+$198]
+                    </Option>
+                    <Option disabled value="enclosed">
+                      Enclosed[+2,162]
+                    </Option>
+                  </Select>
                 </Tooltip>
               </Col>
-            </Row>       
-            
+            </Row>
           </div>
         </div>
       </div>

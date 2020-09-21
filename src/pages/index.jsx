@@ -2,14 +2,13 @@ import { useState } from 'react';
 import BaseLayout from '../components/layout';
 import { Button, Row, Col, Card, Image, Menu, Dropdown  } from 'antd';
 
-import { withTranslation } from '../utilities/i18n';
+import { Link, withTranslation } from '../utilities/i18n';
 import { RightOutlined, } from '@ant-design/icons';
 import PropTypes, { node } from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { setIsLoadingNewPage } from '../state/ui/action';
 import { connect } from 'react-redux';
 import QuotationGenerator from '../components/QuotationGenerator';
-import Link from 'next/link';
 
 const { Meta } = Card;
 
@@ -85,9 +84,11 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
               {t('page.home.subtitle')}
             </h3>
 
-            <Button type="primary" shape="round" size="large">
-              {t('button.quick_order')} <RightOutlined />
-            </Button>
+            <Link href="#Quotation-Generator">
+              <Button type="primary" shape="round" size="large">
+                {t('button.quick_order')} <RightOutlined />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -129,12 +130,14 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                 <div className="quote-hero">
                   <div className="quote-hero-overlay">
                     <Row justify="center">
-                      <Col style={{textAlign: 'center'}}>
+                      <Col style={{ textAlign: 'center' }}>
                         <h1 style={{ fontSize: '2.5rem' }}>{t('page.home.quote_hero_title')}</h1>
                         <p style={{ fontSize: '1.1rem', margin: '20px 0' }}>{t('page.home.quote_hero_desc')}</p>
-                        <Button type="primary" shape="round" size="large">
-                          {t('button.quick_order')} <RightOutlined />
-                        </Button>
+                        <Link href="#Quotation-Generator">
+                          <Button type="primary" shape="round" size="large">
+                            {t('button.quick_order')} <RightOutlined />
+                          </Button>
+                        </Link>
                       </Col>
                     </Row>
                   </div>
@@ -257,9 +260,8 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
             </div>
             </Col>
 
-          <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{textAlign: 'center' }}>
-          <div className="service-item" >
-              
+          <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{ textAlign: 'center' }}>
+            <div className="service-item">
               <div className="service-item-content">
                 <h1>Our advantage</h1>
                 <p>View the benefits and advantages of shipping with super stallion</p>
@@ -268,10 +270,9 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                     {t('button.learn_more')}
                   </Button>
                 </Link>
-              </div>              
+              </div>
             </div>
           </Col>
-
         </Row>
       </section>
 
