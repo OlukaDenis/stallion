@@ -13,11 +13,14 @@ import {
 import MapView from './MapView';
 import { setIsLoadingNewPage } from '../state/ui/action';
 import { bindActionCreators } from 'redux';
+import calculateShippingRate from '../utilities/calculate_shipping_rate';
 
 const { Step } = Steps;
 
 const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
   const isLightMode = theme === 'light';
+
+  console.log(quote);
 
   const proceedToBook = async () => {
     setIsLoadingNewPage(true);
@@ -76,7 +79,7 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
                 <div className="data-cell">
                   <p>
                     {Object.keys(quote.cars).map((key) => (
-                      <React.Fragment  key={key}>
+                      <React.Fragment key={key}>
                         <span key={key}>
                           {quote.cars[key].year + ' ' + quote.cars[key].make + ' ' + quote.cars[key].model}
                         </span>
@@ -105,7 +108,20 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
           >
             <div className="quotation-details-summary">
               <div className="detail-item">
-                <div className="label-cell">$1,965</div>
+                <div className="label-cell">
+                  $
+                  {Number(Object.keys(quote.cars).reduce(
+                    (key, total) =>
+                      total +
+                      calculateShippingRate(
+                        quote.distance,
+                        quote.cars[key].isTruck,
+                        quote.cars[key].isOperable,
+                        quote.cars[key].hasKeys
+                      ),
+                    0
+                  )).toFixed(2)}
+                </div>
                 <div className="data-cell">
                   <List
                     grid={{
