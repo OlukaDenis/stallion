@@ -1,5 +1,5 @@
 const calculateShippingRate = (miles, isTruck, isOperable, hasKeys) => {
-  console.log('calculateShippingRate: ', miles, isTruck, isOperable, hasKeys);
+  
   const REQUIRES_WINCH = !isOperable || !hasKeys;
   const TIER_ONE_BASE_RATE = 1;
   const TIER_TWO_BASE_RATE = 0.95;

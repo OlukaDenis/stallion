@@ -20,8 +20,6 @@ const { Step } = Steps;
 const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
   const isLightMode = theme === 'light';
 
-  console.log(quote);
-
   const proceedToBook = async () => {
     setIsLoadingNewPage(true);
     await Router.push('/book');
