@@ -1,3 +1,5 @@
+import { calculateTotalShippingRate } from '../utilities/calculate_shipping_rate';
+
 export function QuotationSummary({ quote, theme }) {
   return (
     <div className="quotation-summary">
@@ -11,7 +13,7 @@ export function QuotationSummary({ quote, theme }) {
         <div className="item-cell cell-1">909090</div>
         <div className="item-cell cell-2">{quote.origin}</div>
         <div className="item-cell cell-3">{quote.destination}</div>
-        <div className="item-cell cell-4">$1,965</div>
+        <div className="item-cell cell-4">${calculateTotalShippingRate(quote)}</div>
       </div>
       <style jsx>
         {`
