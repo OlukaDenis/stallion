@@ -96,21 +96,21 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
         <Row gutter={[16, 16]} justify="center">
           <Col xs={24} sm={24} md={12} lg={14} xl={16}>
             <Row justify="center" gutter={[0, 30]}>
-              <Col xs={22} sm={22} md={20} lg={8} xl={8}>
+              <Col xs={24} sm={24} md={22} lg={8} xl={8}>
                 <img alt="image" src="/images/image2.jpg" style={imgStyle} />
               </Col>
-              <Col xs={22} sm={22} md={20} lg={14} xl={14}>
-                <Card>
-                  <h2 className="s-heading" style={{ fontWeight: '900' }}>{t('page.home.our_goal')}</h2>
-                  <p> {t('page.home.goal_info')}</p>
-                  <p>
-                    <b>{t('page.home.goal_headline')}</b>
-                  </p>
-                </Card>
-              </Col>
+              <Col xs={24} sm={24} md={22} lg={16} xl={16}>
+              <Card>
+                <h2 className="s-heading" style={{ fontWeight: '900' }}>{t('page.home.our_goal')}</h2>
+                <p> {t('page.home.goal_info')}</p>
+                <p>
+                  <b>{t('page.home.goal_headline')}</b>
+                </p>
+              </Card>
+        </Col>
             </Row>
             <Row justify="center" gutter={[0, 30]}>
-              <Col xs={22} sm={22} md={20} lg={22} xl={22}  >
+              <Col xs={24} sm={24} md={24} lg={24} xl={24}  >
                 <h2 className="custom-title s-heading">{t('page.home.shipping_steps')}</h2>
                 <Card
                   style={{ width: '100%' }}
@@ -125,7 +125,7 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
               </Col>
             </Row>
             <Row justify="center" gutter={[0, 30]}>
-              <Col xs={22} sm={22} md={20} lg={22} xl={22}>
+              <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                 <div className="quote-hero">
                   <div className="quote-hero-overlay">
                     <Row justify="center">
@@ -141,91 +141,92 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
                 </div>
               </Col>
             </Row>
-            <Row justify="center" gutter={[0, 30]}>
-              <Col xs={22} sm={22} md={20} lg={22} xl={22}>
-              <h2 className="custom-title s-heading">{t('page.home.advantage.title')}</h2>
-              
-                <Card>
-                  <Row>
-                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <Card.Grid style={gridStyle}>
-                    <img 
-                      style={advImg}
-                      src="images/advantage/factory.png"
-                    />
-                    <h3 className="advantage-title">{t('page.home.advantage.01.title')}</h3>
-                    <p>{t('page.home.advantage.01.info')}</p>
-                  </Card.Grid>
-                  </Col>
-
-                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <Card.Grid style={gridStyle}>
-                    <img 
-                        style={advImg}
-                        src="images/advantage/delivery.png"
-                      />
-                    <h3 className="advantage-title">{t('page.home.advantage.02.title')}</h3>
-                    <p>{t('page.home.advantage.02.info')}</p>
-                  </Card.Grid>
-                  </Col>
-
-                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <Card.Grid style={gridStyle}>
-                  <img 
-                      style={advImg}
-                      src="images/advantage/car.png"
-                    />
-                    <h3 className="advantage-title">{t('page.home.advantage.03.title')}</h3>
-                    <p>{t('page.home.advantage.03.info')}</p>
-                  </Card.Grid>
-                  </Col>
-                  
-                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <Card.Grid style={gridStyle}>
-                    <img 
-                        style={advImg}
-                        src="images/advantage/credit.png"
-                      />
-                    <h3 className="advantage-title">{t('page.home.advantage.04.title')}</h3>
-                    <p>{t('page.home.advantage.04.info')}</p>
-                  </Card.Grid>
-                  </Col>
-
-                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <Card.Grid style={gridStyle}>
-                    <img 
-                        style={advImg}
-                        src="images/advantage/office.png"
-                      />
-                    <h3 className="advantage-title">{t('page.home.advantage.05.title')}</h3>
-                    <p>{t('page.home.advantage.05.info')}</p>
-                  </Card.Grid>
-                  </Col>
-
-                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  <Card.Grid style={gridStyle}>
-                    <img 
-                     style={advImg}
-                      src="images/advantage/location.png"
-                    />
-                    <h3 className="advantage-title">{t('page.home.advantage.06.title')}</h3>
-                    <p>{t('page.home.advantage.06.info')}</p>
-                  </Card.Grid>
-                  </Col>
-                  </Row>
-                </Card>
-                
-              </Col>
-            </Row>
+           
           </Col>
           <Col xs={22} sm={22} md={10} lg={8} xl={6}>
             <QuotationGenerator />
           </Col>
         </Row>
 
-        <Row justify="center" gutter={[10, 0]}>
+        <Row justify="center" gutter={[0, 30]}>
+            <Col xs={22} sm={22} md={20} lg={22} xl={22}>
+            <h2 className="custom-title s-heading">{t('page.home.advantage.title')}</h2>
+            
+              <Card>
+                <Row>
+                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <Card.Grid style={gridStyle}>
+                  <img 
+                    style={advImg}
+                    src="images/advantage/factory.png"
+                  />
+                  <h3 className="advantage-title">{t('page.home.advantage.01.title')}</h3>
+                  <p>{t('page.home.advantage.01.info')}</p>
+                </Card.Grid>
+                </Col>
 
-        <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{textAlign: 'center' }}>
+                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <Card.Grid style={gridStyle}>
+                  <img 
+                      style={advImg}
+                      src="images/advantage/delivery.png"
+                    />
+                  <h3 className="advantage-title">{t('page.home.advantage.02.title')}</h3>
+                  <p>{t('page.home.advantage.02.info')}</p>
+                </Card.Grid>
+                </Col>
+
+                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <Card.Grid style={gridStyle}>
+                <img 
+                    style={advImg}
+                    src="images/advantage/car.png"
+                  />
+                  <h3 className="advantage-title">{t('page.home.advantage.03.title')}</h3>
+                  <p>{t('page.home.advantage.03.info')}</p>
+                </Card.Grid>
+                </Col>
+                
+                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <Card.Grid style={gridStyle}>
+                  <img 
+                      style={advImg}
+                      src="images/advantage/credit.png"
+                    />
+                  <h3 className="advantage-title">{t('page.home.advantage.04.title')}</h3>
+                  <p>{t('page.home.advantage.04.info')}</p>
+                </Card.Grid>
+                </Col>
+
+                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <Card.Grid style={gridStyle}>
+                  <img 
+                      style={advImg}
+                      src="images/advantage/office.png"
+                    />
+                  <h3 className="advantage-title">{t('page.home.advantage.05.title')}</h3>
+                  <p>{t('page.home.advantage.05.info')}</p>
+                </Card.Grid>
+                </Col>
+
+                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <Card.Grid style={gridStyle}>
+                  <img 
+                    style={advImg}
+                    src="images/advantage/location.png"
+                  />
+                  <h3 className="advantage-title">{t('page.home.advantage.06.title')}</h3>
+                  <p>{t('page.home.advantage.06.info')}</p>
+                </Card.Grid>
+                </Col>
+                </Row>
+              </Card>
+              
+            </Col>
+          </Row>
+        
+        <Row justify="center" gutter={[10, 0]}>
+          <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{textAlign: 'center' }}>
           <div className="service-item">
            
             <div className="service-item-content">
@@ -240,21 +241,21 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
           </div>
         </Col>
 
-        <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{textAlign: 'center' }}>
-          <div className="service-item" >
-             
-              <div className="service-item-content">
-                <h1>Shipping Checklist</h1>
-                <p>A list of helpful and good to know tips for you to follow to prepare your vehicle</p>
-                <Link href="/how-it-works">
-                  <Button type="primary" shape="round" size="medium">
-                    {t('button.learn_more')}
-                  </Button>
-                </Link>
-              </div>              
-          
-          </div>
-          </Col>
+          <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{textAlign: 'center' }}>
+            <div className="service-item" >
+              
+                <div className="service-item-content">
+                  <h1>Shipping Checklist</h1>
+                  <p>A list of helpful and good to know tips for you to follow to prepare your vehicle</p>
+                  <Link href="/how-it-works">
+                    <Button type="primary" shape="round" size="medium">
+                      {t('button.learn_more')}
+                    </Button>
+                  </Link>
+                </div>              
+            
+            </div>
+            </Col>
 
           <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{textAlign: 'center' }}>
           <div className="service-item" >
@@ -270,8 +271,6 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
               </div>              
             </div>
           </Col>
-
-            
 
         </Row>
       </section>

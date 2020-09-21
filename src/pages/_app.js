@@ -419,7 +419,6 @@ const MyApp = ({ Component, pageProps }) => {
             border-top: 0;
             padding: 1rem;
             margin-bottom: 1rem;
-            color: white;
           }
           .quotation_input-container_dark {
             background: #f0f0f0;

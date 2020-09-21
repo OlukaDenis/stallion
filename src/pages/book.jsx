@@ -22,8 +22,7 @@ const SectionHeader = ({ theme, title }) => {
       <style jsx global>
         {`
           .shipment-details {
-            background: #f86942;
-            color: white;
+            background: rgba(248,105,66,0.3);
             padding: 0.2rem 1.4rem;
             display: flex;
             box-sizing: border-box;
