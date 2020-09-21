@@ -25,13 +25,13 @@ export function QuotationGenerator({
   setIsLoadingNewPage
 }) {
   
-  const hasOriginError = useIsValidOrigin(quote.origin);
-  const hasDestinationError = useIsValidDestination(quote.destination);
-  const hasSelectedCarsError = useIsValidSelectedCars(quote.cars);
-  const hasPickupDateError = useIsValidPickupDate(quote.pickupDate);
-  const hasNameError = useIsValidName(quote.name);
-  const hasPhoneError = useIsValidPhoneNumber(quote.phone);
-  const hasEmailError = useIsValidEmail(quote.email);
+  const hasOriginError = !useIsValidOrigin(quote.origin);
+  const hasDestinationError = !useIsValidDestination(quote.destination);
+  const hasSelectedCarsError = !useIsValidSelectedCars(quote.cars);
+  const hasPickupDateError = !useIsValidPickupDate(quote.pickupDate);
+  const hasNameError = !useIsValidName(quote.name);
+  const hasPhoneError = !useIsValidPhoneNumber(quote.phone);
+  const hasEmailError = !useIsValidEmail(quote.email);
 
   const hasQuoteDataError = !useIsValidQuoteData(quote);
   

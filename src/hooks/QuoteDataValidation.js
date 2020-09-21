@@ -5,10 +5,10 @@ export const useIsValidOrigin = (origin) => {
     
     const [hasOriginError, setHasOriginError] = useState(false);
 
-    if ((origin.match(/,/g) || []).length) {
-        setHasOriginError(false);
-    } else if (!hasOriginError)  {
-        setHasOriginError(true);
+    if (hasOriginError && (origin.match(/,/g) || []).length) {
+      setHasOriginError(false);
+    } else if (!hasOriginError && !(origin.match(/,/g) || []).length) {
+      setHasOriginError(true);
     }
 
     return !hasOriginError;
@@ -16,11 +16,10 @@ export const useIsValidOrigin = (origin) => {
 
 export const useIsValidDestination = (destination) => {
     const [hasDestinationError, setHasDestinationError] = useState(false);
-    if ((destination.match(/,/g) || []).length) {
-        setHasDestinationError(false);
-    } else if (!hasDestinationError) {
-
-        setHasDestinationError(true);
+    if (hasDestinationError && (destination.match(/,/g) || []).length) {
+      setHasDestinationError(false);
+    } else if (!hasDestinationError && !(destination.match(/,/g) || []).length) {
+      setHasDestinationError(true);
     }
     return !hasDestinationError;
 }
@@ -28,32 +27,31 @@ export const useIsValidDestination = (destination) => {
 export const useIsValidSelectedCars = (cars) => {
     const [hasSelectedCarsError, setHasSelectedCarsError] = useState(false);
 
-    if (Object.keys(cars).length > 0) {
-        setHasSelectedCarsError(false);
-    } else if (!hasSelectedCarsError) {
-
-        setHasSelectedCarsError(true);
+    if (hasSelectedCarsError && Object.keys(cars).length > 0) {
+      setHasSelectedCarsError(false);
+    } else if (!hasSelectedCarsError && Object.keys(cars).length < 1) {
+      setHasSelectedCarsError(true);
     }
     return !hasSelectedCarsError;
 }
+
 export const useIsValidPickupDate = (pickupDate) => {
     const [hasPickupDateError, setHasPickupDateError] = useState(false);
 
-    if (pickupDate) {
-        setHasPickupDateError(false);
-    } else if (!hasPickupDateError) {
-
-        setHasPickupDateError(true);
+    if (hasPickupDateError && pickupDate) {
+      setHasPickupDateError(false);
+    } else if (!hasPickupDateError && !pickupDate) {
+      setHasPickupDateError(true);
     }
     return !hasPickupDateError;
 }
 
 export const useIsValidName = (name) => {
     const [hasNameError, setHasNameError] = useState(false);
-    if (name) {
-        setHasNameError(false);
-    } else if (!hasNameError) {
-        setHasNameError(true);
+    if (hasNameError && name) {
+      setHasNameError(false);
+    } else if (!hasNameError && !name) {
+      setHasNameError(true);
     }
     return !hasNameError;
 }
@@ -62,20 +60,20 @@ export const useIsValidEmail = (email) => {
 
     const [hasEmailError, setHasEmailError] = useState(false);
 
-    if (isValidEmail(email)) {
-        setHasEmailError(false);
-    } else if (!hasEmailError) {
-        setHasEmailError(true);
+    if (hasEmailError && isValidEmail(email)) {
+      setHasEmailError(false);
+    } else if (!hasEmailError && !isValidEmail(email)) {
+      setHasEmailError(true);
     }
     return !hasEmailError;
 }
 
 export const useIsValidPhoneNumber = (phone) => {
     const [hasPhoneError, setHasPhoneError] = useState(false);
-    if (isValidPhoneNumber(phone)) {
-        setHasPhoneError(false);
-    } else if (!hasPhoneError) {
-        setHasPhoneError(true);
+    if (hasPhoneError && isValidPhoneNumber(phone)) {
+      setHasPhoneError(false);
+    } else if (!hasPhoneError && !isValidPhoneNumber(phone)) {
+      setHasPhoneError(true);
     }
     return !hasPhoneError;
 }
