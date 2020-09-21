@@ -13,7 +13,7 @@ import {
 import MapView from './MapView';
 import { setIsLoadingNewPage } from '../state/ui/action';
 import { bindActionCreators } from 'redux';
-import calculateShippingRate from '../utilities/calculate_shipping_rate';
+import { calculateTotalShippingRate } from '../utilities/calculate_shipping_rate';
 
 const { Step } = Steps;
 
@@ -108,19 +108,22 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
               <div className="detail-item">
                 <div className="label-cell">
                   $
-                  {Number(
-                    Object.keys(quote.cars).reduce(
-                      (total, key) =>
-                        total +
-                        calculateShippingRate(
-                          quote.distance,
-                          quote.cars[key].isTruck,
-                          quote.cars[key].isOperable,
-                          quote.cars[key].hasKeys
-                        ),
-                      0
-                    )
-                  ).toFixed(2)}
+                  {
+                    calculateTotalShippingRate(quote)
+                  // Number(
+                  //   Object.keys(quote.cars).reduce(
+                  //     (total, key) =>
+                  //       total +
+                  //       calculateShippingRate(
+                  //         quote.distance,
+                  //         quote.cars[key].isTruck,
+                  //         quote.cars[key].isOperable,
+                  //         quote.cars[key].hasKeys
+                  //       ),
+                  //     0
+                  //   )
+                  // ).toFixed(2)
+                  }
                 </div>
                 <div className="data-cell">
                   <List
