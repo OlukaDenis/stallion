@@ -1,5 +1,4 @@
 const calculateShippingRate = (miles, isTruck, isOperable, hasKeys) => {
-  
   const REQUIRES_WINCH = !isOperable || !hasKeys;
   const TIER_ONE_BASE_RATE = 1;
   const TIER_TWO_BASE_RATE = 0.95;
@@ -36,3 +35,19 @@ const calculateShippingRate = (miles, isTruck, isOperable, hasKeys) => {
 };
 
 export default calculateShippingRate;
+
+export function calculateTotalShippingRate(quote) {
+  return Number(
+    Object.keys(quote.cars).reduce(
+      (total, key) =>
+        total +
+        calculateShippingRate(
+          quote.distance,
+          quote.cars[key].isTruck,
+          quote.cars[key].isOperable,
+          quote.cars[key].hasKeys
+        ),
+      0
+    )
+  ).toFixed(2);
+}
