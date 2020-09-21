@@ -1,4 +1,5 @@
-export default calculate_rate = (miles, isPickup, isOperable, hasKeys) => {
+const calculateShippingRate = (miles, isTruck, isOperable, hasKeys) => {
+  console.log('calculateShippingRate: ', miles, isTruck, isOperable, hasKeys);
   const REQUIRES_WINCH = !isOperable || !hasKeys;
   const TIER_ONE_BASE_RATE = 1;
   const TIER_TWO_BASE_RATE = 0.95;
@@ -23,7 +24,7 @@ export default calculate_rate = (miles, isPickup, isOperable, hasKeys) => {
       ? [TIER_TWO_NEGOTIATION_FEE, TIER_TWO_BASE_RATE]
       : [TIER_THREE_NEGOTIATION_FEE, TIER_THREE_BASE_RATE];
 
-  rate = isPickup ? rate + PICKUP_RATE_ADJUSTMENT : rate;
+  rate = isTruck ? rate + PICKUP_RATE_ADJUSTMENT : rate;
 
   rate += !isOperable ? INOPERABLE_RATE_ADJUSTMENT : 0;
   total += REQUIRES_WINCH ? WINCH_SURCHAGE : 0;
@@ -33,3 +34,5 @@ export default calculate_rate = (miles, isPickup, isOperable, hasKeys) => {
 
   return total;
 };
+
+export default calculateShippingRate;
