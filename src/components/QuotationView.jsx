@@ -109,7 +109,7 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
                 <div className="label-cell">
                   $
                   {Number(Object.keys(quote.cars).reduce(
-                    (key, total) =>
+                    (total, key) =>
                       total +
                       calculateShippingRate(
                         quote.distance,

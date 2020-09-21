@@ -144,13 +144,13 @@ export default function CarSelector({ onYearChange, onMakeChange, onModelChange,
         ))}
       </Select>
 
-      <Checkbox defaultChecked={isTruck} onChange={setIsTruck}>
+      <Checkbox defaultChecked={isTruck} onChange={(e) => {setIsTruck(e.target.checked);}}>
         Is Truck?
       </Checkbox>
-      <Checkbox defaultChecked={hasKeys} onChange={setHasKeys}>
+      <Checkbox defaultChecked={hasKeys} onChange={(e) => {setHasKeys(e.target.checked);}}>
         Has Keys?
       </Checkbox>
-      <Checkbox defaultChecked={isOperable} onChange={setIsOperable}>
+      <Checkbox defaultChecked={isOperable} onChange={(e) => {setIsOperable(e.target.checked);}}>
         Is Operable?
       </Checkbox>
       <br />
