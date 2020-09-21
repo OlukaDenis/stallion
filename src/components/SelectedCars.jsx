@@ -29,18 +29,34 @@ export function SelectedCars({ theme, quote, setCars }) {
     setCars(quote.cars);
   };
 
-  useEffect(() => {
+  const addCarToQuote = (isTruck, isOperable, hasKeys) => {
     if (!year || !make || !model) return;
 
     quote.cars[Object.keys(quote.cars).length] = {
-      year: year,
-      make: make,
-      model: model,
+      year,
+      make,
+      model,
+      isTruck,
+      isOperable,
+      hasKeys,
     };
     setCars(quote.cars);
     setIsAddingVehicle(false);
     setIsAddingVehicleError(false);
-  }, [model]);
+  };
+
+  // useEffect(() => {
+  //   if (!year || !make || !model) return;
+
+  //   quote.cars[Object.keys(quote.cars).length] = {
+  //     year: year,
+  //     make: make,
+  //     model: model,
+  //   };
+  //   setCars(quote.cars);
+  //   setIsAddingVehicle(false);
+  //   setIsAddingVehicleError(false);
+  // }, [model]);
 
   return (
     <>
@@ -64,6 +80,7 @@ export function SelectedCars({ theme, quote, setCars }) {
           onYearChange={(value) => setYear(value)}
           onMakeChange={(value) => setMake(value)}
           onModelChange={(value) => setModel(value)}
+          addCarToQuote={addCarToQuote}
         />
       )}
 
@@ -81,6 +98,7 @@ export function SelectedCars({ theme, quote, setCars }) {
           onYearChange={(value) => setYear(value)}
           onMakeChange={(value) => setMake(value)}
           onModelChange={(value) => setModel(value)}
+          addCarToQuote={addCarToQuote}
         />
       ) : (
         <></>
