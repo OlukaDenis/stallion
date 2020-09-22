@@ -335,7 +335,7 @@ export function BaseLayout({
                  >
 
                    <Row>
-                     <Col  xs={22} sm={22} md={10} lg={8} xl={8}>
+                     <Col  xs={22} sm={22} md={8} lg={8} xl={8}>
                        <div className="footer-item">
                         <h3 className="footer-heading">Quick Links</h3>
                         <ul>
@@ -348,7 +348,7 @@ export function BaseLayout({
                       
                      </Col>
 
-                     <Col  xs={22} sm={22} md={10} lg={8} xl={8}>
+                     <Col  xs={22} sm={22} md={8} lg={8} xl={8}>
                        <div className="footer-item">
                         <h3 className="footer-heading">Support</h3>
                         <ul>
@@ -360,7 +360,7 @@ export function BaseLayout({
                      
                      </Col>
 
-                     <Col  xs={22} sm={22} md={10} lg={8} xl={8}>
+                     <Col  xs={22} sm={22} md={8} lg={8} xl={8}>
                        <div className="text-center">
                          <img
                          width="200px"

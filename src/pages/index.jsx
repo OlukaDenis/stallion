@@ -276,7 +276,7 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
       <style jsx>
         {`
           .top-section {
-            min-height: 400px;
+            min-height: 430px;
             width: 100%;
             background-color: rgba(1.6, 0.8, 0.8, 0);
             background-position: bottom center;

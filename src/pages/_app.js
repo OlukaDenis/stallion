@@ -68,7 +68,7 @@ const MyApp = ({ Component, pageProps }) => {
             }
 
             .main-content-section {
-              padding-top: 20px;
+              // padding-top: 20px;
             }
 
             @media only screen and (max-width: 960px) {
