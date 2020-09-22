@@ -4,18 +4,20 @@ import { connect } from 'react-redux';
 import { withTranslation, Router } from '../utilities/i18n';
 import LocationSelector from './LocationSelector';
 import { bindActionCreators } from 'redux';
-import { setOrigin, setDestination, setCars, setPickupDate, setEmail, setName, setPhone } from '../state/quote/action';
+import { setID, setOrigin, setDestination, setCars, setPickupDate, setEmail, setName, setPhone } from '../state/quote/action';
 import moment from 'moment';
 import ClearableInputElement from './ClearableInputElement';
 import SelectedCars from './SelectedCars';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { setIsLoadingNewPage } from '../state/ui/action';
-import { isValidPhoneNumber, isValidEmail } from '../utilities/data_validators';
+import { isValidPhoneNumber } from '../utilities/data_validators';
 import useIsValidQuoteData, { useIsValidDestination, useIsValidEmail, useIsValidName, useIsValidOrigin, useIsValidPhoneNumber, useIsValidPickupDate, useIsValidSelectedCars } from '../hooks/QuoteDataValidation';
+import { generateUniqueQuoteID } from '../utilities/generate_push_id';
 
 export function QuotationGenerator({
   theme,
   quote,
+  setID,
   setOrigin,
   setDestination,
   setPickupDate,
@@ -42,6 +44,7 @@ export function QuotationGenerator({
   const calculateQuote = async () => {
     
     if (!hasQuoteDataError) {
+      if (!quote.id) setID(generateUniqueQuoteID());
       setPhone(isValidPhoneNumber(quote.phone));
       setIsLoadingNewPage(true);
       await Router.push('/quotation');
@@ -254,6 +257,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     setCars: bindActionCreators(setCars, dispatch),
+    setID: bindActionCreators(setID, dispatch),
     setOrigin: bindActionCreators(setOrigin, dispatch),
     setDestination: bindActionCreators(setDestination, dispatch),
     setPickupDate: bindActionCreators(setPickupDate, dispatch),
