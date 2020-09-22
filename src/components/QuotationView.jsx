@@ -67,7 +67,7 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
                 isLightMode ? 'quotation_section--title' : 'quotation_section--title quotation_section--title_dark'
               }
             >
-              Quote # 897898
+              Quote # {quote.id}
             </span>
           </div>
           <div
