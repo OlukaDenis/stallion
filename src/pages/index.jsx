@@ -93,142 +93,139 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
         </div>
       </section>
 
-      <section className="items-section">
-        <Row gutter={[16, 16]} justify="center">
-          <Col xs={24} sm={24} md={12} lg={14} xl={16}>
-            <Row justify="center" gutter={[0, 30]}>
-              <Col xs={24} sm={24} md={22} lg={8} xl={8}>
-                <img alt="image" src="/images/image2.jpg" style={imgStyle} />
-              </Col>
-              <Col xs={24} sm={24} md={22} lg={16} xl={16}>
-              <Card>
-                <h2 className="s-heading" style={{ fontWeight: '900' }}>{t('page.home.our_goal')}</h2>
-                <p> {t('page.home.goal_info')}</p>
-                <p>
-                  <b>{t('page.home.goal_headline')}</b>
-                </p>
-              </Card>
-        </Col>
-            </Row>
-            <Row justify="center" gutter={[0, 30]}>
-              <Col xs={24} sm={24} md={24} lg={24} xl={24}  >
-                <h2 className="custom-title s-heading">{t('page.home.shipping_steps')}</h2>
-                <Card
-                  style={{ width: '100%' }}
-                  tabList={tabListNoTitle}
-                  activeTabKey={key}
-                  onTabChange={(key) => {
-                    onTabChange(key, 'key');
-                  }}
-                >
-                  {contentListNoTitle[key]}
-                </Card>
-              </Col>
-            </Row>
-            <Row justify="center" gutter={[0, 30]}>
-              <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                <div className="quote-hero">
-                  <div className="quote-hero-overlay">
-                    <Row justify="center">
-                      <Col style={{ textAlign: 'center' }}>
-                        <h1 style={{ fontSize: '2.5rem' }}>{t('page.home.quote_hero_title')}</h1>
-                        <p style={{ fontSize: '1.1rem', margin: '20px 0' }}>{t('page.home.quote_hero_desc')}</p>
-                        <Link href="#Quotation-Generator">
-                          <Button type="primary" shape="round" size="large">
-                            {t('button.quick_order')} <RightOutlined />
-                          </Button>
-                        </Link>
-                      </Col>
-                    </Row>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-           
-          </Col>
-          <Col xs={22} sm={22} md={10} lg={8} xl={6}>
-            <QuotationGenerator />
-          </Col>
-        </Row>
-
-        <Row justify="center" gutter={[0, 30]}>
-            <Col xs={22} sm={22} md={20} lg={22} xl={22}>
-            <h2 className="custom-title s-heading">{t('page.home.advantage.title')}</h2>
-            
-              <Card>
-                <Row>
-                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                <Card.Grid style={gridStyle}>
-                  <img 
-                    style={advImg}
-                    src="images/advantage/factory.png"
-                  />
-                  <h3 className="advantage-title">{t('page.home.advantage.01.title')}</h3>
-                  <p>{t('page.home.advantage.01.info')}</p>
-                </Card.Grid>
-                </Col>
-
-                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                <Card.Grid style={gridStyle}>
-                  <img 
-                      style={advImg}
-                      src="images/advantage/delivery.png"
-                    />
-                  <h3 className="advantage-title">{t('page.home.advantage.02.title')}</h3>
-                  <p>{t('page.home.advantage.02.info')}</p>
-                </Card.Grid>
-                </Col>
-
-                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                <Card.Grid style={gridStyle}>
-                <img 
-                    style={advImg}
-                    src="images/advantage/car.png"
-                  />
-                  <h3 className="advantage-title">{t('page.home.advantage.03.title')}</h3>
-                  <p>{t('page.home.advantage.03.info')}</p>
-                </Card.Grid>
-                </Col>
-                
-                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                <Card.Grid style={gridStyle}>
-                  <img 
-                      style={advImg}
-                      src="images/advantage/credit.png"
-                    />
-                  <h3 className="advantage-title">{t('page.home.advantage.04.title')}</h3>
-                  <p>{t('page.home.advantage.04.info')}</p>
-                </Card.Grid>
-                </Col>
-
-                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                <Card.Grid style={gridStyle}>
-                  <img 
-                      style={advImg}
-                      src="images/advantage/office.png"
-                    />
-                  <h3 className="advantage-title">{t('page.home.advantage.05.title')}</h3>
-                  <p>{t('page.home.advantage.05.info')}</p>
-                </Card.Grid>
-                </Col>
-
-                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                <Card.Grid style={gridStyle}>
-                  <img 
-                    style={advImg}
-                    src="images/advantage/location.png"
-                  />
-                  <h3 className="advantage-title">{t('page.home.advantage.06.title')}</h3>
-                  <p>{t('page.home.advantage.06.info')}</p>
-                </Card.Grid>
-                </Col>
-                </Row>
-              </Card>
-              
-            </Col>
-          </Row>
+      <section className="items-section">        
+        <Row justify="center">
+            <Col xs={22} sm={22} md={22} lg={22} xl={22}>
         
-        <Row justify="center" gutter={[10, 0]}>
+            <section className="home-items">
+              <article className="home-goal">
+                <Row justify="center" gutter={[0, 30]}>
+                  <Col xs={24} sm={24} md={22} lg={8} xl={8}>
+                    <img alt="image" src="/images/image2.jpg" style={imgStyle} />
+                  </Col>
+                  <Col xs={24} sm={24} md={22} lg={16} xl={16}>
+                    <Card>
+                      <h2 className="s-heading" style={{ fontWeight: '900' }}>{t('page.home.our_goal')}</h2>
+                      <p> {t('page.home.goal_info')}</p>
+                      <p>
+                        <b>{t('page.home.goal_headline')}</b>
+                      </p>
+                    </Card>
+                  </Col>
+              </Row>
+              </article>
+
+              <article className="home-qoute">
+                <QuotationGenerator />
+              </article>
+
+              <article className="home-steps">
+                <h2 className="custom-title s-heading">{t('page.home.shipping_steps')}</h2>
+                  <Card
+                    style={{ width: '100%' }}
+                    tabList={tabListNoTitle}
+                    activeTabKey={key}
+                    onTabChange={(key) => {
+                      onTabChange(key, 'key');
+                    }}
+                  >
+                    {contentListNoTitle[key]}
+                  </Card>
+              </article>
+
+              <article className="home-hero">
+                <div className="quote-hero">
+                    <div className="quote-hero-overlay">
+                      <h1 style={{ fontSize: '2.5rem' }}>{t('page.home.quote_hero_title')}</h1>
+                      <p style={{ fontSize: '1.1rem', margin: '20px 0' }}>{t('page.home.quote_hero_desc')}</p>
+                      <Link href="#Quotation-Generator">
+                        <Button type="primary" shape="round" size="large">
+                          {t('button.quick_order')} <RightOutlined />
+                        </Button>
+                      </Link>
+                    </div>
+                </div>
+              </article>
+
+              <article className="home-advantage">
+                <h2 className="custom-title s-heading">{t('page.home.advantage.title')}</h2>
+                
+                <Card>
+                  <Row>
+                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                  <Card.Grid style={gridStyle}>
+                    <img 
+                      style={advImg}
+                      src="images/advantage/factory.png"
+                    />
+                    <h3 className="advantage-title">{t('page.home.advantage.01.title')}</h3>
+                    <p>{t('page.home.advantage.01.info')}</p>
+                  </Card.Grid>
+                  </Col>
+
+                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                  <Card.Grid style={gridStyle}>
+                    <img 
+                        style={advImg}
+                        src="images/advantage/delivery.png"
+                      />
+                    <h3 className="advantage-title">{t('page.home.advantage.02.title')}</h3>
+                    <p>{t('page.home.advantage.02.info')}</p>
+                  </Card.Grid>
+                  </Col>
+
+                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                  <Card.Grid style={gridStyle}>
+                  <img 
+                      style={advImg}
+                      src="images/advantage/car.png"
+                    />
+                    <h3 className="advantage-title">{t('page.home.advantage.03.title')}</h3>
+                    <p>{t('page.home.advantage.03.info')}</p>
+                  </Card.Grid>
+                  </Col>
+                  
+                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                  <Card.Grid style={gridStyle}>
+                    <img 
+                        style={advImg}
+                        src="images/advantage/credit.png"
+                      />
+                    <h3 className="advantage-title">{t('page.home.advantage.04.title')}</h3>
+                    <p>{t('page.home.advantage.04.info')}</p>
+                  </Card.Grid>
+                  </Col>
+
+                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                  <Card.Grid style={gridStyle}>
+                    <img 
+                        style={advImg}
+                        src="images/advantage/office.png"
+                      />
+                    <h3 className="advantage-title">{t('page.home.advantage.05.title')}</h3>
+                    <p>{t('page.home.advantage.05.info')}</p>
+                  </Card.Grid>
+                  </Col>
+
+                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                  <Card.Grid style={gridStyle}>
+                    <img 
+                      style={advImg}
+                      src="images/advantage/location.png"
+                    />
+                    <h3 className="advantage-title">{t('page.home.advantage.06.title')}</h3>
+                    <p>{t('page.home.advantage.06.info')}</p>
+                  </Card.Grid>
+                  </Col>
+                  </Row>
+                </Card>
+              </article>
+            </section>  
+
+            </Col>     
+        </Row>
+        
+        <Row justify="center" style={{marginTop: 20}} gutter={[10, 0]}>
           <Col xs={22} sm={22} md={7} lg={7} xl={7} style={{textAlign: 'center' }}>
           <div className="service-item">
            
@@ -302,6 +299,21 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
             padding: 20px;
           }
 
+          .home-items {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-column-gap: 30px;
+            grid-row-gap: 20px;
+          }
+
+          .home-items .home-qoute {
+            grid-row: auto / span 3;
+          }
+
+          .home-items .home-advantage {
+            grid-column: auto / span 2;
+          }
+
           .service-item {
             height: 260px;
             background-color: white;
@@ -329,17 +341,41 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
             .s-heading {
               font-size: 1.2em;
             }
+
+            .home-items {
+              display: flex;
+              flex-direction: column;
+            }
           }
+
+          @media only screen and (min-width: 768px) and (max-width: 992px) {
+              .home-items .home-hero {
+                grid-column: auto / span 2;
+              }
+
+              .home-items {
+                grid-column-gap: 20px;
+                grid-row-gap: 20px;
+              }
+
+              .s-heading {
+                font-size: 1.4em;
+              }
+          }
+
           @media only screen and (max-width: 720px) {
             .items-section {
               padding: 5px;
             }
           }
+
           @media only screen and (min-width: 576px) and (max-width: 720px) {
             .items-section {
               padding-right: 100px;
             }
+            
           }
+
           .top-section-overlay {
             background-color: #04081d;
             opacity: 0.68;
@@ -359,21 +395,27 @@ export function HomePage({ t, setIsLoadingNewPage, theme: themeMode }) {
             font-weight: 300;
           }
 
-          .quote-hero {
+          .home-hero {
             background-image: url('/images/bg2.jpg');
             background-size: cover;
+          }
+
+          .quote-hero {            
             height: 400px;
+            width: 100%;
           }
 
           .quote-hero-overlay {
             background-color: rgba(255, 255, 255, 0.76);
             display: flex;
+            flex-direction: column;
             padding: 2rem;
             width: 100%;
             height: 400px;
             left: 0;
-            position: absolute;
+            z-index: 10px;
             align-items: center;
+            justify-content: center;
           }
           .custom-title {
             color: rgba(255, 255, 255, 0.9);
