@@ -13,7 +13,7 @@ export function PrivacyPolicyPage({ t }) {
 
   return (
     <BaseLayout> 
-    <Row justify="center">
+    <Row justify="center" style={{paddingTop: 50}}>
       <Card style={{width: '90%'}}>
         <Row gutter={[16, 16]} justify="center">
 

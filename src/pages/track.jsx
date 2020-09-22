@@ -19,7 +19,7 @@ export function TrackPage({ t, theme }) {
 
   return (
     <BaseLayout>
-      <Row gutter={[16, 16]} justify="center">
+      <Row gutter={[16, 16]} style={{paddingTop: 50}} justify="center">
         <Col xs={20} sm={18} md={10} lg={8} xl={8}>
           <div className={isLightMode ? 'quotation' : 'quotation quotation_dark'}>
             <div className={isLightMode ? 'quotation_section' : 'quotation_section quotation_section_dark'}>

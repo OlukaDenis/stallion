@@ -20,7 +20,7 @@ export function QuotationPage({ t, quote }) {
       </Head>
 
       {hasQuoteDataError ? (
-        <Row gutter={[16, 16]} justify="center">
+        <Row gutter={[16, 16]} style={{paddingTop: 50}} justify="center">
           <Col xs={20} sm={18} md={12} lg={10} xl={10}>
             <QuotationGenerator />
           </Col>
