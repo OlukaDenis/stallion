@@ -238,6 +238,10 @@ const MyApp = ({ Component, pageProps }) => {
               margin: 2px 0;
             }
 
+            .medium-margin-h-divider {
+              margin: 5px 0;
+            }
+
             .input-element-v-margin {
               margin: 3px 0;
             }
