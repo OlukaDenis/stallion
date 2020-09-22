@@ -26,7 +26,7 @@
                 "01": {
                     "title": "Top-Rated Auto Shipping",
                     "info": "We have thousands of 5-star reviews for exceptional vehicle shipping services."
-                }, 
+                },
                 "02": {
                     "title": "Nationwide Door-to-Door Service",
                     "info": "We provide direct service to and from any residential or business location in the US."
@@ -64,9 +64,8 @@
             },
             "paragraph2": {
                 "title": "Your personal information",
-                "desc": "Personal Data is data that identifies you as an individual or relate to an identifiable individual such as your name, address, email address or other information you provide to us when booking our services.",
+                "desc": "Personal Data is data that identifies you as an individual or relate to an identifiable individual such as your name, address, email address or other information you provide to us when booking our services."
             }
-
         },
         "terms": {},
         "how_it_works": {
@@ -79,7 +78,7 @@
                     "title": "Secure Online Shipment Reservation",
                     "desc": "Schedule a convenient time for pickup via our secure online booking form or by phone with a shipping agent."
                 }
-            }, 
+            },
             "step_two": {
                 "image": "images/step2.png",
                 "name": "Step 2",
@@ -89,7 +88,7 @@
                     "title": "Online Shipment Tracking",
                     "desc": "Track the status of your shipment and get priority support from a live shipping agent with our online transport tracker."
                 }
-            }, 
+            },
             "step_three": {
                 "image": "images/step3.png",
                 "name": "Step 3",
