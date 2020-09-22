@@ -1,3 +1,5 @@
+import { IdcardFilled } from "@ant-design/icons";
+
 /**
  * Fancy ID generator that creates 20-character string identifiers with the following properties:
  *
@@ -57,3 +59,13 @@ export const generatePushID = (function () {
     return id;
   };
 })();
+
+export const generateUniqueQuoteID = () => {
+  let id = Math.floor((1 + Math.random()) * Date.now())
+    .toString(10)
+    .toUpperCase();
+
+    id = id.substring(id.length - 6);
+  return id;
+}
+         
