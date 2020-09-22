@@ -126,4 +126,28 @@ describe('quote reducer', () => {
       destinationLon: 89.3423,
     });
   });
+
+  it('should handle ' + actions.quoteActionTypes.SET_PRIMARY_BOOKING_CONTACT, () => {
+    const action = getActionObjectFromFunction(actions.setPrimaryBookingContact({mimi: 'You & I'}));
+    expect(quoteReducer(quoteInitialState, action)).toEqual({
+      ...quoteInitialState,
+      primaryBookingContact: { mimi: 'You & I' },
+    });
+  });
+
+  it('should handle ' + actions.quoteActionTypes.SET_PICKUP_LOCATION, () => {
+    const action = getActionObjectFromFunction(actions.setPickupLocation({ mimi: 'You & I' }));
+    expect(quoteReducer(quoteInitialState, action)).toEqual({
+      ...quoteInitialState,
+      pickupLocation: { mimi: 'You & I' },
+    });
+  });
+
+  it('should handle ' + actions.quoteActionTypes.SET_DELIVERY_LOCATION, () => {
+    const action = getActionObjectFromFunction(actions.setDeliveryLocation({ mimi: 'You & I' }));
+    expect(quoteReducer(quoteInitialState, action)).toEqual({
+      ...quoteInitialState,
+      deliveryLocation: { mimi: 'You & I' },
+    });
+  });
 })
