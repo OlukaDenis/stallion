@@ -333,46 +333,6 @@ export function BaseLayout({
                    }}
                    className={`site-footer ${isThemeLightMode ? 'site-footer-light' : 'site-footer-dark'}`}
                  >
-
-                   <Row>
-                     <Col  xs={22} sm={22} md={8} lg={8} xl={8}>
-                       <div className="footer-item">
-                        <h3 className="footer-heading">Quick Links</h3>
-                        <ul>
-                          <li><Link href="/track"><a>Track shipment</a></Link></li>
-                          <li><Link href="/quotation"><a>Quotation</a></Link></li>
-                          <li><Link href="/terms-of-service"><a>Terms of Service</a></Link></li>
-                          <li><Link href="/privacy-policy"><a>Privacy Policy</a></Link></li>
-                        </ul>
-                       </div>
-                      
-                     </Col>
-
-                     <Col  xs={22} sm={22} md={8} lg={8} xl={8}>
-                       <div className="footer-item">
-                        <h3 className="footer-heading">Support</h3>
-                        <ul>
-                          <li><Link href="/how-it-works"><a>How it works</a></Link></li>
-                          <li><Link href="/contact"><a>Contact us</a></Link></li>
-                          <li><Link href="/about-us"><a>About us</a></Link></li>
-                        </ul>
-                       </div>
-                     
-                     </Col>
-
-                     <Col  xs={22} sm={22} md={8} lg={8} xl={8}>
-                       <div className="text-center">
-                         <img
-                         width="200px"
-                         height="200px"
-                          src="images/logo.jpg" 
-                          alt="Logo"
-                          style={{marginLeft: 10}}
-                        />
-                       </div>
-                     </Col>
-                   </Row>
-
                    <Row>
                      <Col xs={22} sm={22} md={22} lg={22} xl={22}>
                      <Divider />
