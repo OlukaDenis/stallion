@@ -2,14 +2,13 @@ import BaseLayout from '../components/layout';
 import { withTranslation } from '../utilities/i18n';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Card, Col, Row } from 'antd';
+import { Col, Row } from 'antd';
 import QuotationGenerator from '../components/QuotationGenerator';
 import QuotationView from '../components/QuotationView';
 import Head from 'next/head';
 import useIsValidQuoteData from '../hooks/QuoteDataValidation';
 
 export function QuotationPage({ t, quote }) {
-  const { Meta } = Card;
 
   const hasQuoteDataError = !useIsValidQuoteData(quote);
 

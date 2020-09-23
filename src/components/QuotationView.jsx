@@ -1,13 +1,12 @@
 import { connect } from 'react-redux';
 import { withTranslation, Router } from '../utilities/i18n';
-import { Row, Col, Steps, List, Checkbox, Button, Tooltip } from 'antd';
+import { Row, Col, Steps, List, Button } from 'antd';
 import {
   ClockCircleOutlined,
   FlagFilled,
   FlagOutlined,
   CheckOutlined,
   RightOutlined,
-  QuestionCircleFilled,
 } from '@ant-design/icons';
 
 import MapView from './MapView';
@@ -25,6 +24,19 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
     await Router.push('/book');
     setIsLoadingNewPage(false);
   };
+
+  const deliveryTimeRange = (seconds) => {
+    let minDeliveryDays = Math.ceil(((seconds / 60) / 60) / 24);
+    return minDeliveryDays + " - " + (minDeliveryDays+2);
+  }
+
+  const DeliverySteps = () => (
+    <Steps size="small" current={0} labelPlacement="vertical" direction="horizontal">
+      <Step title="Pickup" subTitle={quote.origin} icon={<FlagFilled />} />
+      <Step title="Transit" subTitle={`(${deliveryTimeRange(quote.duration)} Days)`} icon={<ClockCircleOutlined />} />
+      <Step title="Delivery" subTitle={quote.destination} icon={<FlagOutlined />} />
+    </Steps>
+  );
 
   const shippingFeatures = [
     {
@@ -55,7 +67,7 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
                 isLightMode ? 'quotation_section--title' : 'quotation_section--title quotation_section--title_dark'
               }
             >
-              Quote # 897898
+              Quote # {quote.id}
             </span>
           </div>
           <div
@@ -87,6 +99,11 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
                   </p>
                 </div>
               </div>
+              <Row justify="center">
+                <Col xs={24} sm={24} md={0} lg={0} xl={0}>
+                  <DeliverySteps />
+                </Col>
+              </Row>
             </div>
           </div>
 
@@ -106,25 +123,7 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
           >
             <div className="quotation-details-summary">
               <div className="detail-item">
-                <div className="label-cell">
-                  $
-                  {
-                    calculateTotalShippingRate(quote)
-                  // Number(
-                  //   Object.keys(quote.cars).reduce(
-                  //     (total, key) =>
-                  //       total +
-                  //       calculateShippingRate(
-                  //         quote.distance,
-                  //         quote.cars[key].isTruck,
-                  //         quote.cars[key].isOperable,
-                  //         quote.cars[key].hasKeys
-                  //       ),
-                  //     0
-                  //   )
-                  // ).toFixed(2)
-                  }
-                </div>
+                <div className="label-cell">${calculateTotalShippingRate(quote)}</div>
                 <div className="data-cell">
                   <List
                     grid={{
@@ -209,12 +208,8 @@ const QuotationView = ({ theme, quote, setIsLoadingNewPage }) => {
           </div> */}
         </div>
       </Col>
-      <Col xs={22} sm={20} md={11} lg={10} xl={10}>
-        <Steps size="small" current={0} labelPlacement="vertical" direction="horizontal">
-          <Step title="Pickup" subTitle={quote.origin} icon={<FlagFilled />} />
-          <Step title="Transit" subTitle="(4 - 6 Days)" icon={<ClockCircleOutlined />} />
-          <Step title="Delivery" subTitle={quote.destination} icon={<FlagOutlined />} />
-        </Steps>
+      <Col xs={0} sm={0} md={11} lg={10} xl={10}>
+        <DeliverySteps />
 
         <MapView />
       </Col>

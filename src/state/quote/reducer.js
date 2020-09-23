@@ -1,6 +1,7 @@
 import { quoteActionTypes } from './action';
 
 export const quoteInitialState = {
+  id: '',
   origin: '',
   destination: '',
   cars: {},
@@ -15,11 +16,19 @@ export const quoteInitialState = {
   originLon: 0,
   destinationName: '',
   destinationLat: 0,
-  destinationLon: 0
+  destinationLon: 0,
+  primaryBookingContact: {},
+  deliveryLocation: {},
+  pickupLocation: {}
 };
 
 export default function reducer(state = quoteInitialState, action) {
   switch (action.type) {
+    case quoteActionTypes.SET_ID:
+      return {
+        ...state,
+        id: action.payload,
+      };
     case quoteActionTypes.SET_ORIGIN:
       return {
         ...state,
@@ -94,6 +103,21 @@ export default function reducer(state = quoteInitialState, action) {
       return {
         ...state,
         destinationLon: action.payload,
+      };
+    case quoteActionTypes.SET_PICKUP_LOCATION:
+      return {
+        ...state,
+        pickupLocation: action.payload,
+      };
+    case quoteActionTypes.SET_DELIVERY_LOCATION:
+      return {
+        ...state,
+        deliveryLocation: action.payload,
+      };
+    case quoteActionTypes.SET_PRIMARY_BOOKING_CONTACT:
+      return {
+        ...state,
+        primaryBookingContact: action.payload,
       };
     default:
       return state;

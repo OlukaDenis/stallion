@@ -10,7 +10,7 @@ export function QuotationSummary({ quote, theme }) {
         <div className="item-cell cell-4">Shipping Rate</div>
       </div>
       <div className="service-items">
-        <div className="item-cell cell-1">909090</div>
+        <div className="item-cell cell-1">{quote.id}</div>
         <div className="item-cell cell-2">{quote.origin}</div>
         <div className="item-cell cell-3">{quote.destination}</div>
         <div className="item-cell cell-4">${calculateTotalShippingRate(quote)}</div>

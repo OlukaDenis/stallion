@@ -1,4 +1,5 @@
 export const quoteActionTypes = {
+         SET_ID: 'SET_ID',
          SET_ORIGIN: 'SET_ORIGIN',
          SET_DESTINATION: 'SET_DESTINATION',
          SET_CARS: 'SET_CARS',
@@ -14,7 +15,14 @@ export const quoteActionTypes = {
          SET_DESTINATION_NAME: 'SET_DESTINATION_NAME',
          SET_DESTINATION_LAT: 'SET_DESTINATION_LAT',
          SET_DESTINATION_LON: 'SET_DESTINATION_LON',
+         SET_PICKUP_LOCATION: 'SET_PICKUP_LOCATION',
+         SET_DELIVERY_LOCATION: 'SET_DELIVERY_LOCATION',
+         SET_PRIMARY_BOOKING_CONTACT: 'SET_PRIMARY_BOOKING_CONTACT',
        };
+
+export const setID = (id) => (dispatch) => {
+  return dispatch({ type: quoteActionTypes.SET_ID, payload: id });
+};
 
 export const setOrigin = (origin) => (dispatch) => {
   return dispatch({ type: quoteActionTypes.SET_ORIGIN, payload: origin });
@@ -74,4 +82,16 @@ export const setDestinationLat = (destinationLat) => (dispatch) => {
 
 export const setDestinationLon = (destinationLon) => (dispatch) => {
   return dispatch({ type: quoteActionTypes.SET_DESTINATION_LON, payload: destinationLon });
+};
+
+export const setPrimaryBookingContact = (bookingContact) => (dispatch) => {
+  return dispatch({ type: quoteActionTypes.SET_PRIMARY_BOOKING_CONTACT, payload: bookingContact });
+};
+
+export const setPickupLocation = (pickupLocation) => (dispatch) => {
+  return dispatch({ type: quoteActionTypes.SET_PICKUP_LOCATION, payload: pickupLocation });
+};
+
+export const setDeliveryLocation = (deliveryLocation) => (dispatch) => {
+  return dispatch({ type: quoteActionTypes.SET_DELIVERY_LOCATION, payload: deliveryLocation });
 };
