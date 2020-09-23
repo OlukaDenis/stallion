@@ -4,14 +4,114 @@ import { connect } from 'react-redux';
 import { Card, Divider, DatePicker, Tooltip, Button, Row, Col, Select, Input, Checkbox, message, Alert } from 'antd';
 import {
   SafetyOutlined,
+  CalendarFilled,
+  CreditCardFilled,
+  NumberOutlined,
   LockFilled
 } from '@ant-design/icons';
 import BaseLayout from '../components/layout';
 import { withTranslation } from '../utilities/i18n';
 import SectionHeader from '../components/SectionHeader';
 const { Option } = Select;
+const { TextArea } = Input;
 const topMargin = { marginTop: 20 };
+const inputStyle = { height: 45 };
 
+
+const AdditionalComments = ({theme, title}) => {
+
+  return (
+
+    <section style={topMargin}>
+      <SectionHeader theme={theme} title={title} />
+      
+      <article className="summary__article_card">
+      <Row gutter={[5, 8]} justify="center">
+          <Col xs={24} sm={24} md={18} lg={18} xl={18}>
+            <TextArea
+              placeholder="Optional"
+              autoSize={{ minRows: 4, maxRows: 10 }}
+            />
+          </Col>
+        </Row>
+      </article>
+    </section>
+  )
+}
+const PaymentDetails = ({theme, title}) => {
+
+  return (
+    <section style={topMargin}>
+       <SectionHeader theme={theme} title={title} />
+
+        <article className="summary__article_card">
+            <p style={{borderBottom: '1px dotted #ccc', paddingBottom: 6}}>
+            Your payment will not be processed until your shipment has been confirmed & scheduled for pickup.
+            </p>
+
+            <Row gutter={[20, 8]}>
+              <Col xs={24} sm={24} md={14} lg={14} xl={14}>
+              <Tooltip trigger={['click', 'hover']} placement="topLeft" title="Enter your credit/debit card number">
+                <Input
+                    placeholder="Card Number"
+                    prefix={<CreditCardFilled />}
+                    style={inputStyle}
+                    required
+                  />
+                </Tooltip>
+              </Col>
+
+              <Col xs={24} sm={24} md={5} lg={5} xl={5}>
+              <Tooltip trigger={['click', 'hover']} placement="topLeft" title="Card expiration month and year">
+                <Input
+                    placeholder="MM / YY"
+                    prefix={<CalendarFilled />}
+                    style={inputStyle}
+                    required
+                  />
+                </Tooltip>
+              </Col>
+
+              <Col xs={24} sm={24} md={5} lg={5} xl={5}>
+              <Tooltip trigger={['click', 'hover']} placement="topLeft" title="Security code">
+                <Input
+                    placeholder="CVC"
+                    prefix={<NumberOutlined />}
+                    style={inputStyle}
+                    required
+                  />
+                </Tooltip>
+              </Col>
+            
+            </Row>
+        </article>
+
+    </section>
+  )
+}
+
+const BillingAddress = ({theme, title}) => {
+
+  return (
+    <section style={topMargin}>
+      <SectionHeader theme={theme} title={title} />
+      <article className="summary__article_card">
+
+        <Row gutter={[5, 8]} justify="center">
+          <Col xs={24} sm={24} md={18} lg={18} xl={18}>
+          <Select defaultValue="select" style={{ width: '100%'}}>
+              <Option value="select" disabled>Select Billing Address</Option>
+              <Option value="pickup"> Same as Pickup</Option>
+              <Option value="delivery">Same as delivery</Option>
+              <Option value="other">Other</Option>
+              
+            </Select>
+          </Col>
+        </Row>
+      </article>
+    </section>
+  )
+}
 
 const CarListItem = ({car}) => {
 
@@ -23,7 +123,7 @@ const CarListItem = ({car}) => {
             <p>Vehicle</p>
           </div>
 
-          <div className="summary__info">
+          <div className="summary__info" style={{height: 60}}>
             <p>2019 Alfa Romeo 4C</p>
           </div>
         </div>
@@ -35,8 +135,8 @@ const CarListItem = ({car}) => {
             <p>Coverage Amount</p>
           </div>
 
-          <div className="summary__info">
-            <Select defaultValue="select" style={{ width: '100%', height: 40}}>
+          <div className="summary__info" style={{height: 60}}>
+            <Select defaultValue="select" style={{ width: '100%'}}>
               <Option value="select" disabled>Select Coverage</Option>
               <Option value="no"> No coverage</Option>
               <Option value="one"> $ 15,000 </Option>
@@ -58,7 +158,7 @@ const CarListItem = ({car}) => {
             <p>Coverage Cost</p>
           </div>
 
-          <div className="summary__info">
+          <div className="summary__info" style={{height: 60}}>
             <p>$10</p>
           </div>
         </div>
@@ -291,6 +391,40 @@ export function Payment ({
             theme={theme}
             title="Coverage Type"
           />
+
+          <PaymentDetails
+           quote={quote}
+           theme={theme}
+           title="Payment Details"
+         />
+
+         <BillingAddress 
+          quote={quote}
+          theme={theme}
+          title="Billing Address"
+        />
+
+        <AdditionalComments 
+          quote={quote}
+          theme={theme}
+          title="Additional Comments"
+        />
+
+        <section style={topMargin}>
+          <SectionHeader theme={theme} title="Terms & Conditions" />
+          
+          <article className="summary__article_card">
+          <Checkbox>
+            I have read and agreed to Super Stallion Logistics Terms & Conditions.
+          </Checkbox>
+          </article>
+        </section>
+
+        <div style={{ display: 'flex', paddingTop: 50, justifyContent: 'center' }}>
+          <Button type="primary" shape="round" size="large" style={{ width: 400 }}>
+            Submit Booking
+          </Button>
+        </div>
 
         </Card>
         </Col>
