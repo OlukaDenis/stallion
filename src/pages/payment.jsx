@@ -3,28 +3,117 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import { Card, Divider, DatePicker, Tooltip, Button, Row, Col, Select, Input, Checkbox, message, Alert } from 'antd';
 import {
-  CalendarOutlined,
-  PhoneOutlined,
-  UserOutlined,
-  EnvironmentOutlined,
-  MailOutlined,
-  AimOutlined,
-  BankOutlined,
-  HomeOutlined, 
-  CarOutlined,
+  SafetyOutlined,
   LockFilled
 } from '@ant-design/icons';
 import BaseLayout from '../components/layout';
 import { withTranslation } from '../utilities/i18n';
 import SectionHeader from '../components/SectionHeader';
+const { Option } = Select;
+const topMargin = { marginTop: 20 };
+
+
+const CarListItem = ({car}) => {
+
+  return (
+    <Row>
+      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+        <div className="shipment__summary first_child">
+          <div className="summary__heading">
+            <p>Vehicle</p>
+          </div>
+
+          <div className="summary__info">
+            <p>2019 Alfa Romeo 4C</p>
+          </div>
+        </div>
+      </Col>
+
+      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+        <div className="shipment__summary second_child">
+          <div className="summary__heading">
+            <p>Coverage Amount</p>
+          </div>
+
+          <div className="summary__info">
+            <Select defaultValue="select" style={{ width: '100%', height: 40}}>
+              <Option value="select" disabled>Select Coverage</Option>
+              <Option value="no"> No coverage</Option>
+              <Option value="one"> $ 15,000 </Option>
+              <Option value="two"> $ 25,000 </Option>
+              <Option value="three"> $ 50,000 </Option>
+              <Option value="four"> $ 75,000 </Option>
+              <Option value="five"> $ 100,000 </Option>
+              <Option value="six"> $ 150,000 </Option>
+              <Option value="seven"> $ 200,000 </Option>
+              
+            </Select>
+          </div>
+        </div>
+      </Col>
+
+      <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+        <div className="shipment__summary third_child">
+          <div className="summary__heading">
+            <p>Coverage Cost</p>
+          </div>
+
+          <div className="summary__info">
+            <p>$10</p>
+          </div>
+        </div>
+      </Col>
+    
+    </Row>
+  )
+}
+
+const CoverageType = ({theme, title}) => {
+
+  return (
+    <section style={topMargin}>
+      <SectionHeader theme={theme} title={title} />
+
+      <article className="summary__article_card">
+        <div className="type__head">
+            <SafetyOutlined style={{fontSize: 50}} />
+            <div style={{paddingLeft: 10}}>
+              <p style={{borderBottom: '1px dotted #ccc', paddingBottom: 6}}>Standard protection provides basic liability and covers carrier negligence and equipment failure.</p>
+              <p>Additional coverage (full or partial) is available for a higher level of protection during transit.</p>
+            </div>
+          </div>
+
+          <CarListItem />
+        </article>
+
+        <style jsx global>
+          {
+            `
+            .summary__article_card {
+              border: 1px solid #ccc;
+              padding: 1em 2em;
+            }
+
+            .type__head {
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              padding: 1em 0;
+            }
+
+            `
+          }
+        </style>
+    </section>
+  )
+}
 
 const ShipmentSummary = ({theme, title}) => {
   
   return (
-    <div style={{marginTop: 20}}>
-       <SectionHeader theme={theme} title="Shipment Summary" />
-    
-         <Row gutter={[0, 16]}>
+    <section style={topMargin}>
+       <SectionHeader theme={theme} title={title} />
+         <Row>
            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
              <div className="shipment__summary first_child">
                 <div className="summary__heading">
@@ -66,7 +155,7 @@ const ShipmentSummary = ({theme, title}) => {
            </Col>
          </Row>
 
-         <Row gutter={[0, 16]}>
+         <Row style={{marginTop: 30}}>
             <Col xs={24} sm={24} md={8} lg={8} xl={8}>
               <div className="shipment__summary first_child">
                 <div className="summary__heading">
@@ -104,7 +193,7 @@ const ShipmentSummary = ({theme, title}) => {
             </Col>
            
           </Row>
-         <style jsx>
+         <style jsx global>
            {
              `
               .shipment__summary {
@@ -131,18 +220,11 @@ const ShipmentSummary = ({theme, title}) => {
                 border-width: 1px;
                 border-style: solid;
                 border-color: #ccc;
-                border-top: none;
                 padding: 1em 1.2em;
               }
 
               .summary__info > p {
                 margin: 0;
-              }
-
-              .second_child .summary__heading,
-              .second_child .summary__info {
-                border-left: none;
-                border-right: none;
               }
 
               @media only screen and (max-width: 576px) {
@@ -151,7 +233,8 @@ const ShipmentSummary = ({theme, title}) => {
                   grid-template-columns: 1fr 1fr;
                 }
 
-                .second_child .summary__heading {
+                .second_child .summary__heading,
+                .second_child .summary__info {
                   border-top: none;
                   border-bottom: none;
                 }
@@ -160,12 +243,26 @@ const ShipmentSummary = ({theme, title}) => {
                   height: 100%;
                 }
               }
+
+              @media only screen and (min-width: 768px) {
+
+                .summary_info {
+                  border-top: none;
+                }
+
+                .second_child .summary__heading,
+                .second_child .summary__info {
+                  border-left: none;
+                  border-right: none;
+                }
+              }
              `
            }
          </style>
-    </div>
+    </section>
   )
 }
+
 export function Payment ({
     t,
     quote,
@@ -184,9 +281,15 @@ export function Payment ({
           <Divider className="small-margin-h-divider" />
 
           <ShipmentSummary
-              quote={quote}
-              theme={theme}
-             
+            quote={quote}
+            theme={theme}
+            title="Shipment Summary"
+          />
+
+          <CoverageType
+            quote={quote}
+            theme={theme}
+            title="Coverage Type"
           />
 
         </Card>
