@@ -142,7 +142,7 @@ export function BaseLayout({
                        'development' === process.env.NODE_ENV
                          ? "default-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline';" // 'nonce-" + cspNonce + "';"
                          : "default-src 'self'; style-src 'self' 'unsafe-inline';" // 'nonce-" + cspNonce + "';"
-                     }  style-src-elem 'self' https://*.googleapis.com 'unsafe-inline' https://unpkg.com https://api.mapbox.com;  script-src-elem 'self' https://*.gstatic.com https://*.google.com https://unpkg.com;  img-src https://* 'self' data:; font-src 'self' data: https://*.gstatic.com; child-src 'none'; connect-src 'self' https://*.googleapis.com https://*.openstreetmap.org https://*.mapbox.com; worker-src 'self' blob:;frame-src 'self' https://*.google.com https://super-stallion-logistics.firebaseapp.com;`}
+                     }  style-src-elem 'self' https://*.googleapis.com 'unsafe-inline' https://unpkg.com https://api.mapbox.com;  script-src-elem 'self' https://*.paypal.com 'sha256-IRnrutkKc4zvr32Es3Okh1pGGlX0d6DlvuCsvosmVrM=' https://*.gstatic.com https://*.google.com https://unpkg.com;  img-src https://* 'self' data:; font-src 'self' data: https://*.gstatic.com; child-src 'none'; connect-src 'self' https://*.paypal.com https://*.googleapis.com https://*.openstreetmap.org https://*.mapbox.com; worker-src 'self' blob:;frame-src 'self' https://*.paypal.com https://*.google.com https://super-stallion-logistics.firebaseapp.com;`}
                    ></meta>
                    <meta charSet="utf-8" />
                    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -333,58 +333,82 @@ export function BaseLayout({
                    }}
                    className={`site-footer ${isThemeLightMode ? 'site-footer-light' : 'site-footer-dark'}`}
                  >
-
                    <Row>
-                     <Col  xs={22} sm={22} md={8} lg={8} xl={8}>
+                     <Col xs={22} sm={22} md={8} lg={8} xl={8}>
                        <div className="footer-item">
-                        <h3 className="footer-heading">Quick Links</h3>
-                        <ul>
-                          <li><Link href="/track"><a>Track shipment</a></Link></li>
-                          <li><Link href="/quotation"><a>Quotation</a></Link></li>
-                          <li><Link href="/terms-of-service"><a>Terms of Service</a></Link></li>
-                          <li><Link href="/privacy-policy"><a>Privacy Policy</a></Link></li>
-                        </ul>
+                         <h3 className="footer-heading">Quick Links</h3>
+                         <ul>
+                           <li>
+                             <Link href="/track">
+                               <a>Track shipment</a>
+                             </Link>
+                           </li>
+                           <li>
+                             <Link href="/quotation">
+                               <a>Quotation</a>
+                             </Link>
+                           </li>
+                           <li>
+                             <Link href="/terms-of-service">
+                               <a>Terms of Service</a>
+                             </Link>
+                           </li>
+                           <li>
+                             <Link href="/privacy-policy">
+                               <a>Privacy Policy</a>
+                             </Link>
+                           </li>
+                         </ul>
                        </div>
-                      
                      </Col>
 
-                     <Col  xs={22} sm={22} md={8} lg={8} xl={8}>
+                     <Col xs={22} sm={22} md={8} lg={8} xl={8}>
                        <div className="footer-item">
-                        <h3 className="footer-heading">Support</h3>
-                        <ul>
-                          <li><Link href="/how-it-works"><a>How it works</a></Link></li>
-                          <li><Link href="/contact"><a>Contact us</a></Link></li>
-                          <li><Link href="/about-us"><a>About us</a></Link></li>
-                        </ul>
+                         <h3 className="footer-heading">Support</h3>
+                         <ul>
+                           <li>
+                             <Link href="/how-it-works">
+                               <a>How it works</a>
+                             </Link>
+                           </li>
+                           <li>
+                             <Link href="/contact">
+                               <a>Contact us</a>
+                             </Link>
+                           </li>
+                           <li>
+                             <Link href="/about-us">
+                               <a>About us</a>
+                             </Link>
+                           </li>
+                         </ul>
                        </div>
-                     
                      </Col>
 
-                     <Col  xs={22} sm={22} md={8} lg={8} xl={8}>
+                     <Col xs={22} sm={22} md={8} lg={8} xl={8}>
                        <div className="text-center">
                          <img
-                         width="200px"
-                         height="200px"
-                          src="images/logo.jpg" 
-                          alt="Logo"
-                          style={{marginLeft: 10}}
-                        />
+                           width="200px"
+                           height="200px"
+                           src="images/logo.jpg"
+                           alt="Logo"
+                           style={{ marginLeft: 10 }}
+                         />
                        </div>
                      </Col>
                    </Row>
 
                    <Row>
                      <Col xs={22} sm={22} md={22} lg={22} xl={22}>
-                     <Divider />
-                      <div className="vertical-center-div">
-                        <p>
-                          Super Stallion Logistics &copy;{new Date().getFullYear()} | Designed by:{' '}
-                          <a href="https://premar.tech">Premar Systems</a>
-                        </p>
-                      </div>
+                       <Divider />
+                       <div className="vertical-center-div">
+                         <p>
+                           Super Stallion Logistics &copy;{new Date().getFullYear()} | Designed by:{' '}
+                           <a href="https://premar.tech">Premar Systems</a>
+                         </p>
+                       </div>
                      </Col>
                    </Row>
-                   
                  </Footer>
                </Layout>
              </ConfigProvider>

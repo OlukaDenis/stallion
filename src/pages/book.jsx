@@ -28,6 +28,9 @@ import {
   useIsValidPhoneNumber,
   useIsValidPickupDate,
 } from '../hooks/QuoteDataValidation';
+import PayPalPayment from '../components/PayPalPayment';
+import { PAYPAL_CLIENT_ID } from '../configs';
+import Head from 'next/head';
 
 const { Option } = Select;
 
@@ -889,23 +892,48 @@ export function BookPage({
             />
             <VehicleDetails quote={quote} theme={theme} setCars={setCars} />
 
+            <>
+              <Head>
+                {/* Pre-load the required PayPal checkout.js script */}
+                <link
+                  rel="preload"
+                  as="script"
+                  href={'https://www.paypal.com/sdk/js?client-id=' + PAYPAL_CLIENT_ID}
+                ></link>
+              </Head>
+              <PayPalPayment
+                orderID={quote.id}
+                currency="USD"
+                amount={Number(calculateTotalShippingRate(quote))}
+                onSuccess={(payPalOrderID, payerID, orderID) => {
+                  console.log(payPalOrderID, payerID, orderID);
+                  quote.payPalOrderID = payPalOrderID;
+                  quote.payerID = payerID;
+                  quote.orderID = orderID;
+                  // save quote to Firestore
+                }}
+                onFailure={(error) => console.log(error)}
+              />
+            </>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Button onClick={submitData} type="primary" shape="round" size="large" style={{ width: 400 }}>
                 Submit & Continue
               </Button>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>{isSubmitted &&
-            (hasShipmentDetailsErrors ||
-              hasPrimaryBookingErrors ||
-              hasPickupLocationErrors ||
-              hasDeliveryLocationErrors) ? (
-              <>
-                <Alert message="Invalid input! Kindly fix the errors highlighted in the form." type="error" />
-                <br />
-              </>
-            ) : (
-              <></>
-            )} </div>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              {isSubmitted &&
+              (hasShipmentDetailsErrors ||
+                hasPrimaryBookingErrors ||
+                hasPickupLocationErrors ||
+                hasDeliveryLocationErrors) ? (
+                <>
+                  <Alert message="Invalid input! Kindly fix the errors highlighted in the form." type="error" />
+                  <br />
+                </>
+              ) : (
+                <></>
+              )}{' '}
+            </div>
           </Card>
         </Col>
       </Row>
