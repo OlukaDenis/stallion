@@ -2,17 +2,17 @@ import BaseLayout from '../components/layout';
 import { withTranslation } from '../utilities/i18n';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Card, Divider, DatePicker, Tooltip, Button, Row, Col, Select, Input, Checkbox, message } from 'antd';
+import { Card, Divider, DatePicker, Tooltip, Button, Row, Col, Select, Input, Checkbox, message, Alert } from 'antd';
 import {
   CalendarOutlined,
   PhoneOutlined,
   UserOutlined,
-  ShoppingCartOutlined,
   EnvironmentOutlined,
   MailOutlined,
   AimOutlined,
   BankOutlined,
-  HomeOutlined,
+  HomeOutlined, 
+  CarOutlined
 } from '@ant-design/icons';
 import { QuotationSummary } from '../components/QuotationSummary';
 import moment from 'moment';
@@ -20,6 +20,14 @@ import { useEffect, useState } from 'react';
 import { setDeliveryLocation, setPickupLocation, setPrimaryBookingContact, setPickupDate, setCars } from '../state/quote/action';
 import { bindActionCreators } from 'redux';
 import { calculateTotalShippingRate } from '../utilities/calculate_shipping_rate';
+import {
+  useIsValidAddress, 
+  useIsValidBusinessName,
+  useIsValidEmail,
+  useIsValidName,
+  useIsValidPhoneNumber,
+  useIsValidPickupDate,
+} from '../hooks/QuoteDataValidation';
 
 const { Option } = Select;
 
@@ -108,13 +116,22 @@ const SectionHeader = ({ theme, title }) => {
   );
 };
 
-const PrimaryBooking = ({ theme, quote, setPrimaryBookingContact }) => {
+const PrimaryBooking = ({ theme, quote, setPrimaryBookingContact, showErrors, setHasErrors }) => {
   const isLightMode = theme === 'light';
 
   const [firstName, setFirstName] = useState(quote.primaryBookingContact.firstName || quote.name.split(' ')[0]);
   const [lastName, setLastName] = useState(quote.primaryBookingContact.lastName || quote.name.split(' ')[1]);
   const [email, setEmail] = useState(quote.primaryBookingContact.email || quote.email);
   const [phone, setPhone] = useState(quote.primaryBookingContact.phone || quote.phone);
+
+  const hasFirstNameError = !useIsValidName(quote.primaryBookingContact.firstName);
+  const hasLastNameError = !useIsValidName(quote.primaryBookingContact.lastName);
+  const hasEmailError = !useIsValidEmail(quote.primaryBookingContact.email);
+  const hasPhoneError = !useIsValidPhoneNumber(quote.primaryBookingContact.phone);
+
+  useEffect(() => {
+    setHasErrors(hasFirstNameError || hasLastNameError || hasEmailError || hasPhoneError);
+  }, [hasFirstNameError, hasLastNameError, hasEmailError, hasPhoneError]);
 
   useEffect(() => {
     let contact = {};
@@ -146,6 +163,11 @@ const PrimaryBooking = ({ theme, quote, setPrimaryBookingContact }) => {
                   required
                 />
               </Tooltip>
+              {showErrors && hasFirstNameError ? (
+                <Alert message="Kindly enter the first name of the contact person" type="error" />
+              ) : (
+                <></>
+              )}
             </Col>
 
             <Col xs={24} sm={24} md={12} lg={12}>
@@ -159,6 +181,11 @@ const PrimaryBooking = ({ theme, quote, setPrimaryBookingContact }) => {
                   required
                 />
               </Tooltip>
+              {showErrors && hasLastNameError ? (
+                <Alert message="Kindly enter the last name of the contact person" type="error" />
+              ) : (
+                <></>
+              )}
             </Col>
           </Row>
 
@@ -175,6 +202,11 @@ const PrimaryBooking = ({ theme, quote, setPrimaryBookingContact }) => {
                   required
                 />
               </Tooltip>
+              {showErrors && hasEmailError ? (
+                <Alert message="Kindly enter a valid email of the contact person" type="error" />
+              ) : (
+                <></>
+              )}
             </Col>
 
             <Col xs={24} sm={24} md={12} lg={12}>
@@ -194,6 +226,11 @@ const PrimaryBooking = ({ theme, quote, setPrimaryBookingContact }) => {
                   required
                 />
               </Tooltip>
+              {showErrors && hasPhoneError ? (
+                <Alert message="Kindly enter a valid phone number of the contact person" type="error" />
+              ) : (
+                <></>
+              )}
             </Col>
           </Row>
         </div>
@@ -202,7 +239,7 @@ const PrimaryBooking = ({ theme, quote, setPrimaryBookingContact }) => {
   );
 };
 
-const DeliveryLocation = ({ theme, quote, setDeliveryLocation }) => {
+const DeliveryLocation = ({ theme, quote, setDeliveryLocation, showErrors, setHasErrors }) => {
   const isLightMode = theme === 'light';
 
   const [isBusiness, setIsBusiness] = useState(quote.deliveryLocation.isBusiness);
@@ -211,6 +248,18 @@ const DeliveryLocation = ({ theme, quote, setDeliveryLocation }) => {
   const [deliveryAddress, setDeliveryAddress] = useState(quote.deliveryLocation.deliveryAddress);
   const [phone, setPhone] = useState(quote.deliveryLocation.phone);
   const [altPhone, setAltPhone] = useState(quote.deliveryLocation.altPhone);
+
+
+  const hasNameError = !useIsValidName(quote.deliveryLocation.contactName);
+  const hasBusinessNameError = !useIsValidBusinessName(quote.deliveryLocation.businessName) && isBusiness;
+  const hasDeliveryAddressError = !useIsValidAddress(quote.deliveryLocation.deliveryAddress);
+  const hasPhoneError = !useIsValidPhoneNumber(quote.deliveryLocation.phone);
+  const hasAltPhoneError = !useIsValidPhoneNumber(quote.deliveryLocation.altPhone) && quote.deliveryLocation.altPhone;
+
+  
+  useEffect(() => {
+    setHasErrors(hasNameError || hasBusinessNameError || hasDeliveryAddressError || hasPhoneError || hasAltPhoneError);
+  }, [hasNameError, hasBusinessNameError, hasDeliveryAddressError, hasPhoneError, hasAltPhoneError]);
 
   const setContactsSameAsPrimary = (isPrimaryContactDeliveryContact) => {
     if (isPrimaryContactDeliveryContact) {
@@ -270,6 +319,11 @@ const DeliveryLocation = ({ theme, quote, setDeliveryLocation }) => {
                   required
                 />
               </Tooltip>
+              {showErrors && hasNameError ? (
+                <Alert message="Kindly enter the name of the contact person" type="error" />
+              ) : (
+                <></>
+              )}
             </Col>
           </Row>
 
@@ -290,6 +344,11 @@ const DeliveryLocation = ({ theme, quote, setDeliveryLocation }) => {
                     required
                   />
                 </Tooltip>
+                {showErrors && isBusiness && hasBusinessNameError ? (
+                  <Alert message="Kindly enter the name of the business" type="error" />
+                ) : (
+                  <></>
+                )}
               </Col>
             ) : (
               <></>
@@ -309,6 +368,11 @@ const DeliveryLocation = ({ theme, quote, setDeliveryLocation }) => {
                   required
                 />
               </Tooltip>
+              {showErrors && hasDeliveryAddressError ? (
+                <Alert message="Kindly enter the shipment's delivery address" type="error" />
+              ) : (
+                <></>
+              )}
             </Col>
 
             <Col xs={24} sm={24} {...(isBusiness ? { md: 24, lg: 24, xl: 24 } : { md: 12, lg: 12, xl: 12 })}>
@@ -341,6 +405,11 @@ const DeliveryLocation = ({ theme, quote, setDeliveryLocation }) => {
                   required
                 />
               </Tooltip>
+              {showErrors && hasPhoneError ? (
+                <Alert message="Kindly enter the phone number of the contact person" type="error" />
+              ) : (
+                <></>
+              )}
             </Col>
 
             <Col xs={24} sm={24} md={12} lg={12}>
@@ -359,6 +428,11 @@ const DeliveryLocation = ({ theme, quote, setDeliveryLocation }) => {
                   type="tel"
                 />
               </Tooltip>
+              {showErrors && hasAltPhoneError ? (
+                <Alert message="Kindly correct the alternative phone number" type="error" />
+              ) : (
+                <></>
+              )}
             </Col>
           </Row>
         </div>
@@ -418,7 +492,7 @@ const VehicleDetails = ({ theme, quote, setCars }) => {
               <Col xs={24} sm={24} md={12} lg={12}>
                 <Input
                   placeholder="Car"
-                  prefix={<ShoppingCartOutlined />}
+                  prefix={<CarOutlined />}
                   style={inputStyle}
                   value={quote.cars[key].year + ' ' + quote.cars[key].make + ' ' + quote.cars[key].model}
                   disabled
@@ -427,20 +501,26 @@ const VehicleDetails = ({ theme, quote, setCars }) => {
               </Col>
 
               <Col xs={24} sm={24} md={12} lg={12}>
-                <Select
-                  onSelect={(value) => changeCarStatus(key, value)}
-                  defaultValue={parseCarStatus(quote.cars[key])}
-                  style={{ width: '100%' }}
+                <Tooltip
+                  trigger={['click', 'hover']}
+                  placement="topLeft"
+                  title="Type and condition of the car and availability of keys"
                 >
-                  <Option value="hk-io-it">Operable Truck</Option>
-                  <Option value="nk-io-it">Operable Truck (No Keys)</Option>
-                  <Option value="hk-io-nt">Operable Car</Option>
-                  <Option value="nk-io-nt">Operable Car (No Keys)</Option>
-                  <Option value="hk-no-it">Inoperable Truck</Option>
-                  <Option value="nk-no-it">Inoperable Truck (No Keys)</Option>
-                  <Option value="hk-no-nt">Inoperable Car</Option>
-                  <Option value="nk-no-nt">Inoperable Car (No Keys)</Option>
-                </Select>
+                  <Select
+                    onSelect={(value) => changeCarStatus(key, value)}
+                    defaultValue={parseCarStatus(quote.cars[key])}
+                    style={{ width: '100%' }}
+                  >
+                    <Option value="hk-io-it">Operable Truck</Option>
+                    <Option value="nk-io-it">Operable Truck (No Keys)</Option>
+                    <Option value="hk-io-nt">Operable Car</Option>
+                    <Option value="nk-io-nt">Operable Car (No Keys)</Option>
+                    <Option value="hk-no-it">Inoperable Truck</Option>
+                    <Option value="nk-no-it">Inoperable Truck (No Keys)</Option>
+                    <Option value="hk-no-nt">Inoperable Car</Option>
+                    <Option value="nk-no-nt">Inoperable Car (No Keys)</Option>
+                  </Select>
+                </Tooltip>
               </Col>
             </Row>
           ))}
@@ -459,7 +539,7 @@ const VehicleDetails = ({ theme, quote, setCars }) => {
   );
 };
 
-const PickupLocation = ({ theme, quote, setPickupLocation }) => {
+const PickupLocation = ({ theme, quote, setPickupLocation, showErrors, setHasErrors }) => {
   const isLightMode = theme === 'light';
 
   const [isBusiness, setIsBusiness] = useState(quote.pickupLocation.isBusiness);
@@ -468,6 +548,16 @@ const PickupLocation = ({ theme, quote, setPickupLocation }) => {
   const [pickupAddress, setPickupAddress] = useState(quote.pickupLocation.pickupAddress);
   const [phone, setPhone] = useState(quote.pickupLocation.phone);
   const [altPhone, setAltPhone] = useState(quote.pickupLocation.altPhone);
+
+  const hasNameError = !useIsValidName(quote.pickupLocation.contactName);
+  const hasBusinessNameError = !useIsValidBusinessName(quote.pickupLocation.businessName) && isBusiness;
+  const hasPickupAddressError = !useIsValidAddress(quote.pickupLocation.pickupAddress);
+  const hasPhoneError = !useIsValidPhoneNumber(quote.pickupLocation.phone);
+  const hasAltPhoneError = !useIsValidPhoneNumber(quote.pickupLocation.altPhone) && quote.pickupLocation.altPhone;
+
+  useEffect(() => {
+    setHasErrors(hasNameError || hasBusinessNameError || hasPickupAddressError || hasPhoneError || hasAltPhoneError);
+  }, [hasNameError, hasBusinessNameError, hasPickupAddressError, hasPhoneError, hasAltPhoneError]);
 
   const setContactsSameAsPrimary = (isPrimaryContactPickupContact) => {
     if (isPrimaryContactPickupContact) {
@@ -527,6 +617,11 @@ const PickupLocation = ({ theme, quote, setPickupLocation }) => {
                   required
                 />
               </Tooltip>
+              {showErrors && hasNameError ? (
+                <Alert message="Kindly enter the name of the contact person" type="error" />
+              ) : (
+                <></>
+              )}
             </Col>
           </Row>
 
@@ -547,6 +642,11 @@ const PickupLocation = ({ theme, quote, setPickupLocation }) => {
                     required
                   />
                 </Tooltip>
+                {showErrors && isBusiness && hasBusinessNameError ? (
+                  <Alert message="Kindly enter the name of the business" type="error" />
+                ) : (
+                  <></>
+                )}
               </Col>
             ) : (
               <></>
@@ -566,6 +666,11 @@ const PickupLocation = ({ theme, quote, setPickupLocation }) => {
                   required
                 />
               </Tooltip>
+              {showErrors && hasPickupAddressError ? (
+                <Alert message="Kindly enter the address where to pickup the shipment" type="error" />
+              ) : (
+                <></>
+              )}
             </Col>
 
             <Col xs={24} sm={24} {...(isBusiness ? { md: 24, lg: 24, xl: 24 } : { md: 12, lg: 12, xl: 12 })}>
@@ -598,6 +703,11 @@ const PickupLocation = ({ theme, quote, setPickupLocation }) => {
                   required
                 />
               </Tooltip>
+              {showErrors && hasPhoneError ? (
+                <Alert message="Kindly enter the phone number of the contact person" type="error" />
+              ) : (
+                <></>
+              )}
             </Col>
 
             <Col xs={24} sm={24} md={12} lg={12}>
@@ -616,6 +726,11 @@ const PickupLocation = ({ theme, quote, setPickupLocation }) => {
                   type="tel"
                 />
               </Tooltip>
+              {showErrors && hasAltPhoneError ? (
+                <Alert message="Kindly correct the alternative phone number" type="error" />
+              ) : (
+                <></>
+              )}
             </Col>
           </Row>
         </div>
@@ -633,8 +748,13 @@ const PickupLocation = ({ theme, quote, setPickupLocation }) => {
   );
 };
 
-const ShipmentDetails = ({ quote, theme, setPickupDate }) => {
+const ShipmentDetails = ({ quote, theme, setPickupDate, showErrors, setHasErrors }) => {
   const isLightMode = theme === 'light';
+  const hasPickupDateError = !useIsValidPickupDate(quote.pickupDate);
+
+  useEffect(() => {
+    setHasErrors(hasPickupDateError);
+  }, [hasPickupDateError]);
 
   return (
     <>
@@ -664,6 +784,11 @@ const ShipmentDetails = ({ quote, theme, setPickupDate }) => {
                     }}
                   />
                 </Tooltip>
+                {showErrors && hasPickupDateError ? (
+                  <Alert message="Kindly select a date for vehicle pickup" type="error" />
+                ) : (
+                  <></>
+                )}
               </Col>
               <Col xs={24} sm={24} md={12} lg={12}>
                 <Tooltip rigger={['click', 'hover']} title="Select how your vehicle is to be shipped, open or enclosed">
@@ -708,6 +833,20 @@ export function BookPage({
   setPickupDate,
   setCars
 }) {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const [hasShipmentDetailsErrors, setHasShipmentDetailsErrors] = useState(false);
+  const [hasPrimaryBookingErrors, setHasPrimaryBookingErrors] = useState(false);
+  const [hasPickupLocationErrors, setHasPickupLocationErrors] = useState(false);
+  const [hasDeliveryLocationErrors, setHasDeliveryLocationErrors] = useState(false);
+
+  const submitData = () => {
+    setIsSubmitted(true);
+    if (!hasShipmentDetailsErrors && !hasPrimaryBookingErrors && !hasPickupLocationErrors && !hasDeliveryLocationErrors) {
+      console.log(quote);
+    }    
+  };
+
   return (
     <BaseLayout>
       <Row gutter={[16, 16]} justify="center">
@@ -720,17 +859,53 @@ export function BookPage({
             <p>Complete the secure online reservation form below to book your vehicle shipment.</p>
 
             <QuotationSummary quote={quote} theme={theme} />
-            <ShipmentDetails quote={quote} theme={theme} setPickupDate={setPickupDate} />
-            <PrimaryBooking quote={quote} theme={theme} setPrimaryBookingContact={setPrimaryBookingContact} />
-            <PickupLocation quote={quote} theme={theme} setPickupLocation={setPickupLocation} />
-            <DeliveryLocation quote={quote} theme={theme} setDeliveryLocation={setDeliveryLocation} />
+            <ShipmentDetails
+              showErrors={isSubmitted}
+              setHasErrors={setHasShipmentDetailsErrors}
+              quote={quote}
+              theme={theme}
+              setPickupDate={setPickupDate}
+            />
+            <PrimaryBooking
+              showErrors={isSubmitted}
+              setHasErrors={setHasPrimaryBookingErrors}
+              quote={quote}
+              theme={theme}
+              setPrimaryBookingContact={setPrimaryBookingContact}
+            />
+            <PickupLocation
+              showErrors={isSubmitted}
+              setHasErrors={setHasPickupLocationErrors}
+              quote={quote}
+              theme={theme}
+              setPickupLocation={setPickupLocation}
+            />
+            <DeliveryLocation
+              showErrors={isSubmitted}
+              setHasErrors={setHasDeliveryLocationErrors}
+              quote={quote}
+              theme={theme}
+              setDeliveryLocation={setDeliveryLocation}
+            />
             <VehicleDetails quote={quote} theme={theme} setCars={setCars} />
 
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Button type="primary" shape="round" size="large" style={{ width: 400 }}>
+              <Button onClick={submitData} type="primary" shape="round" size="large" style={{ width: 400 }}>
                 Submit & Continue
               </Button>
             </div>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>{isSubmitted &&
+            (hasShipmentDetailsErrors ||
+              hasPrimaryBookingErrors ||
+              hasPickupLocationErrors ||
+              hasDeliveryLocationErrors) ? (
+              <>
+                <Alert message="Invalid input! Kindly fix the errors highlighted in the form." type="error" />
+                <br />
+              </>
+            ) : (
+              <></>
+            )} </div>
           </Card>
         </Col>
       </Row>

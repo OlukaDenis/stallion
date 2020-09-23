@@ -47,14 +47,34 @@ export const useIsValidPickupDate = (pickupDate) => {
 }
 
 export const useIsValidName = (name) => {
-    const [hasNameError, setHasNameError] = useState(false);
-    if (hasNameError && name) {
-      setHasNameError(false);
-    } else if (!hasNameError && !name) {
-      setHasNameError(true);
-    }
-    return !hasNameError;
-}
+  const [hasNameError, setHasNameError] = useState(false);
+  if (hasNameError && name) {
+    setHasNameError(false);
+  } else if (!hasNameError && !name) {
+    setHasNameError(true);
+  }
+  return !hasNameError;
+};
+
+export const useIsValidBusinessName = (businessName) => {
+  const [hasBusinessNameError, setHasBusinessNameError] = useState(false);
+  if (hasBusinessNameError && businessName) {
+    setHasBusinessNameError(false);
+  } else if (!hasBusinessNameError && !businessName) {
+    setHasBusinessNameError(true);
+  }
+  return !hasBusinessNameError;
+};
+
+export const useIsValidAddress = (address) => {
+  const [hasAddressError, setHasAddressError] = useState(false);
+  if (hasAddressError && address) {
+    setHasAddressError(false);
+  } else if (!hasAddressError && !address) {
+    setHasAddressError(true);
+  }
+  return !hasAddressError;
+};
 
 export const useIsValidEmail = (email) => {
 
