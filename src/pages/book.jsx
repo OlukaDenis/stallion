@@ -818,12 +818,12 @@ export function BookPage({
     ) {
 
       const ref = generatePushID();
-      quote.ref_id = ref;
+      const order = { order_id: ref, ...quote };
 
       firebase
         .firestore()
         .doc('/orders/' + ref)
-        .set(quote)
+        .set(order)
         .then(async (data) => {
           setFirebaseRefID(ref);
           setIsLoadingNewPage(true);
@@ -831,6 +831,7 @@ export function BookPage({
           setIsLoadingNewPage(false);
         })
         .catch((error) => {
+          setIsSubmitted(false);
           console.log(error);
         });
     }
@@ -883,7 +884,14 @@ export function BookPage({
             <VehicleDetails quote={quote} theme={theme} setCars={setCars} />
 
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Button onClick={submitData} type="primary" shape="round" size="large" style={{ width: 400 }}>
+              <Button
+                loading={isSubmitted}
+                onClick={submitData}
+                type="primary"
+                shape="round"
+                size="large"
+                style={{ width: 400 }}
+              >
                 Submit & Continue
               </Button>
             </div>
