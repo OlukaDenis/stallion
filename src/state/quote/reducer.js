@@ -1,27 +1,41 @@
 import { quoteActionTypes } from './action';
 
 export const quoteInitialState = {
-  id: '',
-  origin: '',
-  destination: '',
-  cars: {},
-  pickupDate: '',
-  name: '',
-  email: '',
-  phone: '',
-  distance: 0,
-  duration: 0,
-  originName: '',
-  originLat: 0,
-  originLon: 0,
-  destinationName: '',
-  destinationLat: 0,
-  destinationLon: 0,
-  primaryBookingContact: {},
-  deliveryLocation: {},
-  pickupLocation: {},
-  firebaseRefID: ''
-};
+         id: '',
+         origin: '',
+         destination: '',
+         cars: {},
+         pickupDate: '',
+         name: '',
+         email: '',
+         phone: '',
+         distance: 0,
+         duration: 0,
+         originName: '',
+         originLat: 0,
+         originLon: 0,
+         destinationName: '',
+         destinationLat: 0,
+         destinationLon: 0,
+         primaryBookingContact: {},
+         deliveryLocation: {
+           isBusiness: false,
+           contactName: '',
+           businessName: '',
+           deliveryAddress: '',
+           phone: '',
+           altPhone: '',
+         },
+         pickupLocation: {
+           isBusiness: false,
+           contactName: '',
+           businessName: '',
+           deliveryAddress: '',
+           phone: '',
+           altPhone: '',
+         },
+         firebaseRefID: '',
+       };
 
 export default function reducer(state = quoteInitialState, action) {
   switch (action.type) {
