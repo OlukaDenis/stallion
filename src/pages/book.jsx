@@ -1,5 +1,5 @@
 import BaseLayout from '../components/layout';
-import { withTranslation } from '../utilities/i18n';
+import { Router, withTranslation } from '../utilities/i18n';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Card, Divider, DatePicker, Tooltip, Button, Row, Col, Select, Input, Checkbox, message, Alert } from 'antd';
@@ -17,7 +17,7 @@ import {
 import { QuotationSummary } from '../components/QuotationSummary';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { setDeliveryLocation, setPickupLocation, setPrimaryBookingContact, setPickupDate, setCars } from '../state/quote/action';
+import { setDeliveryLocation, setPickupLocation, setPrimaryBookingContact, setPickupDate, setCars, setFirebaseRefID } from '../state/quote/action';
 import { bindActionCreators } from 'redux';
 import { calculateTotalShippingRate } from '../utilities/calculate_shipping_rate';
 import SectionHeader from '../components/SectionHeader';
@@ -29,9 +29,12 @@ import {
   useIsValidPhoneNumber,
   useIsValidPickupDate,
 } from '../hooks/QuoteDataValidation';
-import PayPalPayment from '../components/PayPalPayment';
-import { PAYPAL_CLIENT_ID } from '../configs';
 import Head from 'next/head';
+import { PAYPAL_CLIENT_ID } from '../configs';
+import { setIsLoadingNewPage } from '../state/ui/action';
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+import { generatePushID } from '../utilities/generate_push_id';
 
 const { Option } = Select;
 
@@ -794,7 +797,9 @@ export function BookPage({
   setPickupLocation,
   setPrimaryBookingContact,
   setPickupDate,
-  setCars
+  setCars,
+  setIsLoadingNewPage,
+  setFirebaseRefID
 }) {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -805,13 +810,38 @@ export function BookPage({
 
   const submitData = () => {
     setIsSubmitted(true);
-    if (!hasShipmentDetailsErrors && !hasPrimaryBookingErrors && !hasPickupLocationErrors && !hasDeliveryLocationErrors) {
-      console.log(quote);
-    }    
+    if (
+      !hasShipmentDetailsErrors &&
+      !hasPrimaryBookingErrors &&
+      !hasPickupLocationErrors &&
+      !hasDeliveryLocationErrors
+    ) {
+
+      const ref = generatePushID();
+      quote.ref_id = ref;
+
+      firebase
+        .firestore()
+        .doc('/orders/' + ref)
+        .set(quote)
+        .then(async (data) => {
+          setFirebaseRefID(ref);
+          setIsLoadingNewPage(true);
+          await Router.push('/payment');
+          setIsLoadingNewPage(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   return (
     <BaseLayout>
+      <Head>
+        {/* Pre-load the required PayPal checkout.js script */}
+        <link rel="preload" as="script" href={'https://www.paypal.com/sdk/js?client-id=' + PAYPAL_CLIENT_ID}></link>
+      </Head>
       <Row gutter={[16, 16]} justify="center">
         <Col xs={24} sm={24} md={20} lg={20} xl={20}>
           <Card>
@@ -852,29 +882,6 @@ export function BookPage({
             />
             <VehicleDetails quote={quote} theme={theme} setCars={setCars} />
 
-            <>
-              <Head>
-                {/* Pre-load the required PayPal checkout.js script */}
-                <link
-                  rel="preload"
-                  as="script"
-                  href={'https://www.paypal.com/sdk/js?client-id=' + PAYPAL_CLIENT_ID}
-                ></link>
-              </Head>
-              <PayPalPayment
-                orderID={quote.id}
-                currency="USD"
-                amount={Number(calculateTotalShippingRate(quote))}
-                onSuccess={(payPalOrderID, payerID, orderID) => {
-                  console.log(payPalOrderID, payerID, orderID);
-                  quote.payPalOrderID = payPalOrderID;
-                  quote.payerID = payerID;
-                  quote.orderID = orderID;
-                  // save quote to Firestore
-                }}
-                onFailure={(error) => console.log(error)}
-              />
-            </>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Button onClick={submitData} type="primary" shape="round" size="large" style={{ width: 400 }}>
                 Submit & Continue
@@ -921,6 +928,8 @@ const mapDispatchToProps = (dispatch) => {
     setPickupLocation: bindActionCreators(setPickupLocation, dispatch),
     setPickupDate: bindActionCreators(setPickupDate, dispatch),
     setCars: bindActionCreators(setCars, dispatch),
+    setIsLoadingNewPage: bindActionCreators(setIsLoadingNewPage, dispatch),
+    setFirebaseRefID: bindActionCreators(setFirebaseRefID, dispatch),
   };
 };
 
