@@ -19,7 +19,8 @@ export const quoteInitialState = {
   destinationLon: 0,
   primaryBookingContact: {},
   deliveryLocation: {},
-  pickupLocation: {}
+  pickupLocation: {},
+  firebaseRefID: ''
 };
 
 export default function reducer(state = quoteInitialState, action) {
@@ -118,6 +119,11 @@ export default function reducer(state = quoteInitialState, action) {
       return {
         ...state,
         primaryBookingContact: action.payload,
+      };
+    case quoteActionTypes.SET_FIREBASE_REF_ID:
+      return {
+        ...state,
+        firebaseRefID: action.payload,
       };
     default:
       return state;

@@ -213,4 +213,14 @@ describe('quote actions', () => {
     };
     return expect(store.dispatch(actions.setDeliveryLocation(payload))).toEqual(expectedAction);
   });
+
+    it('should create an action to set quote Firebase reference ID', () => {
+      const payload = 'some-ref-id';
+
+      const expectedAction = {
+        type: actions.quoteActionTypes.SET_FIREBASE_REF_ID,
+        payload,
+      };
+      return expect(store.dispatch(actions.setFirebaseRefID(payload))).toEqual(expectedAction);
+    });
 });

@@ -18,6 +18,7 @@ export const quoteActionTypes = {
          SET_PICKUP_LOCATION: 'SET_PICKUP_LOCATION',
          SET_DELIVERY_LOCATION: 'SET_DELIVERY_LOCATION',
          SET_PRIMARY_BOOKING_CONTACT: 'SET_PRIMARY_BOOKING_CONTACT',
+         SET_FIREBASE_REF_ID: 'SET_FIREBASE_REF_ID',
        };
 
 export const setID = (id) => (dispatch) => {
@@ -94,4 +95,8 @@ export const setPickupLocation = (pickupLocation) => (dispatch) => {
 
 export const setDeliveryLocation = (deliveryLocation) => (dispatch) => {
   return dispatch({ type: quoteActionTypes.SET_DELIVERY_LOCATION, payload: deliveryLocation });
+};
+
+export const setFirebaseRefID = (firebaseRefID) => (dispatch) => {
+  return dispatch({ type: quoteActionTypes.SET_FIREBASE_REF_ID, payload: firebaseRefID });
 };

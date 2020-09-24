@@ -150,4 +150,12 @@ describe('quote reducer', () => {
       deliveryLocation: { mimi: 'You & I' },
     });
   });
+
+    it('should handle ' + actions.quoteActionTypes.SET_FIREBASE_REF_ID, () => {
+      const action = getActionObjectFromFunction(actions.setFirebaseRefID('some-ref-str'));
+      expect(quoteReducer(quoteInitialState, action)).toEqual({
+        ...quoteInitialState,
+        firebaseRefID: 'some-ref-str',
+      });
+    });
 })
