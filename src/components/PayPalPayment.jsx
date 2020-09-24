@@ -1,33 +1,35 @@
+import { Spin } from 'antd';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
-import { PAYPAL_CLIENT_ID } from '../configs';
+import { useEffect, useRef, useState } from 'react';
+import { PAYPAL_CLIENT_ID, PAYPAL_SOFT_DESCRIPTOR } from '../configs';
 
-export default function PayPalPayment({orderID, currency, amount, onSuccess, onFailure}) {
-  const PAYPAL_SOFT_DESCRIPTOR = 'SuperStallio';
-  const BASE_URL = 'https://premarsystems.com/medke';
-  const PAYPAL_CAPTURE_URL = BASE_URL + '/paypal/capture/';
-
+export default function PayPalPayment({ orderID, currency, amount, onSuccess, onFailure }) {
   const [paypal, setPaypal] = useState(null);
+  const paypalButtonsRef = useRef();
+
+  const isPayPalContainerLoaded = () =>
+    typeof window !== 'undefined' && document.getElementById('paypal-payment-buttons');
 
   useEffect(() => {
-    if (!paypal) setPaypal(window.paypal);
+    if (isPayPalContainerLoaded()) {
+      if (!paypal) setPaypal(window.paypal);
+    }
   });
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && document.getElementById('paypal-payment-buttons')) {
+    if (isPayPalContainerLoaded()) {
       renderPaypalButtons(orderID, currency, amount);
     }
   }, [orderID, currency, amount, paypal]);
 
   const renderPaypalButtons = (orderID, currency, amount) => {
     
-    if(!paypal) return;
+    if (!paypal || paypalButtonsRef.current) return;
 
+    paypalButtonsRef.current = 1;
     paypal
       .Buttons({
         createOrder: function (data, actions) {
-          console.log('CURRENCY: ', currency);
-          console.log('AMOUNT: ', amount);
 
           if (actions === null) return;
 
@@ -47,9 +49,15 @@ export default function PayPalPayment({orderID, currency, amount, onSuccess, onF
           });
         },
         onApprove: function (data, actions) {
-            console.log('data',data);
+          console.log('data', data);
           // This function captures the funds from the transaction.
           onSuccess(data.orderID, data.payerID, orderID);
+        },
+        onCancel: function (data) {
+          onFailure('The payment process was canceled by user.');
+        },
+        onError: function (err) {
+          onFailure('An error occurred while processing payment.');
         },
       })
       .render('#paypal-payment-buttons');
@@ -57,11 +65,10 @@ export default function PayPalPayment({orderID, currency, amount, onSuccess, onF
 
   return (
     <>
-      <Head>
-        {/* Load the required PayPal checkout.js script */}
-        <script src={"https://www.paypal.com/sdk/js?client-id=" + PAYPAL_CLIENT_ID}></script>
-      </Head>
-      <div id="paypal-payment-buttons"></div>
+      
+      <Spin tip="Loading..." spinning={!paypal}>
+        <div id="paypal-payment-buttons"></div>
+      </Spin>
     </>
   );
 }
