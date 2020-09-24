@@ -1,167 +1,167 @@
 {
     "page": {
-        "home": {
-            "title": "Super Stallion Logistics",
-            "subtitle": "Ship a car, truck or SUV anywhere and get it there safely",
-            "our_goal": "At Super Stallion, our goal is to make car shipping as fast, safe and cost effective as possible.",
-            "goal_info": " Super Stallion Logistics is a leading provider of nationwide door-to-door auto shipping services. Our dedicated team of shipping professionals will arrange and transport your vehicle with care from start to finish. We provide reliable car shipping for both individuals and companies, moving thousands of vehicles on a monthly basis.",
-            "goal_headline": "Let us put our experience to work for you!",
-            "shipping_steps": "Shipping your car with Super Stallion Logistics is as easy as 1-2-3!",
-            "step1": {
-                "title": "Calculate your instant car shipping quote.",
-                "desc": "Getting a quote is fast and easy with our online car shipping calculator. Enter the details of your transport and review your quote - continue to book your reservation online or by phone."
-            },
-            "step2": {
-                "title": "Your vehicle is picked up from the origin location.",
-                "desc": "On the day of pickup, your vehicle will be carefully inspected and loaded onto the carrier. Track the status of your shipment online anytime with our convenient transport tracker."
-            },
-            "step3": {
-                "title": "Your vehicle is safely delivered to the destination.",
-                "desc": "Your vehicle will be safely offloaded and a final inspection will be completed to confirm that your vehicle was delivered in the same condition as when it was picked up."
-            },
-            "quote_hero_title": "Ready to get started",
-            "quote_hero_desc": "Calculate your instant car shipping cost and view carrier availability in your area.",
-            "advantage": {
-                "title": "Why choose Super Stallion Logistics",
-                "01": {
-                    "title": "Top-Rated Auto Shipping",
-                    "info": "We have thousands of 5-star reviews for exceptional vehicle shipping services."
-                },
-                "02": {
-                    "title": "Nationwide Door-to-Door Service",
-                    "info": "We provide direct service to and from any residential or business location in the US."
-                },
-                "03": {
-                    "title": "Complete Vehicle Coverage",
-                    "info": "We offer the most comprehensive coverage options for complete peace of mind."
-                },
-                "04": {
-                    "title": "No Up-Front Deposit Required",
-                    "info": "You don't pay a penny until the day your shipment is scheduled for pickup."
-                },
-                "05": {
-                    "title": "Extended Office Hours",
-                    "info": "We're available past normal business hours in every timezone in the country."
-                },
-                "06": {
-                    "title": "24/7 Online Shipment Tracking",
-                    "info": "You can track the status of your shipment online anytime at your convenience."
-                }
-            }
+      "home": {
+        "title": "Super Stallion Logistics",
+        "subtitle": "Ship a car, truck or SUV anywhere and get it there safely",
+        "our_goal": "At Super Stallion, our goal is to make car shipping as fast, safe and cost effective as possible.",
+        "goal_info": " Super Stallion Logistics is a leading provider of nationwide door-to-door auto shipping services. Our dedicated team of shipping professionals will arrange and transport your vehicle with care from start to finish. We provide reliable car shipping for both individuals and companies, moving thousands of vehicles on a monthly basis.",
+        "goal_headline": "Let us put our experience to work for you!",
+        "shipping_steps": "Shipping your car with Super Stallion Logistics is as easy as 1-2-3!",
+        "step1": {
+          "title": "Calculate your instant car shipping quote.",
+          "desc": "Getting a quote is fast and easy with our online car shipping calculator. Enter the details of your transport and review your quote - continue to book your reservation online or by phone."
         },
-        "services": {},
-        "portfolio": {},
-        "pricing": {},
-        "quotation": {},
-        "cart": {},
-        "about_us": {},
-        "contact_us": {},
-        "privacy": {
-            "headline": "RoadRunner Auto Transport (“RoadRunner”) understands that your privacy is important to you and to us. As part of the normal operation of RoadRunner’s services, we collect and, in some cases, disclose information about you to third parties. This privacy policy (“Privacy Policy”) shows you what information we gather from you and how we protect it. By using this website and the content contained therein (“Site”) and our services, you consent to the terms described in the most recent version of this Privacy Policy. You should also read our Terms of Use to understand the general rules about your use of this Site, and any additional terms that may apply when you access particular services or materials on certain areas of this Site. “We,” “our” means RoadRunner and its affiliates. “You,” “your,” visitor,” or “user” means the individual accessing this site and our services. This Privacy Policy is incorporated into and subject to the terms of the RoadRunner’s Site Terms of Use.",
-            "paragraph1": {
-                "title": "Minors",
-                "desc": "This Site is not directed towards children. If you are a minor (under the age of 18), you can use this service only with the consent of your parents or legal guardians. If you are a minor, please do not submit any personal information to this Site. IF YOU ARE 13 YEARS OR YOUNGER, PLEASE DO NOT USE THIS SITE OR ANY OF ITS SERVICES FOR ANY PURPOSE AT ANY TIME. This Site is not intended for any children under the age of 13."
-            },
-            "paragraph2": {
-                "title": "Your personal information",
-                "desc": "Personal Data is data that identifies you as an individual or relate to an identifiable individual such as your name, address, email address or other information you provide to us when booking our services."
-            }
+        "step2": {
+          "title": "Your vehicle is picked up from the origin location.",
+          "desc": "On the day of pickup, your vehicle will be carefully inspected and loaded onto the carrier. Track the status of your shipment online anytime with our convenient transport tracker."
         },
-        "terms": {},
-        "how_it_works": {
-            "step_one": {
-                "image": "images/step1.png",
-                "name": "Step 1",
-                "title": "Instant Car Shipping Quote",
-                "info": "Begin by getting an instant quote from our online car shipping cost calculator, or by speaking with a car shipping specialist at +1 971 248 0579",
-                "step_quote": {
-                    "title": "Secure Online Shipment Reservation",
-                    "desc": "Schedule a convenient time for pickup via our secure online booking form or by phone with a shipping agent."
-                }
-            },
-            "step_two": {
-                "image": "images/step2.png",
-                "name": "Step 2",
-                "title": "Vehicle Pick Up",
-                "info": "Your shipment will be assigned to the carrier that can best accommodate your route and timeframe. On the day of pickup, your vehicle will be safely loaded and will begin heading to the destination.",
-                "step_quote": {
-                    "title": "Online Shipment Tracking",
-                    "desc": "Track the status of your shipment and get priority support from a live shipping agent with our online transport tracker."
-                }
-            },
-            "step_three": {
-                "image": "images/step3.png",
-                "name": "Step 3",
-                "title": "Vehicle Delivery",
-                "info": "Upon arrival at the destination, your vehicle will be safely offloaded. A final inspection is completed and the driver hands over the keys.",
-                "step_quote": {
-                    "title": "That's it! That's all there is to it!",
-                    "desc": "Join the hundreds of thousands of customers that trusted RoadRunner Auto Transport with the safe delivery of their vehicles."
-                }
-            }
+        "step3": {
+          "title": "Your vehicle is safely delivered to the destination.",
+          "desc": "Your vehicle will be safely offloaded and a final inspection will be completed to confirm that your vehicle was delivered in the same condition as when it was picked up."
+        },
+        "quote_hero_title": "Ready to get started",
+        "quote_hero_desc": "Calculate your instant car shipping cost and view carrier availability in your area.",
+        "advantage": {
+          "title": "Why choose Super Stallion Logistics",
+          "01": {
+            "title": "Top-Rated Auto Shipping",
+            "info": "We have thousands of 5-star reviews for exceptional vehicle shipping services."
+          },
+          "02": {
+            "title": "Nationwide Door-to-Door Service",
+            "info": "We provide direct service to and from any residential or business location in the US."
+          },
+          "03": {
+            "title": "Complete Vehicle Coverage",
+            "info": "We offer the most comprehensive coverage options for complete peace of mind."
+          },
+          "04": {
+            "title": "No Up-Front Deposit Required",
+            "info": "You don't pay a penny until the day your shipment is scheduled for pickup."
+          },
+          "05": {
+            "title": "Extended Office Hours",
+            "info": "We're available past normal business hours in every timezone in the country."
+          },
+          "06": {
+            "title": "24/7 Online Shipment Tracking",
+            "info": "You can track the status of your shipment online anytime at your convenience."
+          }
         }
+      },
+      "services": {},
+      "portfolio": {},
+      "pricing": {},
+      "quotation": {},
+      "cart": {},
+      "about_us": {},
+      "contact_us": {},
+      "privacy": {
+        "headline": "RoadRunner Auto Transport (“RoadRunner”) understands that your privacy is important to you and to us. As part of the normal operation of RoadRunner’s services, we collect and, in some cases, disclose information about you to third parties. This privacy policy (“Privacy Policy”) shows you what information we gather from you and how we protect it. By using this website and the content contained therein (“Site”) and our services, you consent to the terms described in the most recent version of this Privacy Policy. You should also read our Terms of Use to understand the general rules about your use of this Site, and any additional terms that may apply when you access particular services or materials on certain areas of this Site. “We,” “our” means RoadRunner and its affiliates. “You,” “your,” visitor,” or “user” means the individual accessing this site and our services. This Privacy Policy is incorporated into and subject to the terms of the RoadRunner’s Site Terms of Use.",
+        "paragraph1": {
+          "title": "Minors",
+          "desc": "This Site is not directed towards children. If you are a minor (under the age of 18), you can use this service only with the consent of your parents or legal guardians. If you are a minor, please do not submit any personal information to this Site. IF YOU ARE 13 YEARS OR YOUNGER, PLEASE DO NOT USE THIS SITE OR ANY OF ITS SERVICES FOR ANY PURPOSE AT ANY TIME. This Site is not intended for any children under the age of 13."
+        },
+        "paragraph2": {
+          "title": "Your personal information",
+          "desc": "Personal Data is data that identifies you as an individual or relate to an identifiable individual such as your name, address, email address or other information you provide to us when booking our services."
+        }
+      },
+      "terms": {},
+      "how_it_works": {
+        "step_one": {
+          "image": "images/step1.png",
+          "name": "Step 1",
+          "title": "Instant Car Shipping Quote",
+          "info": "Begin by getting an instant quote from our online car shipping cost calculator, or by speaking with a car shipping specialist at +1 971 248 0579",
+          "step_quote": {
+            "title": "Secure Online Shipment Reservation",
+            "desc": "Schedule a convenient time for pickup via our secure online booking form or by phone with a shipping agent."
+          }
+        },
+        "step_two": {
+          "image": "images/step2.png",
+          "name": "Step 2",
+          "title": "Vehicle Pick Up",
+          "info": "Your shipment will be assigned to the carrier that can best accommodate your route and timeframe. On the day of pickup, your vehicle will be safely loaded and will begin heading to the destination.",
+          "step_quote": {
+            "title": "Online Shipment Tracking",
+            "desc": "Track the status of your shipment and get priority support from a live shipping agent with our online transport tracker."
+          }
+        },
+        "step_three": {
+          "image": "images/step3.png",
+          "name": "Step 3",
+          "title": "Vehicle Delivery",
+          "info": "Upon arrival at the destination, your vehicle will be safely offloaded. A final inspection is completed and the driver hands over the keys.",
+          "step_quote": {
+            "title": "That's it! That's all there is to it!",
+            "desc": "Join the hundreds of thousands of customers that trusted RoadRunner Auto Transport with the safe delivery of their vehicles."
+          }
+        }
+      }
     },
     "button": {
-        "theme": {
-            "dark": "Dark Mode",
-            "light": "Light Mode"
-        },
-        "quick_order": "Generate Quote",
-        "proceed_to_checkout": "Proceed to Checkout",
-        "continue_shopping": "Continue Shopping",
-        "add_to_cart": "Add to Cart",
-        "remove_in_cart": "Remove in Cart",
-        "read_more": "Read More >",
-        "learn_more": "Learn More"
+      "theme": {
+        "dark": "Dark Mode",
+        "light": "Light Mode"
+      },
+      "quick_order": "Generate Quote",
+      "proceed_to_checkout": "Proceed to Checkout",
+      "continue_shopping": "Continue Shopping",
+      "add_to_cart": "Add to Cart",
+      "remove_in_cart": "Remove in Cart",
+      "read_more": "Read More >",
+      "learn_more": "Learn More"
     },
     "menu": {
-        "label": {
-            "select_language": "Select Language"
-        },
-        "language": {
-            "label": "Language"
-        },
-        "home": {
-            "label": "Home"
-        },
-        "track": {
-            "label": "Track Shipment"
-        },
-        "portfolio": {
-            "label": "Portfolio"
-        },
-        "pricing": {
-            "label": "Pricing"
-        },
-        "quotation": {
-            "label": "Quotation"
-        },
-        "cart": {
-            "label": "Cart"
-        },
-        "about": {
-            "label": "About Us"
-        },
-        "login": {
-            "label": "Login"
-        },
-        "logout": {
-            "label": "Logout"
-        },
-        "contact": {
-            "label": "Contact Us"
-        },
-        "privacy": {
-            "label": "Privacy Policy"
-        },
-        "terms": {
-            "label": "Terms of Service"
-        },
-        "hide": {
-            "label": "Hide Menu"
-        },
-        "show": {
-            "label": "Show Menu"
-        }
+      "label": {
+        "select_language": "Select Language"
+      },
+      "language": {
+        "label": "Language"
+      },
+      "home": {
+        "label": "Home"
+      },
+      "track": {
+        "label": "Track Shipment"
+      },
+      "portfolio": {
+        "label": "Portfolio"
+      },
+      "pricing": {
+        "label": "Pricing"
+      },
+      "quotation": {
+        "label": "Quotation"
+      },
+      "cart": {
+        "label": "Cart"
+      },
+      "about": {
+        "label": "About Us"
+      },
+      "login": {
+        "label": "Login"
+      },
+      "logout": {
+        "label": "Logout"
+      },
+      "contact": {
+        "label": "Contact Us"
+      },
+      "privacy": {
+        "label": "Privacy Policy"
+      },
+      "terms": {
+        "label": "Terms of Service"
+      },
+      "hide": {
+        "label": "Hide Menu"
+      },
+      "show": {
+        "label": "Show Menu"
+      }
     }
-}
+  }
