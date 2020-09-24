@@ -60,6 +60,7 @@ const MyApp = ({ Component, pageProps }) => {
 
             .site-footer {
               bottom: 0;
+              padding: 12px 25px;
             }
 
             .site-header-light,

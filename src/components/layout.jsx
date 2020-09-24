@@ -333,12 +333,18 @@ export function BaseLayout({
                    }}
                    className={`site-footer ${isThemeLightMode ? 'site-footer-light' : 'site-footer-dark'}`}
                  >
-                   <Row>
-                     <Col xs={22} sm={22} md={22} lg={22} xl={22}>
-                       <Divider />
+                   <Row justify='center'>
+                     <Col xs={24} sm={24} md={12} lg={10} xl={8}>
                        <div className="vertical-center-div">
                          <p>
-                           Super Stallion Logistics &copy;{new Date().getFullYear()} | Designed by:{' '}
+                           Super Stallion Logistics &copy;{new Date().getFullYear()}
+                         </p>
+                       </div>
+                     </Col>
+                     <Col xs={24} sm={24} md={12} lg={10} xl={8}>
+                       <div className="vertical-center-div">
+                         <p>
+                          Designed by:{' '}
                            <a href="https://premar.tech">Premar Systems</a>
                          </p>
                        </div>
