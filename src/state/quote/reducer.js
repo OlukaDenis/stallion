@@ -35,6 +35,7 @@ export const quoteInitialState = {
            altPhone: '',
          },
          firebaseRefID: '',
+         isPaid: false
        };
 
 export default function reducer(state = quoteInitialState, action) {
@@ -138,6 +139,11 @@ export default function reducer(state = quoteInitialState, action) {
       return {
         ...state,
         firebaseRefID: action.payload,
+      };
+    case quoteActionTypes.SET_IS_PAID:
+      return {
+        ...state,
+        isPaid: action.payload,
       };
     default:
       return state;

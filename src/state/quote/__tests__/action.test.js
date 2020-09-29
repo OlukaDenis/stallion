@@ -180,7 +180,7 @@ describe('quote actions', () => {
 
   it('should create an action to set quote primary booking contact', () => {
     const payload = {
-      mimi: 'You & I'
+      mimi: 'You & I',
     };
 
     const expectedAction = {
@@ -214,13 +214,23 @@ describe('quote actions', () => {
     return expect(store.dispatch(actions.setDeliveryLocation(payload))).toEqual(expectedAction);
   });
 
-    it('should create an action to set quote Firebase reference ID', () => {
-      const payload = 'some-ref-id';
+  it('should create an action to set quote Firebase reference ID', () => {
+    const payload = 'some-ref-id';
 
-      const expectedAction = {
-        type: actions.quoteActionTypes.SET_FIREBASE_REF_ID,
-        payload,
-      };
-      return expect(store.dispatch(actions.setFirebaseRefID(payload))).toEqual(expectedAction);
-    });
+    const expectedAction = {
+      type: actions.quoteActionTypes.SET_FIREBASE_REF_ID,
+      payload,
+    };
+    return expect(store.dispatch(actions.setFirebaseRefID(payload))).toEqual(expectedAction);
+  });
+
+  it('should create an action to set quote payment status', () => {
+    const payload = true;
+
+    const expectedAction = {
+      type: actions.quoteActionTypes.SET_IS_PAID,
+      payload,
+    };
+    return expect(store.dispatch(actions.setIsPaid(payload))).toEqual(expectedAction);
+  });
 });

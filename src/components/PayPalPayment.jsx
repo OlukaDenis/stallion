@@ -1,7 +1,6 @@
 import { Spin } from 'antd';
-import Head from 'next/head';
 import { useEffect, useRef, useState } from 'react';
-import { PAYPAL_CLIENT_ID, PAYPAL_SOFT_DESCRIPTOR } from '../configs';
+import { PAYPAL_SOFT_DESCRIPTOR } from '../configs';
 
 export default function PayPalPayment({ orderID, currency, amount, onSuccess, onFailure }) {
   const [paypal, setPaypal] = useState(null);
@@ -22,6 +21,19 @@ export default function PayPalPayment({ orderID, currency, amount, onSuccess, on
     }
   }, [orderID, currency, amount, paypal]);
 
+  const authorizeTransaction = (data, actions) => {
+    actions.order
+      .authorize()
+      .then((authorization) => {
+        const authorizationID = authorization.purchase_units[0].payments.authorizations[0].id;
+        onSuccess(data.orderID, data.payerID, authorizationID);
+      })
+      .catch((error) => {
+        console.log('An error occurred while authorizing the payment.', error);
+        onFailure('An error occurred while authorizing the payment.');
+      });
+  };
+
   const renderPaypalButtons = (orderID, currency, amount) => {
     
     if (!paypal || paypalButtonsRef.current) return;
@@ -35,6 +47,7 @@ export default function PayPalPayment({ orderID, currency, amount, onSuccess, on
 
           // This function sets up the details of the transaction, including the amount and line item details.
           return actions.order.create({
+            // intent: 'authorize',
             purchase_units: [
               {
                 amount: {
@@ -49,15 +62,13 @@ export default function PayPalPayment({ orderID, currency, amount, onSuccess, on
           });
         },
         onApprove: function (data, actions) {
-          console.log('data', data);
-          // This function captures the funds from the transaction.
-          onSuccess(data.orderID, data.payerID, orderID);
+          authorizeTransaction(data, actions);
         },
         onCancel: function (data) {
           onFailure('The payment process was canceled by user.');
         },
         onError: function (err) {
-          onFailure('An error occurred while processing payment.');
+          onFailure('An error occurred while setting up the payment.');
         },
       })
       .render('#paypal-payment-buttons');

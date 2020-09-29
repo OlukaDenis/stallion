@@ -818,7 +818,7 @@ export function BookPage({
     ) {
 
       const ref = generatePushID();
-      const order = { order_id: ref, ...quote };
+      const order = { order_id: ref, payment_method: 'Cash', ...quote };
 
       firebase
         .firestore()
@@ -841,7 +841,11 @@ export function BookPage({
     <BaseLayout>
       <Head>
         {/* Pre-load the required PayPal checkout.js script */}
-        <link rel="preload" as="script" href={'https://www.paypal.com/sdk/js?client-id=' + PAYPAL_CLIENT_ID}></link>
+        <link
+          rel="preload"
+          as="script"
+          href={'https://www.paypal.com/sdk/js?intent=authorize&client-id=' + PAYPAL_CLIENT_ID}
+        ></link>
       </Head>
       <Row gutter={[16, 16]} justify="center">
         <Col xs={24} sm={24} md={20} lg={20} xl={20}>
