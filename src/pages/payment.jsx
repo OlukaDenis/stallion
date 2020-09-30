@@ -26,13 +26,19 @@ const AdditionalComments = ({ theme, title }) => {
     <section style={topMargin}>
       <SectionHeader theme={theme} title={title} />
 
-      <article className="summary__article_card">
-        <Row gutter={[5, 8]} justify="center">
-          <Col xs={24} sm={24} md={18} lg={18} xl={18}>
-            <TextArea placeholder="Optional" autoSize={{ minRows: 4, maxRows: 10 }} />
-          </Col>
-        </Row>
-      </article>
+      <div
+        class={`${
+          theme === 'light' ? 'quotation_input-container' : 'quotation_input-container quotation_input-container_dark'
+        }`}
+      >
+        <article className="summary__article_card">
+          <Row gutter={[5, 8]} justify="center">
+            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+              <TextArea placeholder="Optional" autoSize={{ minRows: 4, maxRows: 10 }} />
+            </Col>
+          </Row>
+        </article>
+      </div>
     </section>
   );
 };
@@ -78,7 +84,11 @@ const PaymentDetails = ({ theme, title, quote, setIsPaid }) => {
   return (
     <section style={topMargin}>
       <SectionHeader theme={theme} title={title} />
-
+<div
+        class={`${
+          theme === 'light' ? 'quotation_input-container' : 'quotation_input-container quotation_input-container_dark'
+        }`}
+      >
       <article className="summary__article_card">
         <p style={{ borderBottom: '1px dotted #ccc', paddingBottom: 6 }}>
           Your payment will not be processed until your shipment has been confirmed & scheduled for pickup.
@@ -174,6 +184,7 @@ const PaymentDetails = ({ theme, title, quote, setIsPaid }) => {
           </Col>
         </Row>
       </article>
+      </div>
     </section>
   );
 };
@@ -404,6 +415,8 @@ const ShipmentSummary = ({ theme, title, quote }) => {
                 border-style: solid;
                 border-color: #ccc;
                 padding: 1em 1.2em;
+                white-space: nowrap;
+                overflow-x: scroll;
               }
 
               .summary__info > p {
@@ -413,7 +426,7 @@ const ShipmentSummary = ({ theme, title, quote }) => {
               @media only screen and (max-width: 576px) {
                 .shipment__summary {
                   display: grid;
-                  grid-template-columns: 1fr 1fr;
+                  grid-template-columns: 2fr 3fr;
                 }
 
                 .second_child .summary__heading,
@@ -473,10 +486,15 @@ export function Payment({ t, quote, theme, setIsPaid }) {
 
             <section style={topMargin}>
               <SectionHeader theme={theme} title="Terms & Conditions" />
-
+              <div
+        class={`${
+          theme === 'light' ? 'quotation_input-container' : 'quotation_input-container quotation_input-container_dark'
+        }`}
+      >
               <article className="summary__article_card">
                 <Checkbox>I have read and agreed to Super Stallion Logistics Terms & Conditions.</Checkbox>
               </article>
+              </div>
             </section>
 
             <div style={{ display: 'flex', paddingTop: 50, justifyContent: 'center' }}>
