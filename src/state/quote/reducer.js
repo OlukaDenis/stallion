@@ -22,7 +22,7 @@ export const quoteInitialState = {
            isBusiness: false,
            contactName: '',
            businessName: '',
-           deliveryAddress: '',
+           address: '',
            phone: '',
            altPhone: '',
          },
@@ -30,12 +30,20 @@ export const quoteInitialState = {
            isBusiness: false,
            contactName: '',
            businessName: '',
-           deliveryAddress: '',
+           address: '',
+           phone: '',
+           altPhone: '',
+         },
+         billingAddress: {
+           isBusiness: false,
+           contactName: '',
+           businessName: '',
+           address: '',
            phone: '',
            altPhone: '',
          },
          firebaseRefID: '',
-         isPaid: false
+         isPaid: false,
        };
 
 export default function reducer(state = quoteInitialState, action) {
@@ -144,6 +152,11 @@ export default function reducer(state = quoteInitialState, action) {
       return {
         ...state,
         isPaid: action.payload,
+      };
+    case quoteActionTypes.SET_BILLING_ADDRESS:
+      return {
+        ...state,
+        billingAddress: action.payload,
       };
     default:
       return state;

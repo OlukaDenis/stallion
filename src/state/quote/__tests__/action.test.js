@@ -233,4 +233,16 @@ describe('quote actions', () => {
     };
     return expect(store.dispatch(actions.setIsPaid(payload))).toEqual(expectedAction);
   });
+
+  it('should create an action to set quote billing address', () => {
+    const payload = {
+      address: '5th Street, New York'
+    };
+
+    const expectedAction = {
+      type: actions.quoteActionTypes.SET_BILLING_ADDRESS,
+      payload,
+    };
+    return expect(store.dispatch(actions.setBillingAddress(payload))).toEqual(expectedAction);
+  });
 });

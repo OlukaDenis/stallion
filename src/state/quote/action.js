@@ -20,6 +20,7 @@ export const quoteActionTypes = {
          SET_PRIMARY_BOOKING_CONTACT: 'SET_PRIMARY_BOOKING_CONTACT',
          SET_FIREBASE_REF_ID: 'SET_FIREBASE_REF_ID',
          SET_IS_PAID: 'SET_IS_PAID',
+         SET_BILLING_ADDRESS: 'SET_BILLING_ADDRESS',
        };
 
 export const setID = (id) => (dispatch) => {
@@ -91,11 +92,11 @@ export const setPrimaryBookingContact = (bookingContact) => (dispatch) => {
 };
 
 export const setPickupLocation = (pickupLocation) => (dispatch) => {
-  return dispatch({ type: quoteActionTypes.SET_PICKUP_LOCATION, payload: pickupLocation });
+  return dispatch({ type: quoteActionTypes.SET_PICKUP_LOCATION, payload: {...pickupLocation} });
 };
 
 export const setDeliveryLocation = (deliveryLocation) => (dispatch) => {
-  return dispatch({ type: quoteActionTypes.SET_DELIVERY_LOCATION, payload: deliveryLocation });
+  return dispatch({ type: quoteActionTypes.SET_DELIVERY_LOCATION, payload: {...deliveryLocation} });
 };
 
 export const setFirebaseRefID = (firebaseRefID) => (dispatch) => {
@@ -104,4 +105,8 @@ export const setFirebaseRefID = (firebaseRefID) => (dispatch) => {
 
 export const setIsPaid = (isPaid) => (dispatch) => {
   return dispatch({ type: quoteActionTypes.SET_IS_PAID, payload: isPaid });
+};
+
+export const setBillingAddress = (billingAddress) => (dispatch) => {
+  return dispatch({ type: quoteActionTypes.SET_BILLING_ADDRESS, payload: {...billingAddress} });
 };

@@ -168,4 +168,18 @@ describe('quote reducer', () => {
       isPaid: true,
     });
   });
+
+  it('should handle ' + actions.quoteActionTypes.SET_BILLING_ADDRESS, () => {
+    const action = getActionObjectFromFunction(
+      actions.setBillingAddress({
+        address: '5th Street, New York',
+      })
+    );
+    expect(quoteReducer(quoteInitialState, action)).toEqual({
+      ...quoteInitialState,
+      billingAddress: {
+        address: '5th Street, New York',
+      },
+    });
+  });
 });
