@@ -42,7 +42,7 @@ const inputStyle = {
   height: 45,
 };
 
-const AddressTypeSelector = ({ onChange, isBusiness = false }) => {
+export const AddressTypeSelector = ({ onChange, isBusiness = false }) => {
   return (
     <Select
       labelInValue={true}
@@ -211,21 +211,21 @@ const DeliveryLocation = ({ theme, quote, setDeliveryLocation, showErrors, setHa
   const [isBusiness, setIsBusiness] = useState(quote.deliveryLocation.isBusiness);
   const [contactName, setContactName] = useState(quote.deliveryLocation.contactName);
   const [businessName, setBusinessName] = useState(quote.deliveryLocation.businessName);
-  const [deliveryAddress, setDeliveryAddress] = useState(quote.deliveryLocation.deliveryAddress);
+  const [address, setAddress] = useState(quote.deliveryLocation.address);
   const [phone, setPhone] = useState(quote.deliveryLocation.phone);
   const [altPhone, setAltPhone] = useState(quote.deliveryLocation.altPhone);
 
 
   const hasNameError = !useIsValidName(quote.deliveryLocation.contactName);
   const hasBusinessNameError = !useIsValidBusinessName(quote.deliveryLocation.businessName) && isBusiness;
-  const hasDeliveryAddressError = !useIsValidAddress(quote.deliveryLocation.deliveryAddress);
+  const hasAddressError = !useIsValidAddress(quote.deliveryLocation.address);
   const hasPhoneError = !useIsValidPhoneNumber(quote.deliveryLocation.phone);
   const hasAltPhoneError = !useIsValidPhoneNumber(quote.deliveryLocation.altPhone) && quote.deliveryLocation.altPhone;
 
   
   useEffect(() => {
-    setHasErrors(hasNameError || hasBusinessNameError || hasDeliveryAddressError || hasPhoneError || hasAltPhoneError);
-  }, [hasNameError, hasBusinessNameError, hasDeliveryAddressError, hasPhoneError, hasAltPhoneError]);
+    setHasErrors(hasNameError || hasBusinessNameError || hasAddressError || hasPhoneError || hasAltPhoneError);
+  }, [hasNameError, hasBusinessNameError, hasAddressError, hasPhoneError, hasAltPhoneError]);
 
   const setContactsSameAsPrimary = (isPrimaryContactDeliveryContact) => {
     if (isPrimaryContactDeliveryContact) {
@@ -242,11 +242,11 @@ const DeliveryLocation = ({ theme, quote, setDeliveryLocation, showErrors, setHa
       isBusiness,
       contactName,
       businessName,
-      deliveryAddress,
+      address,
       phone,
       altPhone,
     });
-  }, [isBusiness, contactName, businessName, deliveryAddress, phone, altPhone]);
+  }, [isBusiness, contactName, businessName, address, phone, altPhone]);
 
   return (
     <>
@@ -326,15 +326,15 @@ const DeliveryLocation = ({ theme, quote, setDeliveryLocation, showErrors, setHa
                 title="Address where the shipment will be delivered to"
               >
                 <Input
-                  value={deliveryAddress}
-                  onChange={(e) => setDeliveryAddress(e.target.value)}
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
                   placeholder="Delivery Address"
                   prefix={<AimOutlined />}
                   style={inputStyle}
                   required
                 />
               </Tooltip>
-              {showErrors && hasDeliveryAddressError ? (
+              {showErrors && hasAddressError ? (
                 <Alert message="Kindly enter the shipment's delivery address" type="error" />
               ) : (
                 <></>
@@ -511,19 +511,19 @@ const PickupLocation = ({ theme, quote, setPickupLocation, showErrors, setHasErr
   const [isBusiness, setIsBusiness] = useState(quote.pickupLocation.isBusiness);
   const [contactName, setContactName] = useState(quote.pickupLocation.contactName);
   const [businessName, setBusinessName] = useState(quote.pickupLocation.businessName);
-  const [pickupAddress, setPickupAddress] = useState(quote.pickupLocation.pickupAddress);
+  const [address, setAddress] = useState(quote.pickupLocation.address);
   const [phone, setPhone] = useState(quote.pickupLocation.phone);
   const [altPhone, setAltPhone] = useState(quote.pickupLocation.altPhone);
 
   const hasNameError = !useIsValidName(quote.pickupLocation.contactName);
   const hasBusinessNameError = !useIsValidBusinessName(quote.pickupLocation.businessName) && isBusiness;
-  const hasPickupAddressError = !useIsValidAddress(quote.pickupLocation.pickupAddress);
+  const hasAddressError = !useIsValidAddress(quote.pickupLocation.address);
   const hasPhoneError = !useIsValidPhoneNumber(quote.pickupLocation.phone);
   const hasAltPhoneError = !useIsValidPhoneNumber(quote.pickupLocation.altPhone) && quote.pickupLocation.altPhone;
 
   useEffect(() => {
-    setHasErrors(hasNameError || hasBusinessNameError || hasPickupAddressError || hasPhoneError || hasAltPhoneError);
-  }, [hasNameError, hasBusinessNameError, hasPickupAddressError, hasPhoneError, hasAltPhoneError]);
+    setHasErrors(hasNameError || hasBusinessNameError || hasAddressError || hasPhoneError || hasAltPhoneError);
+  }, [hasNameError, hasBusinessNameError, hasAddressError, hasPhoneError, hasAltPhoneError]);
 
   const setContactsSameAsPrimary = (isPrimaryContactPickupContact) => {
     if (isPrimaryContactPickupContact) {
@@ -540,11 +540,11 @@ const PickupLocation = ({ theme, quote, setPickupLocation, showErrors, setHasErr
       isBusiness,
       contactName,
       businessName,
-      pickupAddress,
+      address,
       phone,
       altPhone,
     });
-  }, [isBusiness, contactName, businessName, pickupAddress, phone, altPhone]);
+  }, [isBusiness, contactName, businessName, address, phone, altPhone]);
 
   return (
     <>
@@ -624,15 +624,15 @@ const PickupLocation = ({ theme, quote, setPickupLocation, showErrors, setHasErr
                 title="Address where the shipment will be picked up from"
               >
                 <Input
-                  value={pickupAddress}
-                  onChange={(e) => setPickupAddress(e.target.value)}
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
                   placeholder="Pickup Address"
                   prefix={<AimOutlined />}
                   style={inputStyle}
                   required
                 />
               </Tooltip>
-              {showErrors && hasPickupAddressError ? (
+              {showErrors && hasAddressError ? (
                 <Alert message="Kindly enter the address where to pickup the shipment" type="error" />
               ) : (
                 <></>
