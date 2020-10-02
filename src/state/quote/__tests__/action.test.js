@@ -236,7 +236,7 @@ describe('quote actions', () => {
 
   it('should create an action to set quote billing address', () => {
     const payload = {
-      address: '5th Street, New York'
+      address: '5th Street, New York',
     };
 
     const expectedAction = {
@@ -244,5 +244,15 @@ describe('quote actions', () => {
       payload,
     };
     return expect(store.dispatch(actions.setBillingAddress(payload))).toEqual(expectedAction);
+  });
+
+  it('should create an action to clear quote data', () => {
+    const payload = null;
+
+    const expectedAction = {
+      type: actions.quoteActionTypes.CLEAR_QUOTE_DATA,
+      payload,
+    };
+    return expect(store.dispatch(actions.clearQuoteData(payload))).toEqual(expectedAction);
   });
 });

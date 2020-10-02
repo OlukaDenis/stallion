@@ -158,6 +158,10 @@ export default function reducer(state = quoteInitialState, action) {
         ...state,
         billingAddress: action.payload,
       };
+    case quoteActionTypes.CLEAR_QUOTE_DATA:
+      return {
+        ...quoteInitialState,
+      };
     default:
       return state;
   }

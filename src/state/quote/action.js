@@ -21,6 +21,7 @@ export const quoteActionTypes = {
          SET_FIREBASE_REF_ID: 'SET_FIREBASE_REF_ID',
          SET_IS_PAID: 'SET_IS_PAID',
          SET_BILLING_ADDRESS: 'SET_BILLING_ADDRESS',
+         CLEAR_QUOTE_DATA: 'CLEAR_QUOTE_DATA',
        };
 
 export const setID = (id) => (dispatch) => {
@@ -109,4 +110,8 @@ export const setIsPaid = (isPaid) => (dispatch) => {
 
 export const setBillingAddress = (billingAddress) => (dispatch) => {
   return dispatch({ type: quoteActionTypes.SET_BILLING_ADDRESS, payload: {...billingAddress} });
+};
+
+export const clearQuoteData = () => (dispatch) => {
+  return dispatch({ type: quoteActionTypes.CLEAR_QUOTE_DATA, payload: null });
 };

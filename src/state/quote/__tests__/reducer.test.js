@@ -182,4 +182,13 @@ describe('quote reducer', () => {
       },
     });
   });
+
+  it('should handle ' + actions.quoteActionTypes.CLEAR_QUOTE_DATA, () => {
+    const action = getActionObjectFromFunction(
+      actions.clearQuoteData()
+    );
+    expect(quoteReducer({...quoteInitialState, isPaid: true, origin: {} }, action)).toEqual({
+      ...quoteInitialState,
+    });
+  });
 });
