@@ -26,7 +26,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { clearQuoteData, setBillingAddress, setIsPaid } from '../state/quote/action';
 import { bindActionCreators } from 'redux';
-import {
+import useIsValidQuoteData, {
   useIsValidAddress,
   useIsValidBusinessName,
   useIsValidName,
@@ -751,6 +751,17 @@ export function Payment({ t, quote, theme, setIsPaid, setBillingAddress, setIsLo
   const [isUploadingData, setIsUploadingData] = useState(false);
   const [isOperationSuccess, setIsOperationSuccess] = useState(false);
   const [bookingID, setBookingID] = useState(quote.id);
+  const isQuoteDataValid  = useIsValidQuoteData(quote);
+
+  useEffect(() => {
+    if (!isQuoteDataValid) {
+      (async () => {
+        setIsLoadingNewPage(true);
+        await Router.push('/quotation');
+        setIsLoadingNewPage(false);
+      })();
+    }
+  });
 
   useEffect(() => {
     setHasFormErrors(hasAcceptedTermsError || hasBillingAddressErrors || (paymentMethod === 'card' && !quote.isPaid));

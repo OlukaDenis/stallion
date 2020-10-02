@@ -21,7 +21,7 @@ import { setDeliveryLocation, setPickupLocation, setPrimaryBookingContact, setPi
 import { bindActionCreators } from 'redux';
 import { calculateTotalShippingRate } from '../utilities/calculate_shipping_rate';
 import SectionHeader from '../components/SectionHeader';
-import {
+import useIsValidQuoteData, {
   useIsValidAddress, 
   useIsValidBusinessName,
   useIsValidEmail,
@@ -807,6 +807,18 @@ export function BookPage({
   const [hasPrimaryBookingErrors, setHasPrimaryBookingErrors] = useState(false);
   const [hasPickupLocationErrors, setHasPickupLocationErrors] = useState(false);
   const [hasDeliveryLocationErrors, setHasDeliveryLocationErrors] = useState(false);
+
+    const isQuoteDataValid = useIsValidQuoteData(quote);
+
+    useEffect(() => {
+      if (!isQuoteDataValid) {
+        (async () => {
+          setIsLoadingNewPage(true);
+          await Router.push('/quotation');
+          setIsLoadingNewPage(false);
+        })();
+      }
+    });
 
     const onBookingFailure = (error) => {
       message.destroy();
