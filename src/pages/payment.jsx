@@ -24,7 +24,7 @@ import Head from 'next/head';
 import moment from 'moment';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import { setBillingAddress, setIsPaid } from '../state/quote/action';
+import { clearQuoteData, setBillingAddress, setIsPaid } from '../state/quote/action';
 import { bindActionCreators } from 'redux';
 import {
   useIsValidAddress,
@@ -740,7 +740,7 @@ const ShipmentSummary = ({ theme, title, quote }) => {
   );
 };
 
-export function Payment({ t, quote, theme, setIsPaid, setBillingAddress, setIsLoadingNewPage }) {
+export function Payment({ t, quote, theme, setIsPaid, setBillingAddress, setIsLoadingNewPage, clearQuoteData }) {
   const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false);
   const [hasAcceptedTermsError, setHasAcceptedTermsError] = useState(false);
   const [hasBillingAddressErrors, setHasBillingAddressErrors] = useState(false);
@@ -750,6 +750,7 @@ export function Payment({ t, quote, theme, setIsPaid, setBillingAddress, setIsLo
   const [paymentMethod, setPaymentMethod] = useState('');
   const [isUploadingData, setIsUploadingData] = useState(false);
   const [isOperationSuccess, setIsOperationSuccess] = useState(false);
+  const [bookingID, setBookingID] = useState(quote.id);
 
   useEffect(() => {
     setHasFormErrors(hasAcceptedTermsError || hasBillingAddressErrors || (paymentMethod === 'card' && !quote.isPaid));
@@ -786,6 +787,7 @@ export function Payment({ t, quote, theme, setIsPaid, setBillingAddress, setIsLo
         .then((response) => {
           setIsUploadingData(false);
           setIsOperationSuccess(true);
+          clearQuoteData();
         })
         .catch((error) => {
           setIsUploadingData(false);
@@ -887,7 +889,7 @@ export function Payment({ t, quote, theme, setIsPaid, setBillingAddress, setIsLo
               title="Successfully Booked your Shipment!"
               subTitle={
                 <p>
-                  Order/booking ID: {quote.id}. Save and use this order/booking ID to{' '}
+                  Order/booking ID: {bookingID}. Save and use this order/booking ID to{' '}
                   <Link href="/track">
                     <a>track your shipment</a>
                   </Link>
@@ -943,6 +945,7 @@ const mapDispatchToProps = (dispatch) => {
     setIsPaid: bindActionCreators(setIsPaid, dispatch),
     setBillingAddress: bindActionCreators(setBillingAddress, dispatch),
     setIsLoadingNewPage: bindActionCreators(setIsLoadingNewPage, dispatch),
+    clearQuoteData: bindActionCreators(clearQuoteData, dispatch),
   };
 };
 

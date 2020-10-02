@@ -46,6 +46,8 @@ export const quoteInitialState = {
          isPaid: false,
        };
 
+const blankQuote = {...quoteInitialState};
+
 export default function reducer(state = quoteInitialState, action) {
   switch (action.type) {
     case quoteActionTypes.SET_ID:
@@ -160,7 +162,7 @@ export default function reducer(state = quoteInitialState, action) {
       };
     case quoteActionTypes.CLEAR_QUOTE_DATA:
       return {
-        ...quoteInitialState,
+        ...blankQuote,
       };
     default:
       return state;
