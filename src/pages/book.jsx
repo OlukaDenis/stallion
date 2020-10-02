@@ -808,6 +808,11 @@ export function BookPage({
   const [hasPickupLocationErrors, setHasPickupLocationErrors] = useState(false);
   const [hasDeliveryLocationErrors, setHasDeliveryLocationErrors] = useState(false);
 
+    const onBookingFailure = (error) => {
+      message.destroy();
+      message.error(error, 30);
+    };
+
   const submitData = () => {
     setIsSubmitted(true);
     if (
@@ -818,21 +823,22 @@ export function BookPage({
     ) {
 
       const ref = generatePushID();
-      const order = { order_id: ref, payment_method: 'Cash', ...quote };
+      const order = { order_id: ref, ...quote };
 
+      setIsLoadingNewPage(true);
       firebase
         .firestore()
         .doc('/orders/' + ref)
         .set(order)
         .then(async (data) => {
           setFirebaseRefID(ref);
-          setIsLoadingNewPage(true);
           await Router.push('/payment');
           setIsLoadingNewPage(false);
         })
         .catch((error) => {
           setIsSubmitted(false);
-          console.log(error);
+          setIsLoadingNewPage(false);
+          onBookingFailure('Failed to save shipment booking information, try again.');
         });
     }
   };
