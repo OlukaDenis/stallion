@@ -1,21 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import { Card, Table, Divider, DatePicker, Pagination, Button, Row, Col, Select, Input, Checkbox, message, Alert } from 'antd';
-import {
-  SafetyOutlined,
-  CalendarFilled,
-  CreditCardFilled,
-  NumberOutlined,
-  LockFilled
-} from '@ant-design/icons';
+import { Card, Table, DatePicker, Pagination, Button, Row, Col, Select, Input } from 'antd';
+
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+
 import BaseLayout from '../../components/layout';
 import { withTranslation } from '../../utilities/i18n';
-import SectionHeader from '../../components/SectionHeader';
 const { Option } = Select;
-const { TextArea } = Input;
-const topMargin = { marginTop: 20 };
-const inputStyle = { height: 45 };
 
 const data = [];
   for (let i = 0; i < 46; i++) {
@@ -23,7 +16,7 @@ const data = [];
       key: i,
       orderId: `John Doe ${i}`,
       date: '2/3/2020',
-      vehicle: `Golf 4849. ${i}`,
+      vehicle: `Golf 4849 ${i}`,
       inop: 'good',
       address1: 'Spring Road',
       city1: 'Kampala',
@@ -34,10 +27,10 @@ const data = [];
       state2: 'Nakawa',
       zip2: '2939',
       distance: '10km',
-      payout: '$ 1090'
+      payout: '$1090'
     });
   }
-  console.log(data);
+  // console.log(data);
 
 export function Available ({
   t,
@@ -45,57 +38,92 @@ export function Available ({
   theme,
 }){
 
-  const [selectedRows, setSelectedRows] = useState([])
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [data, setData] = useState([]);
+
+  const fetchData = () => {
+    firebase.firestore().collection('/orders')
+    .get()
+    .then(response => {
+      const newData = [];
+      let car;
+      response.forEach(snapshot => {
+        car = snapshot.data(); 
+        newData.push(car);
+      });
+      console.log(car);
+      setData(newData);
+    })
+    .catch(error => {
+
+    })
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+
   const columns = [
     {
       title: 'OrderID',
-      dataIndex: 'orderId',
+      dataIndex: 'id',
     },
     {
       title: 'Date',
-      dataIndex: 'date',
+      dataIndex: 'pickupDate',
     },
     {
       title: 'Vehicle',
-      dataIndex: 'vehicle',
+      dataIndex: 'cars',
+      render: (cars) => cars[0].make + ' ' + cars[0].model + ' ' + cars[0].year,
     },
     {
       title: 'Inop?',
-      dataIndex: 'inop',
+      dataIndex: 'cars',
+      render: (cars) =>
+        !!Object.keys(cars).filter((index) => !cars[index].isOperable || !cars[index].hasKeys).length ? 'inop' : 'good',
     },
 
     {
       title: 'Address',
-      dataIndex: 'address1',
+      dataIndex: 'pickupLocation',
+      render: (location) => location.address,
     },
     {
       title: 'City',
-      dataIndex: 'city1',
+      dataIndex: 'originName',
+      render: (originName) => originName.split(',')[0],
     },
     {
       title: 'State',
-      dataIndex: 'state1',
+      dataIndex: 'origin',
+      render: (origin) => origin.split(',')[1].split(' ')[1],
     },
     {
       title: 'Zip',
-      dataIndex: 'zip1',
+      dataIndex: 'origin',
+      render: (origin) => origin.split(',')[1].split(' ')[2],
     },
 
     {
       title: 'Address',
-      dataIndex: 'address2',
+      dataIndex: 'deliveryLocation',
+      render: (location) => location.address,
     },
     {
       title: 'City',
-      dataIndex: 'city2',
+      dataIndex: 'destinationName',
+      render: (destinationName) => destinationName.split(',')[0],
     },
     {
       title: 'State',
-      dataIndex: 'state2',
+      dataIndex: 'destination',
+      render: (destination) => destination.split(',')[1].split(' ')[1],
     },
     {
       title: 'Zip',
-      dataIndex: 'zip2',
+      dataIndex: 'destination',
+      render: (destination) => destination.split(',')[1].split(' ')[2],
     },
     {
       title: 'Distance',
@@ -103,9 +131,9 @@ export function Available ({
     },
     {
       title: 'Payout',
-      dataIndex: 'payout',
+      dataIndex: 'payment_authorized_amount',
+      render: (amount) => '$' + amount,
     },
-
   ];
 
   const onSelectChange = selectedRowKeys => {
