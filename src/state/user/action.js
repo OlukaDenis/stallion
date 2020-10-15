@@ -13,7 +13,7 @@ export const userActionTypes = {
   SET_PHOTO_URL: 'SET_PHOTO_URL',
   SET_REFRESH_TOKEN: 'SET_REFRESH_TOKEN',
   SET_IS_ADMIN: 'SET_IS_ADMIN',
-  SET_IS_SHOP_OWNER: 'SET_IS_SHOP_OWNER',
+  SET_IS_SHIPPING_AGENT: 'SET_IS_SHIPPING_AGENT',
   SET_FAVORITE_ITEMS: 'SET_FAVORITE_ITEMS',
 };
 
@@ -85,8 +85,8 @@ export const setIsAdmin = (isAdmin) => (dispatch) => {
   return dispatch({ type: userActionTypes.SET_IS_ADMIN, payload: isAdmin });
 };
 
-export const setIsShopOwner = (isShopOwner) => (dispatch) => {
-  return dispatch({ type: userActionTypes.SET_IS_SHOP_OWNER, payload: isShopOwner });
+export const setIsShippingAgent = (isShippingAgent) => (dispatch) => {
+  return dispatch({ type: userActionTypes.SET_IS_SHIPPING_AGENT, payload: isShippingAgent });
 };
 
 export const setFavoriteItems = (favoriteItems) => (dispatch) => {

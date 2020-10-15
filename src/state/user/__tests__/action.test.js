@@ -24,7 +24,7 @@ describe('user actions', () => {
                 photoURL: '',
                 refreshToken: '',
                 isAdmin: false,
-                isShopOwner: false,
+                isShippingAgent: false,
                 favoriteItems: []
             }
         });
@@ -178,10 +178,10 @@ describe('user actions', () => {
         const payload = true;
 
         const expectedAction = {
-            type: actions.userActionTypes.SET_IS_SHOP_OWNER,
+            type: actions.userActionTypes.SET_IS_SHIPPING_AGENT,
             payload
         }
-        return expect(store.dispatch(actions.setIsShopOwner(payload))).toEqual(expectedAction);
+        return expect(store.dispatch(actions.setIsShippingAgent(payload))).toEqual(expectedAction);
     })
 
     it('should create an action to set the logged in user\'s favorite items', () => {

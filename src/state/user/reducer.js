@@ -14,7 +14,7 @@ export const userInitialState = {
   photoURL: '',
   refreshToken: '',
   isAdmin: false,
-  isShopOwner: false,
+  isShippingAgent: false,
   favoriteItems: []
 }
 
@@ -85,10 +85,10 @@ export default function reducer(state = userInitialState, action) {
         ...state,
         isAdmin: action.payload,
       };
-    case userActionTypes.SET_IS_SHOP_OWNER:
+    case userActionTypes.SET_IS_SHIPPING_AGENT:
       return {
         ...state,
-        isShopOwner: action.payload,
+        isShippingAgent: action.payload,
       };
     case userActionTypes.SET_FAVORITE_ITEMS:
       return {

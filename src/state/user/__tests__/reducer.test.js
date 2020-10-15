@@ -47,9 +47,9 @@ describe('user reducer', () => {
         expect(userReducer(userInitialState, action)).toEqual({ ...userInitialState, isPhoneLinked: true });
     })
 
-    it('should handle ' + actions.userActionTypes.SET_IS_SHOP_OWNER, () => {
-        const action = getActionObjectFromFunction(actions.setIsShopOwner(true));
-        expect(userReducer(userInitialState, action)).toEqual({ ...userInitialState, isShopOwner: true });
+    it('should handle ' + actions.userActionTypes.SET_IS_SHIPPING_AGENT, () => {
+        const action = getActionObjectFromFunction(actions.setIsShippingAgent(true));
+        expect(userReducer(userInitialState, action)).toEqual({ ...userInitialState, isShippingAgent: true });
     })
 
     it('should handle ' + actions.userActionTypes.SET_NAME, () => {
