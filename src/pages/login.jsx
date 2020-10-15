@@ -6,7 +6,7 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { Spin } from 'antd';
-import { setIsLoggedIn, setIsPhoneLinked, setUsername, setIsLoading, setName, setPhone, setEmail, setUid, setIsEmailVerified, setPhotoURL, setRefreshToken, setIsAdmin, setIsShopOwner } from '../state/user/action';
+import { setIsLoggedIn, setIsPhoneLinked, setUsername, setIsLoading, setName, setPhone, setEmail, setUid, setIsEmailVerified, setPhotoURL, setRefreshToken, setIsAdmin, setIsShippingAgent } from '../state/user/action';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Router } from '../utilities/i18n';
@@ -25,7 +25,7 @@ export function LoginPage({
          setPhotoURL,
          setRefreshToken,
          setIsAdmin,
-         setIsShopOwner,
+         setIsShippingAgent,
        }) {
          // FirebaseUI config.
          const uiConfig = {
@@ -36,8 +36,8 @@ export function LoginPage({
              firebase.auth.PhoneAuthProvider.PROVIDER_ID,
              firebase.auth.EmailAuthProvider.PROVIDER_ID,
              firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-             firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-             firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+            //  firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+            //  firebase.auth.TwitterAuthProvider.PROVIDER_ID,
            ],
            // Terms of service url/callback.
            tosUrl: '/terms-of-service',
@@ -61,7 +61,7 @@ export function LoginPage({
                
                currentUser.getIdTokenResult().then(token => {
                   setIsAdmin(token.claims.admin);
-                  setIsShopOwner(token.claims.shopOwner);
+                  setIsShippingAgent(token.claims.shippingAgent);
                   setIsLoading(false);
                 }).catch(error => {
                   setIsLoading(false);
@@ -112,7 +112,7 @@ const mapDispatchToProps = (dispatch) => {
     setPhotoURL: bindActionCreators(setPhotoURL, dispatch),
     setRefreshToken: bindActionCreators(setRefreshToken, dispatch),
     setIsAdmin: bindActionCreators(setIsAdmin, dispatch),
-    setIsShopOwner: bindActionCreators(setIsShopOwner, dispatch),
+    setIsShippingAgent: bindActionCreators(setIsShippingAgent, dispatch),
   };
 };
 
