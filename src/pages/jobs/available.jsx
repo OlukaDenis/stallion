@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Card, Table, Row, Col, Select, Input, Space, Button } from 'antd';
+import { Card, Table, Row, Col, Input, Space, Button } from 'antd';
 import Highlighter from 'react-highlight-words';
 
 import firebase from 'firebase/app';
@@ -11,7 +11,7 @@ import 'firebase/firestore';
 import BaseLayout from '../../components/layout';
 import { withTranslation } from '../../utilities/i18n';
 import { SearchOutlined } from '@ant-design/icons';
-const { Option } = Select;
+import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
 
 export function Available ({
   t,
@@ -36,6 +36,9 @@ export function Available ({
   const stageSelectedJobs = async () => {
     setIsLoadingStagedJobsPage('/jobs/staged');
   }
+    const getColumnSearchProps = (dataIndex) => {};
+    
+    const getColumnSearchProp = (dataIndex) => ({
       filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
         <div style={{ padding: 8 }}>
           <Input
@@ -102,12 +105,18 @@ export function Available ({
     .get()
     .then(response => {
       const newData = [];
-      let car;
+      let order;
       response.forEach(snapshot => {
-        car = snapshot.data(); 
-        newData.push(car);
+        order = snapshot.data(); 
+        order.key = order.order_id;
+        // for(let i = 1; i < 40; i++) {
+        //   order = snapshot.data(); 
+        //   order.key = order.order_id + ('' + i);
+        //   newData.push(order);
+        // }
+        newData.push(order);
       });
-      console.log(car);
+      // console.log(order);
       setData(newData);
     })
     .catch(error => {
@@ -231,13 +240,12 @@ export function Available ({
     },
   ];
 
-  const onSelectChange = selectedRowKeys => {
-    console.log('selectedRowKeys changed: ', selectedRowKeys);
-    setSelectedRows(selectedRowKeys);
+  const onSelectChange = (selectedRowKeys, selectedRows) => {
+    // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    setSelectedRows(selectedRows);
   };
 
   const rowSelection = {
-    selectedRows,
     onChange: onSelectChange,
   }
 
@@ -249,16 +257,33 @@ return (
           <Row gutter={[8, 8]}>
             <Col md={24} lg={24} xl={24}>
               <div className="table__section">
+                {selectedRows.length > 0 ? (
+                  <div style={{ marginBottom: 16 }}>
+                    <Button
+                      // loading={isSubmitted}
+                      onClick={stageSelectedJobs}
+                      type="primary"
+                    >
+                      Select Jobs
+                    </Button>
+                  </div>
+                ) : (
+                  <p>Select jobs on the table below.</p>
+                )}
+
                 <h3>Available Auction Jobs</h3>
-                  
-                  <Table
-                    bordered
-                    scroll={{ x: true }}
-                    pagination={{ position: ['bottomRight'] }}
-                    rowSelection={rowSelection}
-                    columns={columns}
-                    dataSource={data}
-                  />
+
+                <Table
+                  bordered
+                  scroll={{ x: true, y: 600 }}
+                  pagination={{
+                    position: ['bottomRight'],
+                    defaultPageSize: 20
+                  }}
+                  rowSelection={{ ...rowSelection }}
+                  columns={columns}
+                  dataSource={data}
+                />
               </div>
             </Col>
           </Row>
