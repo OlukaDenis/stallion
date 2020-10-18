@@ -23,10 +23,19 @@ export function Available ({
   const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
+  const [isLoadingStagedJobsPage, setIsLoadingStagedJobsPage] = useState('');
 
   const searchInputRef = useRef();
 
-    const getColumnSearchProps = (dataIndex) => ({
+  useIsLoadingNewPage(isLoadingStagedJobsPage);
+
+  useEffect(() => {
+    if (isLoadingStagedJobsPage) setIsLoadingStagedJobsPage('');
+  }, [isLoadingStagedJobsPage]);
+
+  const stageSelectedJobs = async () => {
+    setIsLoadingStagedJobsPage('/jobs/staged');
+  }
       filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
         <div style={{ padding: 8 }}>
           <Input
