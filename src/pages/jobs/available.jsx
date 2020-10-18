@@ -98,6 +98,7 @@ export function Available ({
 
   const fetchData = () => {
     firebase.firestore().collection('/orders')
+    .where('terms_accepted', '==', true)
     .get()
     .then(response => {
       const newData = [];
