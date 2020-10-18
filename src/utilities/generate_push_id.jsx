@@ -1,5 +1,3 @@
-import { IdcardFilled } from "@ant-design/icons";
-
 /**
  * Fancy ID generator that creates 20-character string identifiers with the following properties:
  *
@@ -11,9 +9,8 @@ import { IdcardFilled } from "@ant-design/icons";
  *    but "incrementing" them by 1 (only in the case of a timestamp collision).
  */
 export const generatePushID = (function () {
-  // Modeled after base64 web-safe chars, but ordered by ASCII.
-  var PUSH_CHARS =
-    "-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz";
+  // Modeled after base64 web-safe chars, but un-ordered by ASCII.
+  var PUSH_CHARS = 'STUVWXYZ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-_abcdefghijklmnopqrstuvwxyz';
 
   // Timestamp of last push, used to prevent local collisions if you push twice in one ms.
   var lastPushTime = 0;
@@ -65,7 +62,7 @@ export const generateUniqueQuoteID = () => {
     .toString(10)
     .toUpperCase();
 
-    id = id.substring(id.length - 6);
+    id = id.substring(id.length - 7);
   return id;
 }
          
