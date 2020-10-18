@@ -140,9 +140,9 @@ export function BaseLayout({
                      httpEquiv="Content-Security-Policy"
                      content={`${
                        'development' === process.env.NODE_ENV
-                         ? "default-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline';" // 'nonce-" + cspNonce + "';"
-                         : "default-src 'self'; style-src 'self' 'unsafe-inline';" // 'nonce-" + cspNonce + "';"
-                     }  style-src-elem 'self' https://*.googleapis.com 'unsafe-inline' https://unpkg.com https://api.mapbox.com;  script-src-elem 'self' https://*.paypal.com 'sha256-IRnrutkKc4zvr32Es3Okh1pGGlX0d6DlvuCsvosmVrM=' https://*.gstatic.com https://*.google.com https://unpkg.com;  img-src https://* 'self' data:; font-src 'self' data: https://*.gstatic.com; child-src 'none'; connect-src 'self' https://*.paypal.com https://*.googleapis.com https://*.openstreetmap.org https://*.mapbox.com; worker-src 'self' blob:;frame-src 'self' https://*.paypal.com https://*.google.com https://super-stallion-logistics.firebaseapp.com;`}
+                         ? "default-src 'self' 'unsafe-eval' data:; style-src 'self' 'unsafe-inline';" // 'nonce-" + cspNonce + "';"
+                         : "default-src 'self' data:; style-src 'self' 'unsafe-inline';" // 'nonce-" + cspNonce + "';"
+                     }  style-src-elem 'self' https://*.googleapis.com 'unsafe-inline' https://unpkg.com https://api.mapbox.com;  script-src-elem 'self' https://*.paypal.com 'sha256-7nnKyr+RUZ9a44Hg3lYwjgkUx5VyFQwv2ZUhVw6N7J4=' https://*.gstatic.com https://*.google.com https://unpkg.com;  img-src https://* 'self' data:; font-src 'self' data: https://*.gstatic.com; child-src 'none'; connect-src 'self' https://*.paypal.com https://*.googleapis.com https://*.openstreetmap.org https://*.mapbox.com; worker-src 'self' blob:;frame-src 'self' https://*.paypal.com https://*.google.com https://super-stallion-logistics.firebaseapp.com;`}
                    ></meta>
                    <meta charSet="utf-8" />
                    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -333,19 +333,16 @@ export function BaseLayout({
                    }}
                    className={`site-footer ${isThemeLightMode ? 'site-footer-light' : 'site-footer-dark'}`}
                  >
-                   <Row justify='center'>
+                   <Row justify="center">
                      <Col xs={24} sm={24} md={12} lg={10} xl={8}>
                        <div className="vertical-center-div">
-                         <p>
-                           Super Stallion Logistics &copy;{new Date().getFullYear()}
-                         </p>
+                         <p>Super Stallion Logistics &copy;{new Date().getFullYear()}</p>
                        </div>
                      </Col>
                      <Col xs={24} sm={24} md={12} lg={10} xl={8}>
                        <div className="vertical-center-div">
                          <p>
-                          Designed by:{' '}
-                           <a href="https://premar.tech">Premar Systems</a>
+                           Designed by: <a href="https://premar.tech">Premar Systems</a>
                          </p>
                        </div>
                      </Col>
