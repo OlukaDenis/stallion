@@ -5,6 +5,7 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   PhoneOutlined,
+  FolderOpenOutlined,
   HomeOutlined,
   CloudServerOutlined,
   EyeInvisibleOutlined,
@@ -203,7 +204,7 @@ export function BaseLayout({
                        setIsSideMenuShowing(false);
                      }}
                    >
-                     <Spin className="min-full-height" spinning={isLoadingNewPage}>
+                     <Spin className="page-spin-wrapper" spinning={isLoadingNewPage}>
                        {children}
                      </Spin>
                    </Content>
@@ -281,6 +282,9 @@ export function BaseLayout({
                        </Menu.Item>
                        <Menu.Item key="/quotation" icon={<UnorderedListOutlined />}>
                          {t('menu.quotation.label')}
+                       </Menu.Item>
+                       <Menu.Item key="/jobs/available" icon={<FolderOpenOutlined />}>
+                         {t('menu.jobs.label')}
                        </Menu.Item>
                        <Menu.Item
                          key={isLoggedIn ? '/logout' : '/login'}
