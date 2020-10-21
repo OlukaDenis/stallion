@@ -4,19 +4,19 @@ import { Router } from "../utilities/i18n";
 import { composeActionFromThunk } from "../utilities/common";
 import { useEffect } from "react";
 
-export const useIsLoadingNewPage = (path) => {
+export const useIsLoadingNewPage = (newPageParams) => {
     
     const store = useStore((state) => state);
 
     useEffect(() => {
-        if(!path) return;
+        if(!newPageParams) return;
         const setIsLoadingPage = (isLoading) => store.dispatch(composeActionFromThunk(setIsLoadingNewPage(isLoading)));
         
         (async () => {
             try {
                 setIsLoadingPage(true);
                 let timerID = hideNewPageLoadingIndicatorAfter(setIsLoadingPage, 80000);
-                await Router.push(path);
+                await Router.push(newPageParams);
                 setIsLoadingPage(false);
                 clearTimeout(timerID);
             } catch {
@@ -25,7 +25,7 @@ export const useIsLoadingNewPage = (path) => {
                 setIsLoadingPage(false);
             }
         })();
-    }, [path]);
+    }, [newPageParams]);
 }
 
 const hideNewPageLoadingIndicatorAfter = (setIsLoadingPage, timeout) => {
