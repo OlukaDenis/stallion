@@ -87,6 +87,9 @@
     "jobs": {
       "label": "Trabajos Disponibles"
     },
+    "users": {
+      "label": "Usuarias/Usuarios"
+    },
     "portfolio": {
       "label": "Portfolio"
     },

@@ -130,6 +130,9 @@
       "jobs": {
         "label": "Available Jobs"
       },
+      "users": {
+        "label": "Users"
+      },
       "portfolio": {
         "label": "Portfolio"
       },
