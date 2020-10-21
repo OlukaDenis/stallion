@@ -20,6 +20,8 @@ import {
   setRefreshToken,
   setIsAdmin,
   setIsShippingAgent,
+  setIsManager,
+  setIsDriver,
 } from '../state/user/action';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -43,6 +45,8 @@ export function LoginPage({
   setRefreshToken,
   setIsAdmin,
   setIsShippingAgent,
+  setIsManager,
+  setIsDriver
 }) {
 
   const inputStyle = {
@@ -161,7 +165,9 @@ export function LoginPage({
       .getIdTokenResult()
       .then((token) => {
         setIsAdmin(token.claims.admin);
+        setIsManager(token.claims.manager);
         setIsShippingAgent(token.claims.agent);
+        setIsDriver(token.claims.driver);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -241,7 +247,9 @@ const mapDispatchToProps = (dispatch) => {
     setPhotoURL: bindActionCreators(setPhotoURL, dispatch),
     setRefreshToken: bindActionCreators(setRefreshToken, dispatch),
     setIsAdmin: bindActionCreators(setIsAdmin, dispatch),
+    setIsManager: bindActionCreators(setIsManager, dispatch),
     setIsShippingAgent: bindActionCreators(setIsShippingAgent, dispatch),
+    setIsDriver: bindActionCreators(setIsDriver, dispatch),
   };
 };
 
