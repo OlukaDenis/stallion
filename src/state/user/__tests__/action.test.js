@@ -173,7 +173,18 @@ describe('user actions', () => {
         return expect(store.dispatch(actions.setIsAdmin(payload))).toEqual(expectedAction);
     })
 
-    it('should create an action to set the logged in user\'s shop owner privileges', () => {
+    it('should create an action to set the logged in user\'s manager privileges', () => {
+
+        const payload = true;
+
+        const expectedAction = {
+            type: actions.userActionTypes.SET_IS_MANAGER,
+            payload
+        }
+        return expect(store.dispatch(actions.setIsManager(payload))).toEqual(expectedAction);
+    })
+
+    it('should create an action to set the logged in user\'s shipping agent privileges', () => {
 
         const payload = true;
 
@@ -182,6 +193,17 @@ describe('user actions', () => {
             payload
         }
         return expect(store.dispatch(actions.setIsShippingAgent(payload))).toEqual(expectedAction);
+    })
+
+    it('should create an action to set the logged in user\'s driver privileges', () => {
+
+        const payload = true;
+
+        const expectedAction = {
+            type: actions.userActionTypes.SET_IS_DRIVER,
+            payload
+        }
+        return expect(store.dispatch(actions.setIsDriver(payload))).toEqual(expectedAction);
     })
 
     it('should create an action to set the logged in user\'s favorite items', () => {

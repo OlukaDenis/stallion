@@ -14,7 +14,9 @@ export const userInitialState = {
   photoURL: '',
   refreshToken: '',
   isAdmin: false,
+  isManager: true,
   isShippingAgent: false,
+  isDriver: false,
   favoriteItems: []
 }
 
@@ -85,10 +87,20 @@ export default function reducer(state = userInitialState, action) {
         ...state,
         isAdmin: action.payload,
       };
+    case userActionTypes.SET_IS_MANAGER:
+      return {
+        ...state,
+        isManager: action.payload,
+      };
     case userActionTypes.SET_IS_SHIPPING_AGENT:
       return {
         ...state,
         isShippingAgent: action.payload,
+      };
+    case userActionTypes.SET_IS_DRIVER:
+      return {
+        ...state,
+        isDriver: action.payload,
       };
     case userActionTypes.SET_FAVORITE_ITEMS:
       return {

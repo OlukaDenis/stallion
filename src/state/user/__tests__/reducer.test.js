@@ -27,6 +27,11 @@ describe('user reducer', () => {
         expect(userReducer(userInitialState, action)).toEqual({ ...userInitialState, isAdmin: true });
     })
 
+    it('should handle ' + actions.userActionTypes.SET_IS_MANAGER, () => {
+        const action = getActionObjectFromFunction(actions.setIsManager(true));
+        expect(userReducer(userInitialState, action)).toEqual({ ...userInitialState, isManager: true });
+    })
+
     it('should handle ' + actions.userActionTypes.SET_IS_EMAIL_VERIFIED, () => {
         const action = getActionObjectFromFunction(actions.setIsEmailVerified(true));
         expect(userReducer(userInitialState, action)).toEqual({ ...userInitialState, isEmailVerified: true });
@@ -50,6 +55,11 @@ describe('user reducer', () => {
     it('should handle ' + actions.userActionTypes.SET_IS_SHIPPING_AGENT, () => {
         const action = getActionObjectFromFunction(actions.setIsShippingAgent(true));
         expect(userReducer(userInitialState, action)).toEqual({ ...userInitialState, isShippingAgent: true });
+    })
+
+    it('should handle ' + actions.userActionTypes.SET_IS_DRIVER, () => {
+        const action = getActionObjectFromFunction(actions.setIsDriver(true));
+        expect(userReducer(userInitialState, action)).toEqual({ ...userInitialState, isDriver: true });
     })
 
     it('should handle ' + actions.userActionTypes.SET_NAME, () => {
