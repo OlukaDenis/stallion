@@ -23,6 +23,7 @@ import CustomIcon from './CustomIcon';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import 'firebase/auth';
 import { FirestoreProvider } from "@react-firebase/firestore";
 // import { firebaseConfig } from "../configs";
 import { firebaseTestConfig as firebaseConfig } from "../configs";
@@ -87,6 +88,7 @@ export function BaseLayout({
            if (currentPage === destinationPage) return;
            if (menuItem.key === '/logout') {
              userLoggedOut();
+             await firebase.auth().signOut();
              setIsSideMenuShowing(false);
              return;
            } else if (menuItem.key === '/hide-or-show-menu') {
@@ -143,7 +145,7 @@ export function BaseLayout({
                        'development' === process.env.NODE_ENV
                          ? "default-src 'self' 'unsafe-eval' data:; style-src 'self' 'unsafe-inline';" // 'nonce-" + cspNonce + "';"
                          : "default-src 'self' data:; style-src 'self' 'unsafe-inline';" // 'nonce-" + cspNonce + "';"
-                     }  style-src-elem 'self' https://*.googleapis.com 'unsafe-inline' https://unpkg.com https://api.mapbox.com;  script-src-elem 'self' https://*.paypal.com 'sha256-7nnKyr+RUZ9a44Hg3lYwjgkUx5VyFQwv2ZUhVw6N7J4=' https://*.gstatic.com https://*.google.com https://unpkg.com;  img-src https://* 'self' data:; font-src 'self' data: https://*.gstatic.com; child-src 'none'; connect-src 'self' https://*.paypal.com https://*.googleapis.com https://*.openstreetmap.org https://*.mapbox.com; worker-src 'self' blob:;frame-src 'self' https://*.paypal.com https://*.google.com https://super-stallion-logistics.firebaseapp.com;`}
+                     }  style-src-elem 'self' https://*.googleapis.com 'unsafe-inline' https://unpkg.com https://api.mapbox.com;  script-src-elem 'self' https://*.paypal.com 'sha256-7nnKyr+RUZ9a44Hg3lYwjgkUx5VyFQwv2ZUhVw6N7J4=' https://*.gstatic.com http://*.gstatic.com https://*.google.com https://unpkg.com;  img-src https://* 'self' data:; font-src 'self' data: https://*.gstatic.com; child-src 'none'; connect-src 'self' https://*.paypal.com https://*.googleapis.com https://*.openstreetmap.org https://*.mapbox.com; worker-src 'self' blob:;frame-src 'self' https://*.accountchooser.com/ https://*.paypal.com https://*.google.com https://super-stallion-logistics.firebaseapp.com;`}
                    ></meta>
                    <meta charSet="utf-8" />
                    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
