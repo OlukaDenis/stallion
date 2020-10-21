@@ -17,6 +17,7 @@ import {
   LockOutlined,
   CaretRightOutlined,
   CaretLeftOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 
 import CustomIcon from './CustomIcon';
@@ -55,6 +56,8 @@ export function BaseLayout({
          isLoadingNewPage,
          isLoggedIn,
          userLoggedOut,
+         isAdmin,
+         isManager,
        }) {
          const getCurrentLanguageIndex = () => {
            const index = supported_languages.findIndex((item) => item.code === i18n.language);
@@ -288,6 +291,11 @@ export function BaseLayout({
                        <Menu.Item key="/jobs/available" icon={<FolderOpenOutlined />}>
                          {t('menu.jobs.label')}
                        </Menu.Item>
+                       {(isAdmin || isManager) && (
+                         <Menu.Item key="/users/manage" icon={<UserOutlined />}>
+                           {t('menu.users.label')}
+                         </Menu.Item>
+                       )}
                        <Menu.Item
                          key={isLoggedIn ? '/logout' : '/login'}
                          icon={isLoggedIn ? <LockOutlined /> : <UnlockOutlined />}
@@ -365,6 +373,8 @@ const mapStateToProps = (state) => ({
   isSideMenuShowing: state.ui.isSideMenuShowing,
   isLoadingNewPage: state.ui.isLoadingNewPage,
   isLoggedIn: state.user.isLoggedIn,
+  isAdmin: state.user.isAdmin,
+  isManager: state.user.isManager,
 });
 
 const mapDispatchToProps = (dispatch) => {
