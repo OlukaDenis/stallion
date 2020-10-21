@@ -17,9 +17,12 @@ export function Available ({
   t,
   quote,
   theme,
-  isLoggedIn
+  isLoggedIn,
+  userUID
 }){
 
+  const stagingPageParams = { pathname: '/jobs/staged' };
+  const loginPageParams = { pathname: '/login', query: { redirectURL: Router.pathname } };
   const [selectedRows, setSelectedRows] = useState([]);
   const [isStagingSelectedJobs, setIsStagingSelectedJobs] = useState(false);
   const [data, setData] = useState([]);
@@ -36,21 +39,24 @@ export function Available ({
   }, [isLoadingStagedJobsPage]);
 
     useEffect(() => {
-      if (!isLoggedIn) setIsLoadingStagedJobsPage({pathname: '/login', query: {redirectURL: Router.pathname}});
+      if (!isLoggedIn) setIsLoadingStagedJobsPage(loginPageParams);
     }, [isLoggedIn]);
 
   const stageSelectedJobs = async () => {
-    await markSelectedJobsAsStaged();
-    // setIsLoadingStagedJobsPage('/jobs/staged');
+    await markSelectedJobsAsStaged(); 
+    setIsLoadingStagedJobsPage('/jobs/staged');
   }
 
   const markSelectedJobsAsStaged = async () => {
     setIsStagingSelectedJobs(true);
     selectedRows.map(async (order) => {
-      const status = await firebase.firestore().doc(`/orders/${order.firebaseRefID}`).set(
-        {...order, staging_timestamp: firebase.firestore.FieldValue.serverTimestamp(), staging_username: 'qube' },
-        {merge: true}
-      );
+      const status = await firebase
+        .firestore()
+        .doc(`/orders/${order.firebaseRefID}`)
+        .set(
+          { ...order, staging_timestamp: firebase.firestore.FieldValue.serverTimestamp(), staging_uid: userUID },
+          { merge: true }
+        );
       console.log('status: ', status);
     });
     setIsStagingSelectedJobs(false);
@@ -124,7 +130,7 @@ export function Available ({
       .firestore()
       .collection('/orders')
       .where('terms_accepted', '==', true)
-      .where('staging_timestamp', '<=', new Date(Date.now() - 60 * 60 * 1000))
+      // .where('staging_timestamp', '<=', new Date(Date.now() - 60 * 60 * 1000))
       .get()
       .then((response) => {
         const newData = [];
@@ -278,15 +284,30 @@ return (
           <Row gutter={[8, 8]}>
             <Col md={24} lg={24} xl={24}>
               <div className="table__section">
-                {selectedRows.length > 0 ? (
-                  <div style={{ marginBottom: 16 }}>
-                    <Button loading={isStagingSelectedJobs} onClick={stageSelectedJobs} type="primary">
-                      Select Jobs
-                    </Button>
+                <div>
+                  <div className="float-left" style={{ marginBottom: 16 }}>
+                    {selectedRows.length > 0 ? (
+                      <div>
+                        <Button loading={isStagingSelectedJobs} onClick={stageSelectedJobs} type="primary">
+                          Select Jobs
+                        </Button>
+                      </div>
+                    ) : (
+                      <p>Select jobs on the table below.</p>
+                    )}
                   </div>
-                ) : (
-                  <p>Select jobs on the table below.</p>
-                )}
+                  {isLoggedIn && (
+                    <div className="float-right" style={{ marginBottom: 16 }}>
+                      <Button
+                        loading={isStagingSelectedJobs}
+                        onClick={() => setIsLoadingStagedJobsPage(stagingPageParams)}
+                        type="ghost"
+                      >
+                        My Staged Jobs
+                      </Button>
+                    </div>
+                  )}
+                </div>
 
                 <h3>Available Auction Jobs</h3>
 
@@ -317,6 +338,7 @@ return (
           display: flex;
           box-sizing: border-box;
           font-weight: 900;
+          clear: both;
         }
       `}
     </style>
@@ -336,6 +358,7 @@ const mapStateToProps = (state) => ({
   quote: state.quote,
   theme: state.ui.theme,
   isLoggedIn: state.user.isLoggedIn,
+  userUID: state.user.uid,
 });
 
 export default connect(mapStateToProps, null)(withTranslation('common')(Available));
