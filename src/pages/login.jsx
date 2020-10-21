@@ -99,21 +99,29 @@ export function LoginPage({
         let providerId = authResult.additionalUserInfo.providerId;
         // let operationType = authResult.operationType;
 
-        if (!isNewUser) {
-          return executeExistingUserLoginFlow(authResult.user);
-        } else if (isNewUser && 'phone' === providerId) {
+        if (isNewUser && 'phone' === providerId) {
           // get display name before redirecting
           setIsPhoneNumberSignup(true);
           setCurrentUser(authResult.user);
           return false;
         } else {
-          return executeNewUserSignupFlow(authResult.user, providerId);
+          (async () => {
+            if (!isNewUser) {
+              await executeExistingUserLoginFlow(authResult.user);
+            } else {
+              await executeNewUserSignupFlow(authResult.user, providerId);
+            }
+            // if not phone number signup, load redirect URL page
+            setPageToLoad({ pathname: onSuccessRedirectUrl });
+          })();
         }
+        return false;
       },
     },
   };
 
   const executeNewUserSignupFlow = async (currentUser, providerId) => {
+    setIsLoading(true);
     await firebase
       .firestore()
       .doc(`/users/${currentUser.uid}`)
@@ -132,8 +140,8 @@ export function LoginPage({
     if ('password' === providerId) {
       await currentUser.sendEmailVerification();
     }
-
-    return executeExistingUserLoginFlow(currentUser);
+    setIsLoading(false);
+    await executeExistingUserLoginFlow(currentUser);
   };
 
   const executeExistingUserLoginFlow = async (currentUser) => {
@@ -159,8 +167,6 @@ export function LoginPage({
       .catch((error) => {
         setIsLoading(false);
       });
-
-      return true;
   };
 
   return (
