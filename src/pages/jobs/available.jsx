@@ -9,7 +9,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 
 import BaseLayout from '../../components/layout';
-import { withTranslation } from '../../utilities/i18n';
+import { Router, withTranslation } from '../../utilities/i18n';
 import { SearchOutlined } from '@ant-design/icons';
 import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
 
@@ -17,25 +17,45 @@ export function Available ({
   t,
   quote,
   theme,
+  isLoggedIn
 }){
 
   const [selectedRows, setSelectedRows] = useState([]);
+  const [isStagingSelectedJobs, setIsStagingSelectedJobs] = useState(false);
   const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
-  const [isLoadingStagedJobsPage, setIsLoadingStagedJobsPage] = useState('');
+  const [isLoadingStagedJobsPage, setIsLoadingStagedJobsPage] = useState(null);
 
   const searchInputRef = useRef();
 
   useIsLoadingNewPage(isLoadingStagedJobsPage);
 
   useEffect(() => {
-    if (isLoadingStagedJobsPage) setIsLoadingStagedJobsPage('');
+    if (isLoadingStagedJobsPage) setIsLoadingStagedJobsPage(null);
   }, [isLoadingStagedJobsPage]);
 
+    useEffect(() => {
+      if (!isLoggedIn) setIsLoadingStagedJobsPage({pathname: '/login', query: {redirectURL: Router.pathname}});
+    }, [isLoggedIn]);
+
   const stageSelectedJobs = async () => {
-    setIsLoadingStagedJobsPage('/jobs/staged');
+    await markSelectedJobsAsStaged();
+    // setIsLoadingStagedJobsPage('/jobs/staged');
   }
+
+  const markSelectedJobsAsStaged = async () => {
+    setIsStagingSelectedJobs(true);
+    selectedRows.map(async (order) => {
+      const status = await firebase.firestore().doc(`/orders/${order.firebaseRefID}`).set(
+        {...order, staging_timestamp: firebase.firestore.FieldValue.serverTimestamp(), staging_username: 'qube' },
+        {merge: true}
+      );
+      console.log('status: ', status);
+    });
+    setIsStagingSelectedJobs(false);
+  }
+
     const getColumnSearchProps = (dataIndex) => {};
     
     const getColumnSearchProp = (dataIndex) => ({
@@ -100,28 +120,29 @@ export function Available ({
     };
 
   const fetchData = () => {
-    firebase.firestore().collection('/orders')
-    .where('terms_accepted', '==', true)
-    .get()
-    .then(response => {
-      const newData = [];
-      let order;
-      response.forEach(snapshot => {
-        order = snapshot.data(); 
-        order.key = order.order_id;
-        // for(let i = 1; i < 40; i++) {
-        //   order = snapshot.data(); 
-        //   order.key = order.order_id + ('' + i);
-        //   newData.push(order);
-        // }
-        newData.push(order);
-      });
-      // console.log(order);
-      setData(newData);
-    })
-    .catch(error => {
-
-    })
+    firebase
+      .firestore()
+      .collection('/orders')
+      .where('terms_accepted', '==', true)
+      .where('staging_timestamp', '<=', new Date(Date.now() - 60 * 60 * 1000))
+      .get()
+      .then((response) => {
+        const newData = [];
+        let order;
+        response.forEach((snapshot) => {
+          order = snapshot.data();
+          order.key = order.order_id;
+          // for(let i = 1; i < 40; i++) {
+          //   order = snapshot.data();
+          //   order.key = order.order_id + ('' + i);
+          //   newData.push(order);
+          // }
+          newData.push(order);
+        });
+        // console.log(order);
+        setData(newData);
+      })
+      .catch((error) => {});
   }
 
   useEffect(() => {
@@ -259,11 +280,7 @@ return (
               <div className="table__section">
                 {selectedRows.length > 0 ? (
                   <div style={{ marginBottom: 16 }}>
-                    <Button
-                      // loading={isSubmitted}
-                      onClick={stageSelectedJobs}
-                      type="primary"
-                    >
+                    <Button loading={isStagingSelectedJobs} onClick={stageSelectedJobs} type="primary">
                       Select Jobs
                     </Button>
                   </div>
@@ -278,7 +295,7 @@ return (
                   scroll={{ x: true, y: 600 }}
                   pagination={{
                     position: ['bottomRight'],
-                    defaultPageSize: 20
+                    defaultPageSize: 20,
                   }}
                   rowSelection={{ ...rowSelection }}
                   columns={columns}
@@ -316,8 +333,9 @@ t: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-quote: state.quote,
-theme: state.ui.theme,
+  quote: state.quote,
+  theme: state.ui.theme,
+  isLoggedIn: state.user.isLoggedIn,
 });
 
 export default connect(mapStateToProps, null)(withTranslation('common')(Available));
