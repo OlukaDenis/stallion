@@ -127,6 +127,9 @@
       "track": {
         "label": "Track Shipment"
       },
+      "jobs": {
+        "label": "Available Jobs"
+      },
       "portfolio": {
         "label": "Portfolio"
       },

@@ -84,6 +84,9 @@
     "track": {
       "label": "Rastrear Envio"
     },
+    "jobs": {
+      "label": "Trabajos Disponibles"
+    },
     "portfolio": {
       "label": "Portfolio"
     },
