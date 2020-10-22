@@ -38,12 +38,15 @@ export function Available({ t, quote, theme, isLoggedIn, userUID }) {
       .orderBy('createdAt', 'desc')
       .get()
       .then((response) => {
-        const newData = [];
+        const newData = []; 
         let user;
         response.forEach((snapshot) => {
           user = snapshot.data();
-          user.key = user.uid;
-          newData.push(user);
+          if(user.uid !== userUID) {
+            user.key = user.uid;
+            newData.push(user);
+          }
+          
         });
         setData(newData);
       })
@@ -69,11 +72,11 @@ export function Available({ t, quote, theme, isLoggedIn, userUID }) {
           { merge: true }
         )
         .then((success) => {
-          message.success('Successfully updated roles for user: ' + user.displayName);
+          message.success(t('update_roles_success', { name: user.displayName }));
           user.role = selectedRoles;
           setData([user, ...data.filter((mUser) => mUser.uid != user.uid)]);
         })
-        .catch((error) => message.error('Failed to update roles for user: ' + user.displayName));
+        .catch((error) => message.error(t('update_roles_failure', { name: user.displayName })));
     });
     setSelectedRoles([]);
     setSelectedRows([]);
@@ -82,29 +85,29 @@ export function Available({ t, quote, theme, isLoggedIn, userUID }) {
 
   const columns = [
     {
-      title: 'Name',
+      title: t('table.column.name'),
       dataIndex: 'displayName',
       // ...getColumnSearchProps('displayName'),
     },
     {
-      title: 'Email',
+      title: t('table.column.email'),
       dataIndex: 'email',
     },
     {
-      title: 'Phone',
+      title: t('table.column.phone'),
       dataIndex: 'phoneNumber',
     },
     {
-      title: 'Roles',
+      title: t('table.column.roles'),
       dataIndex: 'role',
       render: (role) => role && role.join(','),
     },
     {
-      title: 'Signup Method',
+      title: t('table.column.signup_method'),
       dataIndex: 'providerId',
     },
     {
-      title: 'Signup Date',
+      title: t('table.column.signup_date'),
       dataIndex: 'createdAt',
       render: (date) => moment(new Date(date.seconds * 1000)).format('MM/DD/YYYY'),
       // sorter: (a, b) => (a-b),
@@ -134,23 +137,23 @@ export function Available({ t, quote, theme, isLoggedIn, userUID }) {
                       {selectedRows.length > 0 ? (
                         <div>
                           <CheckboxGroup value={selectedRoles} onChange={(value) => setSelectedRoles(value)}>
-                            <Checkbox value={'Admin'}>Admin</Checkbox>
-                            <Checkbox value={'Manager'}>Manager</Checkbox>
-                            <Checkbox value={'Agent'}>Agent</Checkbox>
-                            <Checkbox value={'Driver'}>Driver</Checkbox>
+                            <Checkbox value={'Admin'}>{t('admin')}</Checkbox>
+                            <Checkbox value={'Manager'}>{t('manager')}</Checkbox>
+                            <Checkbox value={'Agent'}>{t('agent')}</Checkbox>
+                            <Checkbox value={'Driver'}>{t('driver')}</Checkbox>
                           </CheckboxGroup>
 
                           <Button loading={isUpdatingRoles} onClick={updateRoles} type="primary">
-                            Update Role(s)
+                            {t('update_roles_button')}
                           </Button>
                         </div>
                       ) : (
-                        <p>Select users on the table below to change their roles.</p>
+                        <p>{t('instructions')}</p>
                       )}
                     </div>
                   </div>
 
-                  <h3>Registered Users</h3>
+                  <h3>{t('table.header')}</h3>
 
                   <Table
                     bordered
@@ -159,7 +162,7 @@ export function Available({ t, quote, theme, isLoggedIn, userUID }) {
                       position: ['bottomRight'],
                       defaultPageSize: 20,
                     }}
-                    rowSelection={{ ...rowSelection, selectedRowKeys: selectedRows.map(row => row.key) }}
+                    rowSelection={{ ...rowSelection, selectedRowKeys: selectedRows.map((row) => row.key) }}
                     columns={columns}
                     dataSource={data}
                   />
@@ -188,7 +191,7 @@ export function Available({ t, quote, theme, isLoggedIn, userUID }) {
 }
 
 Available.getInitialProps = async () => ({
-  namespacesRequired: ['common'],
+  namespacesRequired: ['common', 'users'],
 });
 
 Available.propTypes = {
@@ -202,4 +205,4 @@ const mapStateToProps = (state) => ({
   userUID: state.user.uid,
 });
 
-export default connect(mapStateToProps, null)(withTranslation('common')(Available));
+export default connect(mapStateToProps, null)(withTranslation('users')(Available));

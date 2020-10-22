@@ -1,0 +1,23 @@
+{
+    "instructions": "Select users on the table below to change their roles.",
+    "admin": "Admin",
+    "manager": "Manager",
+    "agent": "Agent",
+    "driver": "Driver",
+    "update_roles_button": "Update Role(s)",
+    "update_roles_success": "Successfully updated roles for user: {{name}}",
+    "update_roles_failure": "Failed to update roles for user: {{name}}",
+   
+    "table": {
+        "header": "Registered Users",
+        "column": {
+            "name": "Name",
+            "email": "Email",
+            "phone": "Phone",
+            "roles": "Roles",
+            "signup_method": "Signup Method",
+            "signup_date": "Signup Date"
+        }
+    }
+
+}

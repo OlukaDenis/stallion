@@ -1,0 +1,23 @@
+{
+    "instructions": "Seleccione usuarios en la tabla siguiente para cambiar sus roles.",
+    "admin": "Administradora",
+    "manager": "Gerente",
+    "agent": "Agente",
+    "driver": "Conductor",
+    "update_roles_button": "Actualizar Rol(s)",
+    "update_roles_success": "Roles actualizados exitosamente para la usuaria: {{name}}",
+    "update_roles_failure": "Error al actualizar roles para el usuario: {{name}}",
+   
+    "table": {
+        "header": "Usuarios Registrados/Registradas",
+        "column": {
+            "name": "Nombre",
+            "email": "Correo Electrónico",
+            "phone": "Número de Teléfono",
+            "roles": "El Rol",
+            "signup_method": "Método de Registro",
+            "signup_date": "Fecha de Registro"
+        }
+    }
+
+}
