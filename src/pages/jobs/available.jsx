@@ -157,27 +157,27 @@ export function Available ({
 
   const columns = [
     {
-      title: 'Job Info',
+      title: t('table.job_info_col_group.header'),
       children: [
         {
-          title: 'OrderID',
+          title: t('table.job_info_col_group.columns.order_id'),
           dataIndex: 'id',
           sorter: (a, b) => a.id - b.id,
           sortDirections: ['ascend', 'descend'],
         },
         {
-          title: 'Date',
+          title: t('table.job_info_col_group.columns.date'),
           dataIndex: 'pickupDate',
           sorter: (a, b) => (moment(a.pickupDate).isBefore(b.pickupDate) ? -1 : 1),
           sortDirections: ['ascend', 'descend'],
         },
         {
-          title: 'Vehicle',
+          title: t('table.job_info_col_group.columns.vehicle'),
           dataIndex: 'cars',
           render: (cars) => cars[0].make + ' ' + cars[0].model + ' ' + cars[0].year,
         },
         {
-          title: 'Inop?',
+          title: t('table.job_info_col_group.columns.inop'),
           dataIndex: 'cars',
           render: (cars) =>
             !!Object.keys(cars).filter((index) => !cars[index].isOperable || !cars[index].hasKeys).length
@@ -190,27 +190,27 @@ export function Available ({
     },
 
     {
-      title: 'Pickup Info',
+      title: t('table.pickup_info_col_group.header'),
       children: [
         {
-          title: 'Address',
+          title: t('table.pickup_info_col_group.columns.address'),
           dataIndex: 'pickupLocation',
           render: (location) => location.address,
           ...getColumnSearchProps('pickupLocation'),
         },
         {
-          title: 'City',
+          title: t('table.pickup_info_col_group.columns.city'),
           dataIndex: 'originName',
           render: (originName) => originName.split(',')[0],
           ...getColumnSearchProps('originName'),
         },
         {
-          title: 'State',
+          title: t('table.pickup_info_col_group.columns.state'),
           dataIndex: 'origin',
           render: (origin) => origin.split(',')[1].split(' ')[1],
         },
         {
-          title: 'Zip',
+          title: t('table.pickup_info_col_group.columns.zip'),
           dataIndex: 'origin',
           render: (origin) => origin.split(',')[1].split(' ')[2],
           sorter: (a, b) => (a.origin.split(',')[1].split(' ')[2] - b.origin.split(',')[1].split(' ')[2] ? -1 : 1),
@@ -219,27 +219,27 @@ export function Available ({
       ],
     },
     {
-      title: 'Delivery Info',
+      title: t('table.delivery_info_col_group.header'),
       children: [
         {
-          title: 'Address',
+          title: t('table.delivery_info_col_group.columns.address'),
           dataIndex: 'deliveryLocation',
           render: (location) => location.address,
           ...getColumnSearchProps('deliveryLocation'),
         },
         {
-          title: 'City',
+          title: t('table.delivery_info_col_group.columns.city'),
           dataIndex: 'destinationName',
           render: (destinationName) => destinationName.split(',')[0],
           ...getColumnSearchProps('destinationName'),
         },
         {
-          title: 'State',
+          title: t('table.delivery_info_col_group.columns.state'),
           dataIndex: 'destination',
           render: (destination) => destination.split(',')[1].split(' ')[1],
         },
         {
-          title: 'Zip',
+          title: t('table.delivery_info_col_group.columns.zip'),
           dataIndex: 'destination',
           render: (destination) => destination.split(',')[1].split(' ')[2],
           sorter: (a, b) => a.destination.split(',')[1].split(' ')[2] - b.destination.split(',')[1].split(' ')[2],
@@ -251,13 +251,13 @@ export function Available ({
       title: '',
       children: [
         {
-          title: 'Distance',
+          title: t('table.columns.distance'),
           dataIndex: 'distance',
           sorter: (a, b) => a.distance - b.distance,
           sortDirections: ['ascend', 'descend'],
         },
         {
-          title: 'Payout',
+          title: t('table.columns.payout'),
           dataIndex: 'payment_authorized_amount',
           render: (amount) => '$' + amount,
           sorter: (a, b) => a.payment_authorized_amount - b.payment_authorized_amount,
@@ -289,11 +289,11 @@ return (
                     {selectedRows.length > 0 ? (
                       <div>
                         <Button loading={isStagingSelectedJobs} onClick={stageSelectedJobs} type="primary">
-                          Select Jobs
+                          {t('select_jobs_button')}
                         </Button>
                       </div>
                     ) : (
-                      <p>Select jobs on the table below.</p>
+                      <p>{t('instructions')}</p>
                     )}
                   </div>
                   {isLoggedIn && (
@@ -303,13 +303,13 @@ return (
                         onClick={() => setIsLoadingStagedJobsPage(stagingPageParams)}
                         type="ghost"
                       >
-                        My Staged Jobs
+                        {t('staged_jobs_button')}
                       </Button>
                     </div>
                   )}
                 </div>
 
-                <h3>Available Auction Jobs</h3>
+                <h3>{t('table.header')}</h3>
 
                 <Table
                   bordered
@@ -347,7 +347,7 @@ return (
 }
 
 Available.getInitialProps = async () => ({
-namespacesRequired: ['common'],
+  namespacesRequired: ['common', 'jobs_available'],
 });
 
 Available.propTypes = {
@@ -361,4 +361,4 @@ const mapStateToProps = (state) => ({
   userUID: state.user.uid,
 });
 
-export default connect(mapStateToProps, null)(withTranslation('common')(Available));
+export default connect(mapStateToProps, null)(withTranslation('jobs_available')(Available));

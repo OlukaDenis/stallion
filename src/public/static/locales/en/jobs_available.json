@@ -1,0 +1,40 @@
+{
+    "instructions": "Select jobs on the table below.",
+    "select_jobs_button": "Select Jobs",
+    "staged_jobs_button": "My Staged Jobs",
+
+    "table": {
+        "header": "Available Jobs",
+        "job_info_col_group": {
+            "header": "Job Info",
+            "columns": {
+                "order_id": "OrderID",
+                "date": "Date",
+                "vehicle": "Vehicle",
+                "inop": "Inop?"
+            }
+        },
+        "pickup_info_col_group": {
+            "header": "Pickup Info",
+            "columns": {
+                "address": "Address",
+                "city": "City",
+                "state": "State",
+                "zip": "ZIP"
+            }
+        },
+        "delivery_info_col_group": {
+            "header": "Delivery Info",
+            "columns": {
+                "address": "Address",
+                "city": "City",
+                "state": "State",
+                "zip": "ZIP"
+            }
+        },
+        "columns": {
+            "distance": "Distance",
+            "payout": "Payout"
+        }
+    }
+}

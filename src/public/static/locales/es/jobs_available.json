@@ -1,0 +1,40 @@
+{
+    "instructions": "Seleccione trabajos en la tabla a continuación.",
+    "select_jobs_button": "Seleccionar Trabajos",
+    "staged_jobs_button": "Mis Trabajos por Etapas",
+
+    "table": {
+        "header": "Trabajos Disponibles",
+        "job_info_col_group": {
+            "header": "Información del Trabajo",
+            "columns": {
+                "order_id": "SolicitarID",
+                "date": "Fecha",
+                "vehicle": "Vehículo",
+                "inop": "Inop?"
+            }
+        },
+        "pickup_info_col_group": {
+            "header": "Información de Recogida",
+            "columns": {
+                "address": "Dirección",
+                "city": "Ciudad",
+                "state": "Estado",
+                "zip": "ZIP"
+            }
+        },
+        "delivery_info_col_group": {
+            "header": "Delivery Info",
+            "columns": {
+                "address": "Dirección",
+                "city": "Ciudad",
+                "state": "Estado",
+                "zip": "ZIP"
+            }
+        },
+        "columns": {
+            "distance": "Distancia",
+            "payout": "El Pago"
+        }
+    }
+}
