@@ -30,57 +30,57 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
     if (!isLoggedIn) setIsLoadingNewPage(loginPageParams);
   }, [isLoggedIn]);
 
-    useEffect(() => {
-      fetchStagedJobs();
-    }, []);
+  useEffect(() => {
+    fetchStagedJobs();
+  }, []);
 
   const unstageAllJobs = () => {
     stagedJobs.map((order) => unstageJob(order));
-  }
+  };
 
-    const unstageJob = async (order) => {
-      await firebase
-        .firestore()
-        .doc(`/orders/${order.firebaseRefID}`)
-        .set(
-          {
-            staging_timestamp: null,
-            staging_uid: null,
-          },
-          { merge: true }
-        )
-        .then((success) => {
-          setStagedJobs(stagedJobs.filter((job) => job.firebaseRefID !== order.firebaseRefID));
+  const unstageJob = async (order) => {
+    await firebase
+      .firestore()
+      .doc(`/orders/${order.firebaseRefID}`)
+      .set(
+        {
+          staging_timestamp: null,
+          staging_uid: null,
+        },
+        { merge: true }
+      )
+      .then((success) => {
+        setStagedJobs(stagedJobs.filter((job) => job.firebaseRefID !== order.firebaseRefID));
+      });
+  };
+
+  const fetchStagedJobs = async () => {
+    setIsRefreshingStagedJobs(true);
+    const status = await firebase
+      .firestore()
+      .collection(`/orders`)
+      .where('staging_uid', '==', userUID)
+      .get()
+      .then((response) => {
+        console.log('response', response);
+
+        const newData = [];
+        let order;
+        response.forEach((snapshot) => {
+          order = snapshot.data();
+          order.key = order.order_id;
+
+          if (isStagedOrder(order)) {
+            newData.push(order);
+          }
         });
-    };
-
-    const fetchStagedJobs = async () => {
-      setIsRefreshingStagedJobs(true);
-        const status = await firebase
-          .firestore()
-          .collection(`/orders`)
-          .where('staging_uid', '==', userUID)
-          .get()
-          .then((response) => {
-            console.log('response', response);
-
-            const newData = [];
-            let order;
-            response.forEach((snapshot) => {
-              order = snapshot.data();
-              order.key = order.order_id;
-              
-              if (isStagedOrder(order)) {
-                newData.push(order);
-              }
-            });
-            setStagedJobs(newData);
-          })
-          .catch((error) => {
-            console.log('error', error);
-          });
-          setIsRefreshingStagedJobs(false);
-    };
+        setStagedJobs(newData);
+      })
+      .catch((error) => {
+        console.log('error', error);
+      });
+    setIsRefreshingStagedJobs(false);
+  };
 
   const columnStyle = {
     backgroundColor: 'rgba(248, 105, 66, 0.3)',
@@ -105,7 +105,7 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
                     }}
                     type="ghost"
                   >
-                    Unstage All
+                    {t('unstage_all_button')}
                   </Button>
                 </div>
                 {isLoggedIn && (
@@ -115,16 +115,16 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
                       onClick={() => setIsLoadingNewPage(availableJobsPageParams)}
                       type="ghost"
                     >
-                      Available Jobs
+                      {t('available_jobs_button')}
                     </Button>
                   </div>
                 )}
               </div>
-              <h3>Staged Jobs ({stagedJobs.length})</h3>
+              <h3>
+                {t('staged_jobs_label')} ({stagedJobs.length})
+              </h3>
 
-              {!stagedJobs.length && !isRefreshingStagedJobs && (
-                <p>No staged jobs found. Browse the available jobs and select a job that you can do.</p>
-              )}
+              {!stagedJobs.length && !isRefreshingStagedJobs && <p>{t('no_staged_jobs_label')}</p>}
 
               {isRefreshingStagedJobs && (
                 <div className="vertical-center-div">
@@ -144,19 +144,19 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
                       xl={8}
                     >
                       <div className="staged-item-number">{index + 1}</div>
-                      Order #: <b>{order.id}</b>
+                      {t('order_num_label')} #: <b>{order.id}</b>
                     </Col>
                     <Col style={{ ...columnStyle, paddingTop: '20px' }} xs={24} sm={24} md={10} lg={10} xl={8}>
                       {Object.keys(order.cars).map((index) => (
                         <>
-                          Vehicle {Number(index) + 1}:{' '}
+                          {t('vehicle_label')} {Number(index) + 1}:{' '}
                           <b>
                             {order.cars[index].year} {order.cars[index].make} {order.cars[index].model}{' '}
                           </b>
                           <em>
-                            (Truck: {order.cars[index].isTruck ? 'Yes' : 'No'}, Operable:{' '}
-                            {order.cars[index].isOperable ? 'Yes' : 'No'}, Has Keys:{' '}
-                            {order.cars[index].hasKeys ? 'Yes' : 'No'})
+                            ({t('is_truck_label')}: {order.cars[index].isTruck ? t('yes_label') : t('no_label')},{' '}
+                            {t('is_operable_label')}: {order.cars[index].isOperable ? t('yes_label') : t('no_label')},{' '}
+                            {t('has_keys_label')}: {order.cars[index].hasKeys ? t('yes_label') : t('no_label')})
                           </em>{' '}
                           <br /> <br />
                         </>
@@ -165,7 +165,7 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
                   </Row>
                   <Row gutter={[0, 0]} justify="center">
                     <Col style={{ ...columnStyle }} xs={24} sm={24} md={10} lg={10} xl={8}>
-                      <h4>Pickup</h4>
+                      <h4>{t('pickup_header')}</h4>
                       {order.pickupLocation.contactName}
                       <br />
                       {order.pickupLocation.address}
@@ -173,7 +173,7 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
                       {order.originName}
                       <br />
                       <br />
-                      <h4>Pickup Instructions:</h4>
+                      <h4>{t('pickup_instructions')}:</h4>
                       <TextArea
                         disabled
                         style={{ backgroundColor: 'rgba(248, 105, 66, 0.1)', color: 'black' }}
@@ -182,7 +182,7 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
                       />
                     </Col>
                     <Col style={{ ...columnStyle }} xs={24} sm={24} md={10} lg={10} xl={8}>
-                      <h4>Delivery</h4>
+                      <h4>{t('delivery_header')}</h4>
                       {order.deliveryLocation.contactName}
                       <br />
                       {order.deliveryLocation.address}
@@ -190,7 +190,7 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
                       {order.destinationName}
                       <br />
                       <br />
-                      <h4>Delivery Instructions:</h4>
+                      <h4>{t('delivery_instructions')}:</h4>
                       <TextArea
                         disabled
                         style={{ backgroundColor: 'rgba(248, 105, 66, 0.1)', color: 'black' }}
@@ -203,7 +203,7 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
                     <Col style={{ ...columnStyle }} xs={24} sm={24} md={10} lg={10} xl={8}>
                       <div className="date-item-block">
                         <div className="date-item-child">
-                          <b>Pickup Date: </b>
+                          <b>{t('pickup_date')}: </b>
                         </div>{' '}
                         <div className="date-item-child">
                           <Input size="small" value={order.pickupDate} />
@@ -213,27 +213,27 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
                     <Col style={{ ...columnStyle }} xs={24} sm={24} md={10} lg={10} xl={8}>
                       <div className="date-item-block">
                         <div className="date-item-child">
-                          <b>Delivery Date: </b>
+                          <b>{t('delivery_date')}: </b>
                         </div>{' '}
                         <div className="date-item-child">
                           <Input size="small" value={'2020-11-08'} />
                         </div>
                       </div>
-                      <em>Suggested delivery date: 2020-11-08</em>
+                      <em>{t('delivery_date_suggested', { date: '2020-11-08' })}</em>
                     </Col>
                   </Row>
                   <Row gutter={[0, 0]} justify="center">
                     <Col style={{ ...columnStyle }} xs={24} sm={24} md={8} lg={8} xl={6}>
                       <div className="date-item-block">
                         <div className="date-item-child">
-                          <b>Payout ($)</b>
+                          <b>{t('payout_label')} ($)</b>
                         </div>{' '}
                         <div className="date-item-child">
                           <Input size="small" value={calculateTotalShippingRate(order)} />
                           <span style={{ fontSize: '11px' }}>
-                            <em>Asking: {`$${calculateTotalShippingRate(order)}`}</em>
+                            <em>{t('asking_label', { amount: `$${calculateTotalShippingRate(order)}` })}</em>
                             <br />
-                            <em>Distance: {order.distance} miles</em>
+                            <em>{t('distance_label', { distance: order.distance })}</em>
                           </span>
                         </div>
                       </div>
@@ -241,7 +241,7 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
                     <Col style={{ ...columnStyle }} xs={24} sm={24} md={12} lg={12} xl={10}>
                       <div className="date-item-block">
                         <div className="date-item-child">
-                          <b>Comments: </b>
+                          <b>{t('comments_label')}: </b>
                         </div>{' '}
                         <div className="date-item-child">
                           <Input size="small" value={'Some comments...'} />
@@ -251,9 +251,9 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
                   </Row>
                   <Row gutter={[0, 0]} justify="center">
                     <Col style={{ ...columnStyle, textAlign: 'center' }} xs={24} sm={24} md={20} lg={20} xl={16}>
-                      <Button type="primary">Submit</Button>&nbsp;&nbsp;&nbsp;
+                      <Button type="primary">{t('submit_button')}</Button>&nbsp;&nbsp;&nbsp;
                       <Button onClick={() => unstageJob(order)} type="default">
-                        Unstage Job
+                        {t('unstage_job_button')}
                       </Button>
                     </Col>
                   </Row>
@@ -265,9 +265,15 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
                       md={20}
                       lg={20}
                       xl={16}
-                    >
-                      This job will remain staged until <b>{moment(new Date(order.staging_timestamp.seconds * 1000)).add(10, 'minutes').format('MM-DD-YYYY HH:mm A')}</b> (US/Eastern)
-                    </Col>
+                      dangerouslySetInnerHTML={{
+                        __html: t('unstage_time_label', {
+                          date: moment(new Date(order.staging_timestamp.seconds * 1000))
+                            .add(10, 'minutes')
+                            .format('MM-DD-YYYY HH:mm A'),
+                          timezone: 'US/Eastern',
+                        }),
+                      }}
+                    ></Col>
                   </Row>
                   <br />
                 </div>
@@ -317,7 +323,7 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
 }
 
 StagedJobsPage.getInitialProps = async () => ({
-  namespacesRequired: ['common'],
+  namespacesRequired: ['common', 'jobs_staged'],
 });
 
 StagedJobsPage.propTypes = {
@@ -331,4 +337,4 @@ const mapStateToProps = (state) => ({
   userUID: state.user.uid,
 });
 
-export default connect(mapStateToProps, null)(withTranslation('common')(StagedJobsPage));
+export default connect(mapStateToProps, null)(withTranslation('jobs_staged')(StagedJobsPage));
