@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Card, Row, Col, Select, Input, Button, Spin } from 'antd';
-
+import moment from 'moment';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-
+import { isStagedOrder } from '../../utilities/common';
 import BaseLayout from '../../components/layout';
 import { Router, withTranslation } from '../../utilities/i18n';
 import TextArea from 'antd/lib/input/TextArea';
@@ -39,9 +39,19 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
   }
 
     const unstageJob = async (order) => {
-      await firebase.firestore().doc(`/orders/${order.firebaseRefID}`).delete().then(success => {
-        setStagedJobs(stagedJobs.filter((job) => job.firebaseRefID !== order.firebaseRefID));
-      });
+      await firebase
+        .firestore()
+        .doc(`/orders/${order.firebaseRefID}`)
+        .set(
+          {
+            staging_timestamp: null,
+            staging_uid: null,
+          },
+          { merge: true }
+        )
+        .then((success) => {
+          setStagedJobs(stagedJobs.filter((job) => job.firebaseRefID !== order.firebaseRefID));
+        });
     };
 
     const fetchStagedJobs = async () => {
@@ -59,7 +69,10 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
             response.forEach((snapshot) => {
               order = snapshot.data();
               order.key = order.order_id;
-              newData.push(order);
+              
+              if (isStagedOrder(order)) {
+                newData.push(order);
+              }
             });
             setStagedJobs(newData);
           })
@@ -120,7 +133,7 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
               )}
 
               {stagedJobs.map((order, index) => (
-                <>
+                <div key={order.firebaseRefID}>
                   <Row gutter={[0, 0]} justify="center">
                     <Col
                       style={{ ...columnStyle, paddingTop: '20px', position: 'relative' }}
@@ -253,11 +266,11 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
                       lg={20}
                       xl={16}
                     >
-                      This job will remain staged until <b>07-14-2020 8:27 PM</b> (US/Eastern)
+                      This job will remain staged until <b>{moment(new Date(order.staging_timestamp.seconds * 1000)).add(10, 'minutes').format('MM-DD-YYYY HH:mm A')}</b> (US/Eastern)
                     </Col>
                   </Row>
                   <br />
-                </>
+                </div>
               ))}
             </div>
           </Card>

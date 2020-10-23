@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { Card, Table, Row, Col, Input, Space, Button } from 'antd';
 import Highlighter from 'react-highlight-words';
+import { isStagedOrder } from '../../utilities/common';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -24,6 +25,7 @@ export function Available ({
   const stagingPageParams = { pathname: '/jobs/staged' };
   const loginPageParams = { pathname: '/login', query: { redirectURL: Router.pathname } };
   const [selectedRows, setSelectedRows] = useState([]);
+  const [isLoadingAvailableJobsData, setIsLoadingAvailableJobsData] = useState(false);
   const [isStagingSelectedJobs, setIsStagingSelectedJobs] = useState(false);
   const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState('');
@@ -50,11 +52,12 @@ export function Available ({
   const markSelectedJobsAsStaged = async () => {
     setIsStagingSelectedJobs(true);
     selectedRows.map(async (order) => {
+      
       const status = await firebase
         .firestore()
         .doc(`/orders/${order.firebaseRefID}`)
         .set(
-          { ...order, staging_timestamp: firebase.firestore.FieldValue.serverTimestamp(), staging_uid: userUID },
+          { staging_timestamp: firebase.firestore.FieldValue.serverTimestamp(), staging_uid: userUID },
           { merge: true }
         );
       console.log('status: ', status);
@@ -125,12 +128,12 @@ export function Available ({
       setSearchText('');
     };
 
-  const fetchData = () => {
-    firebase
+  const fetchData = async () => {
+    setIsLoadingAvailableJobsData(true);
+    await firebase
       .firestore()
       .collection('/orders')
       .where('terms_accepted', '==', true)
-      // .where('staging_timestamp', '<=', new Date(Date.now() - 60 * 60 * 1000))
       .get()
       .then((response) => {
         const newData = [];
@@ -138,17 +141,16 @@ export function Available ({
         response.forEach((snapshot) => {
           order = snapshot.data();
           order.key = order.order_id;
-          // for(let i = 1; i < 40; i++) {
-          //   order = snapshot.data();
-          //   order.key = order.order_id + ('' + i);
-          //   newData.push(order);
-          // }
-          newData.push(order);
+
+          if (!isStagedOrder(order)) {
+            newData.push(order);
+          }
         });
         // console.log(order);
         setData(newData);
       })
       .catch((error) => {});
+      setIsLoadingAvailableJobsData(false);
   }
 
   useEffect(() => {
@@ -312,6 +314,7 @@ return (
                 <h3>{t('table.header')}</h3>
 
                 <Table
+                loading={isLoadingAvailableJobsData}
                   bordered
                   scroll={{ x: true, y: 600 }}
                   pagination={{
