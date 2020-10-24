@@ -1,3 +1,5 @@
+import { composeActionFromThunk } from "../../utilities/common";
+
 export const userActionTypes = {
   USER_LOGGED_OUT: 'USER_LOGGED_OUT',
   SET_IS_LOGGED_IN: 'SET_IS_LOGGED_IN',
@@ -20,18 +22,22 @@ export const userActionTypes = {
 };
 
 export const userLoggedOut = () => (dispatch) => {
-  dispatch(setIsLoading(true));
-  dispatch(setIsLoggedIn(false));
-  dispatch(setIsPhoneLinked(false));
-  dispatch(setUsername(''));
-  dispatch(setName(''));
-  dispatch(setPhone(''));
-  dispatch(setEmail(''));
-  dispatch(setUid(''));
-  dispatch(setIsEmailVerified(''));
-  dispatch(setPhotoURL(''));
-  dispatch(setRefreshToken(''));
-  dispatch(setIsLoading(false));
+  dispatch(composeActionFromThunk(setIsLoading(true)));
+  dispatch(composeActionFromThunk(setIsLoggedIn(false)));
+  dispatch(composeActionFromThunk(setIsPhoneLinked(false)));
+  dispatch(composeActionFromThunk(setUsername('')));
+  dispatch(composeActionFromThunk(setName('')));
+  dispatch(composeActionFromThunk(setPhone('')));
+  dispatch(composeActionFromThunk(setEmail('')));
+  dispatch(composeActionFromThunk(setUid('')));
+  dispatch(composeActionFromThunk(setIsEmailVerified('')));
+  dispatch(composeActionFromThunk(setPhotoURL('')));
+  dispatch(composeActionFromThunk(setRefreshToken('')));
+  dispatch(composeActionFromThunk(setIsLoading(false)));
+  dispatch(composeActionFromThunk(setIsAdmin(false)));
+  dispatch(composeActionFromThunk(setIsManager(false)));
+  dispatch(composeActionFromThunk(setIsShippingAgent(false)));
+  dispatch(composeActionFromThunk(setIsDriver(false)));
   return true; 
 };
 
