@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Card, Row, Col, Select, Input, Button, Spin } from 'antd';
+import { Card, Row, Col, Select, Input, Button, Spin, DatePicker, Alert, Tooltip, Result, message } from 'antd';
 import moment from 'moment';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -19,6 +19,18 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
   const [isLoadingNewPage, setIsLoadingNewPage] = useState(null);
   const [stagedJobs, setStagedJobs] = useState([]);
   const [isRefreshingStagedJobs, setIsRefreshingStagedJobs] = useState(false);
+  const [isSubmittingJob, setIsSubmittingJob] = useState({});
+  const [isCancelingJobBid, setIsCancelingJobBid] = useState({});
+
+  const [suggestedPickupDate, setSuggestedPickupDate] = useState({});
+  const [hasPickupDateError, setHasPickupDateError] = useState({});
+  const [suggestedDeliveryDate, setSuggestedDeliveryDate] = useState({});
+  const [hasDeliveryDateError, setHasDeliveryDateError] = useState({});
+  const [suggestedPayout, setSuggestedPayout] = useState({});
+  const [hasPayoutError, setHasPayoutError] = useState({});
+  const [comments, setComments] = useState({});
+  const [hasCommentsError, setHasCommentsError] = useState({});
+  const [isDataSubmitted, setIsDataSubmitted] = useState({});
 
   useIsLoadingNewPage(isLoadingNewPage);
 
@@ -36,6 +48,105 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
 
   const unstageAllJobs = () => {
     stagedJobs.map((order) => unstageJob(order));
+  };
+
+  const submitJobForApproval = async (order) => {
+    setIsDataSubmitted({ ...isDataSubmitted, [order.firebaseRefID]: true });
+
+    if (!suggestedPickupDate[order.firebaseRefID]) {
+      setHasPickupDateError({ ...hasPickupDateError, [order.firebaseRefID]: true });
+    }
+
+    if (!suggestedDeliveryDate[order.firebaseRefID]) {
+      setHasDeliveryDateError({ ...hasDeliveryDateError, [order.firebaseRefID]: true });
+    }
+
+    if (!suggestedPayout[order.firebaseRefID]) {
+      setHasPayoutError({ ...hasPayoutError, [order.firebaseRefID]: true });
+    } else if (Number.isNaN(Number(suggestedPayout[order.firebaseRefID]))) {
+      setHasPayoutError({ ...hasPayoutError, [order.firebaseRefID]: true });
+      message.error('Amount must be a valid numeric value');
+    }
+
+    if (!comments[order.firebaseRefID]) {
+      setHasCommentsError({ ...hasCommentsError, [order.firebaseRefID]: true });
+    }
+
+    if (
+      suggestedPickupDate[order.firebaseRefID] &&
+      suggestedDeliveryDate[order.firebaseRefID] &&
+      !isPickupDateEarlierThanDeliveryDate(order) &&
+      suggestedPayout[order.firebaseRefID] &&
+      !Number.isNaN(Number(suggestedPayout[order.firebaseRefID])) &&
+      comments[order.firebaseRefID]
+    ) {
+      setIsSubmittingJob({ ...isSubmittingJob, [order.firebaseRefID]: true });
+      await firebase
+        .firestore()
+        .doc(`/orders/${order.firebaseRefID}`)
+        .set(
+          {
+            driver_submit_timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            driver_uid: userUID,
+            driver_submitted: true,
+            driver_suggested_pickup_date: suggestedPickupDate[order.firebaseRefID],
+            driver_suggested_delivery_date: suggestedDeliveryDate[order.firebaseRefID],
+            driver_suggested_payout: suggestedPayout[order.firebaseRefID],
+            driver_comments: comments[order.firebaseRefID],
+          },
+          { merge: true }
+        )
+        .then((success) => {
+          setStagedJobs(
+            stagedJobs.map((orderItem) =>
+              order.firebaseRefID === orderItem.firebaseRefID ? { ...order, driver_submitted: true } : orderItem
+            )
+          );
+        });
+      setIsSubmittingJob({ ...isSubmittingJob, [order.firebaseRefID]: false });
+    }
+  };
+
+  const isPickupDateEarlierThanDeliveryDate = (order) => {
+    if (
+      suggestedPickupDate[order.firebaseRefID] &&
+      suggestedDeliveryDate[order.firebaseRefID] &&
+      moment(suggestedDeliveryDate[order.firebaseRefID]).isBefore(moment(suggestedPickupDate[order.firebaseRefID]))
+    ) {
+      setHasPickupDateError({ ...hasPickupDateError, [order.firebaseRefID]: true });
+      setHasDeliveryDateError({ ...hasDeliveryDateError, [order.firebaseRefID]: true });
+      message.error('Delivery Date cannot be earlier than the Pickup Date!');
+      return true;
+    } else {
+      setHasPickupDateError({ ...hasPickupDateError, [order.firebaseRefID]: false });
+      setHasDeliveryDateError({ ...hasDeliveryDateError, [order.firebaseRefID]: false });
+      return false;
+    }
+  };
+
+  const cancelJobBid = async (order) => {
+    setIsCancelingJobBid({ ...isCancelingJobBid, [order.firebaseRefID]: true });
+    await firebase
+      .firestore()
+      .doc(`/orders/${order.firebaseRefID}`)
+      .set(
+        {
+          driver_submit_timestamp: null,
+          driver_uid: null,
+          driver_submitted: false,
+          driver_suggested_pickup_date: null,
+          driver_suggested_delivery_date: null,
+          driver_suggested_payout: null,
+          driver_comments: null,
+          staging_timestamp: null,
+          staging_uid: null,
+        },
+        { merge: true }
+      )
+      .then((success) => {
+        setStagedJobs(stagedJobs.filter((job) => job.firebaseRefID !== order.firebaseRefID));
+      });
+    setIsCancelingJobBid({ ...isCancelingJobBid, [order.firebaseRefID]: false });
   };
 
   const unstageJob = async (order) => {
@@ -62,7 +173,7 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
       .where('staging_uid', '==', userUID)
       .get()
       .then((response) => {
-        console.log('response', response);
+        console.log('fetchStagedJobs: ', response);
 
         const newData = [];
         let order;
@@ -71,6 +182,18 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
           order.key = order.order_id;
 
           if (isStagedOrder(order)) {
+            newData.push(order);
+          } else if (order.driver_submitted) {
+            setSuggestedPickupDate({
+              ...suggestedPickupDate,
+              [order.firebaseRefID]: order.driver_suggested_pickup_date,
+            });
+            setSuggestedDeliveryDate({
+              ...suggestedDeliveryDate,
+              [order.firebaseRefID]: order.driver_suggested_delivery_date,
+            });
+            setSuggestedPayout({ ...suggestedPayout, [order.firebaseRefID]: order.driver_suggested_payout });
+            setComments({ ...comments, [order.firebaseRefID]: order.driver_comments });
             newData.push(order);
           }
         });
@@ -144,7 +267,7 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
                       xl={8}
                     >
                       <div className="staged-item-number">{index + 1}</div>
-                      {t('order_num_label')} #: <b>{order.id}</b>
+                      {t('order_num_label')}: <b>{order.id}</b>
                     </Col>
                     <Col style={{ ...columnStyle, paddingTop: '20px' }} xs={24} sm={24} md={10} lg={10} xl={8}>
                       {Object.keys(order.cars).map((index) => (
@@ -206,7 +329,33 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
                           <b>{t('pickup_date')}: </b>
                         </div>{' '}
                         <div className="date-item-child">
-                          <Input size="small" value={order.pickupDate} />
+                          <Tooltip trigger={['click', 'hover']} title={t('suggested_pickup_date')}>
+                            <DatePicker
+                              disabled={order.driver_submitted}
+                              placeholder={t('suggested_pickup_date_placeholder')}
+                              size="small"
+                              style={{ width: '100%' }}
+                              value={
+                                suggestedPickupDate[order.firebaseRefID]
+                                  ? moment(suggestedPickupDate[order.firebaseRefID], 'YYYY-MM-DD')
+                                  : null
+                              }
+                              disabledDate={(moment) => moment.isBefore(new Date())}
+                              showToday={false}
+                              onChange={(date) => {
+                                setSuggestedPickupDate({
+                                  ...suggestedPickupDate,
+                                  [order.firebaseRefID]: date == null ? '' : date.format('YYYY-MM-DD'),
+                                });
+                                setHasPickupDateError({ ...hasPickupDateError, [order.firebaseRefID]: false });
+                              }}
+                            />
+                            {isDataSubmitted[order.firebaseRefID] && hasPickupDateError[order.firebaseRefID] ? (
+                              <Alert message={t('suggested_pickup_date_error')} type="error" />
+                            ) : (
+                              <></>
+                            )}
+                          </Tooltip>
                         </div>
                       </div>
                     </Col>
@@ -216,7 +365,33 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
                           <b>{t('delivery_date')}: </b>
                         </div>{' '}
                         <div className="date-item-child">
-                          <Input size="small" value={'2020-11-08'} />
+                          <Tooltip trigger={['click', 'hover']} title={t('suggested_delivery_date')}>
+                            <DatePicker
+                              disabled={order.driver_submitted}
+                              placeholder={t('suggested_delivery_date_placeholder')}
+                              size="small"
+                              style={{ width: '100%' }}
+                              value={
+                                suggestedDeliveryDate[order.firebaseRefID]
+                                  ? moment(suggestedDeliveryDate[order.firebaseRefID], 'YYYY-MM-DD')
+                                  : null
+                              }
+                              disabledDate={(moment) => moment.isBefore(new Date())}
+                              showToday={false}
+                              onChange={(date) => {
+                                setSuggestedDeliveryDate({
+                                  ...suggestedDeliveryDate,
+                                  [order.firebaseRefID]: date == null ? '' : date.format('YYYY-MM-DD'),
+                                });
+                                setHasDeliveryDateError({ ...hasDeliveryDateError, [order.firebaseRefID]: false });
+                              }}
+                            />
+                            {isDataSubmitted[order.firebaseRefID] && hasDeliveryDateError[order.firebaseRefID] ? (
+                              <Alert message={t('suggested_delivery_date_error')} type="error" />
+                            ) : (
+                              <></>
+                            )}
+                          </Tooltip>
                         </div>
                       </div>
                       <em>{t('delivery_date_suggested', { date: '2020-11-08' })}</em>
@@ -229,7 +404,23 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
                           <b>{t('payout_label')} ($)</b>
                         </div>{' '}
                         <div className="date-item-child">
-                          <Input size="small" value={calculateTotalShippingRate(order)} />
+                          <Tooltip trigger={['click', 'hover']} title={t('suggested_payout')}>
+                            <Input
+                              disabled={order.driver_submitted}
+                              size="small"
+                              // defaultValue={calculateTotalShippingRate(order)}
+                              value={suggestedPayout[order.firebaseRefID]}
+                              onChange={(e) => {
+                                setSuggestedPayout({ ...suggestedPayout, [order.firebaseRefID]: e.target.value });
+                                setHasPayoutError({ ...hasPayoutError, [order.firebaseRefID]: false });
+                              }}
+                            />
+                            {isDataSubmitted[order.firebaseRefID] && hasPayoutError[order.firebaseRefID] ? (
+                              <Alert message={t('suggested_payout_error')} type="error" />
+                            ) : (
+                              <></>
+                            )}
+                          </Tooltip>
                           <span style={{ fontSize: '11px' }}>
                             <em>{t('asking_label', { amount: `$${calculateTotalShippingRate(order)}` })}</em>
                             <br />
@@ -244,37 +435,82 @@ export function StagedJobsPage({ t, quote, theme, isLoggedIn, userUID }) {
                           <b>{t('comments_label')}: </b>
                         </div>{' '}
                         <div className="date-item-child">
-                          <Input size="small" value={'Some comments...'} />
+                          <Tooltip trigger={['click', 'hover']} title={t('driver_comments')}>
+                            <Input
+                              disabled={order.driver_submitted}
+                              size="small"
+                              value={comments[order.firebaseRefID]}
+                              onChange={(e) => {
+                                setComments({ ...comments, [order.firebaseRefID]: e.target.value });
+                                setHasCommentsError({ ...hasCommentsError, [order.firebaseRefID]: false });
+                              }}
+                            />
+                            {isDataSubmitted[order.firebaseRefID] && hasCommentsError[order.firebaseRefID] ? (
+                              <Alert message={t('driver_comments_error')} type="error" />
+                            ) : (
+                              <></>
+                            )}
+                          </Tooltip>
                         </div>
                       </div>
                     </Col>
                   </Row>
-                  <Row gutter={[0, 0]} justify="center">
-                    <Col style={{ ...columnStyle, textAlign: 'center' }} xs={24} sm={24} md={20} lg={20} xl={16}>
-                      <Button type="primary">{t('submit_button')}</Button>&nbsp;&nbsp;&nbsp;
-                      <Button onClick={() => unstageJob(order)} type="default">
-                        {t('unstage_job_button')}
-                      </Button>
-                    </Col>
-                  </Row>
-                  <Row gutter={[0, 0]} justify="center">
-                    <Col
-                      style={{ ...columnStyle, textAlign: 'center', fontSize: '11px' }}
-                      xs={24}
-                      sm={24}
-                      md={20}
-                      lg={20}
-                      xl={16}
-                      dangerouslySetInnerHTML={{
-                        __html: t('unstage_time_label', {
-                          date: moment(new Date(order.staging_timestamp.seconds * 1000))
-                            .add(10, 'minutes')
-                            .format('MM-DD-YYYY HH:mm A'),
-                          timezone: 'US/Eastern',
-                        }),
-                      }}
-                    ></Col>
-                  </Row>
+
+                  {order.driver_submitted ? (
+                    <Row gutter={[0, 0]} justify="center">
+                      <Col style={{ ...columnStyle, textAlign: 'center' }} xs={24} sm={24} md={20} lg={20} xl={16}>
+                        <Result
+                          status="success"
+                          title="Successfully Submitted Bid!"
+                          subTitle="You will receive an email notification once your bid for this order has been accepted."
+                        />
+                        <Button
+                          loading={!!isCancelingJobBid[order.firebaseRefID]}
+                          type="primary"
+                          onClick={() => cancelJobBid(order)}
+                        >
+                          Cancel Bid
+                        </Button>
+                      </Col>
+                    </Row>
+                  ) : (
+                    <>
+                      <Row gutter={[0, 0]} justify="center">
+                        <Col style={{ ...columnStyle, textAlign: 'center' }} xs={24} sm={24} md={20} lg={20} xl={16}>
+                          <Button
+                            loading={!!isSubmittingJob[order.firebaseRefID]}
+                            onClick={() => submitJobForApproval(order)}
+                            type="primary"
+                          >
+                            {t('submit_button')}
+                          </Button>
+                          &nbsp;&nbsp;&nbsp;
+                          <Button onClick={() => unstageJob(order)} type="default">
+                            {t('unstage_job_button')}
+                          </Button>
+                        </Col>
+                      </Row>
+                      <Row gutter={[0, 0]} justify="center">
+                        <Col
+                          style={{ ...columnStyle, textAlign: 'center', fontSize: '11px' }}
+                          xs={24}
+                          sm={24}
+                          md={20}
+                          lg={20}
+                          xl={16}
+                          dangerouslySetInnerHTML={{
+                            __html: t('unstage_time_label', {
+                              date: moment(new Date(order.staging_timestamp.seconds * 1000))
+                                .add(10, 'minutes')
+                                .format('MM-DD-YYYY HH:mm A'),
+                              timezone: 'US/Eastern',
+                            }),
+                          }}
+                        ></Col>
+                      </Row>
+                    </>
+                  )}
+
                   <br />
                 </div>
               ))}

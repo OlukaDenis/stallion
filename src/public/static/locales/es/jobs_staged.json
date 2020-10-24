@@ -23,5 +23,15 @@
     "unstage_job_button": "Trabajo sin Etapa",
     "unstage_time_label": "Este trabajo permanecerá preparado hasta: <b>{{date}}</b> ({{timezone}})",
     "yes_label": "Si",
-    "no_label": "No"
+    "no_label": "No",
+    "suggested_pickup_date": "Seleccione la fecha en la que estará disponible para recoger el envío",
+    "suggested_pickup_date_placeholder": "Fecha de Recogida",
+    "suggested_pickup_date_error": "Por favor, seleccione una fecha para la recogida del vehículo.",
+    "suggested_delivery_date": "Seleccione la fecha en la que entregará el envío",
+    "suggested_delivery_date_placeholder": "Fecha de Entrega",
+    "suggested_delivery_date_error": "Por favor, seleccione una fecha para la entrega del vehículo.",
+    "suggested_payout": "¿Cuál es su pago preferido por este trabajo?",
+    "suggested_payout_error": "Por favor, especifique su pago preferido para este trabajo.",
+    "driver_comments": "Ingrese cualquier otro comentario que tenga sobre este trabajo",
+    "driver_comments_error": "Por favor ingrese un comentario para aceptar este trabajo."
 }

@@ -60,7 +60,6 @@ export function Available ({
           { staging_timestamp: firebase.firestore.FieldValue.serverTimestamp(), staging_uid: userUID },
           { merge: true }
         );
-      console.log('status: ', status);
     });
     setIsStagingSelectedJobs(false);
   }
@@ -142,7 +141,7 @@ export function Available ({
           order = snapshot.data();
           order.key = order.order_id;
 
-          if (!isStagedOrder(order)) {
+          if (!isStagedOrder(order) && !order.driver_submitted) {
             newData.push(order);
           }
         });

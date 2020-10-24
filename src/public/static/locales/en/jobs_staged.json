@@ -23,5 +23,15 @@
     "unstage_job_button": "Unstage Job",
     "unstage_time_label": "This job will remain staged until: <b>{{date}}</b> ({{timezone}})",
     "yes_label": "Yes",
-    "no_label": "No"
+    "no_label": "No",
+    "suggested_pickup_date": "Select the date when you will be available to pickup the shipment",
+    "suggested_pickup_date_placeholder": "Ship Date",
+    "suggested_pickup_date_error": "Kindly select a date for vehicle pickup",
+    "suggested_delivery_date": "Select the date when you will deliver the shipment",
+    "suggested_delivery_date_placeholder": "Delivery Date",
+    "suggested_delivery_date_error": "Kindly select a date for vehicle delivery",
+    "suggested_payout": "What is your preferred payout for this job?",
+    "suggested_payout_error": "Kindly specify your preferred payout for this job",
+    "driver_comments": "Enter any other comments you have about this job",
+    "driver_comments_error": "Kindly enter a comment to accept this job"
 }
