@@ -1,0 +1,40 @@
+{
+    "instructions": "Select bids to approve on the table below.",
+    "select_jobs_button": "Approve Bid(s)",
+    "reject_jobs_button": "Reject Bid(s)",
+
+    "table": {
+        "header": "Submitted Bids",
+        "job_info_col_group": {
+            "header": "Job Info",
+            "columns": {
+                "order_id": "OrderID",
+                "date": "Date",
+                "vehicle": "Vehicle",
+                "inop": "Inop?"
+            }
+        },
+        "pickup_info_col_group": {
+            "header": "Customer Options",
+            "columns": {
+                "address": "Address",
+                "city": "City",
+                "state": "State",
+                "zip": "ZIP"
+            }
+        },
+        "delivery_info_col_group": {
+            "header": "Bidder Options",
+            "columns": {
+                "address": "Address",
+                "city": "City",
+                "state": "State",
+                "zip": "ZIP"
+            }
+        },
+        "columns": {
+            "distance": "Distance",
+            "payout": "Payout"
+        }
+    }
+}
