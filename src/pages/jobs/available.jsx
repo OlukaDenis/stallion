@@ -23,27 +23,27 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
          const [data, setData] = useState([]);
          const [searchText, setSearchText] = useState('');
          const [searchedColumn, setSearchedColumn] = useState('');
-         const [isLoadingStagedJobsPage, setIsLoadingStagedJobsPage] = useState(null);
+         const [isLoadingNewPage, setIsLoadingNewPage] = useState(null);
 
          const searchInputRef = useRef();
 
-         useIsLoadingNewPage(isLoadingStagedJobsPage);
+         useIsLoadingNewPage(isLoadingNewPage);
 
          useEffect(() => {
-           if (isLoadingStagedJobsPage) setIsLoadingStagedJobsPage(null);
-         }, [isLoadingStagedJobsPage]);
+           if (isLoadingNewPage) setIsLoadingNewPage(null);
+         }, [isLoadingNewPage]);
 
          useEffect(() => {
            if (!isAdmin && !isManager && !isShippingAgent && !isDriver) setIsLoadingNewPage({ pathname: '/' });
          }, [isAdmin, isManager, isShippingAgent, isDriver]);
 
          useEffect(() => {
-           if (!isLoggedIn) setIsLoadingStagedJobsPage(loginPageParams);
+           if (!isLoggedIn) setIsLoadingNewPage(loginPageParams);
          }, [isLoggedIn]);
 
          const stageSelectedJobs = async () => {
            await markSelectedJobsAsStaged();
-           setIsLoadingStagedJobsPage('/jobs/staged');
+           setIsLoadingNewPage('/jobs/staged');
          };
 
          const markSelectedJobsAsStaged = async () => {
@@ -299,7 +299,7 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                              <div className="float-right" style={{ marginBottom: 16 }}>
                                <Button
                                  loading={isStagingSelectedJobs}
-                                 onClick={() => setIsLoadingStagedJobsPage(stagingPageParams)}
+                                 onClick={() => setIsLoadingNewPage(stagingPageParams)}
                                  type="ghost"
                                >
                                  {t('staged_jobs_button')}
