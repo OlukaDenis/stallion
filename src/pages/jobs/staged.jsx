@@ -197,9 +197,7 @@ export function StagedJobsPage({
                  order = snapshot.data();
                  order.key = order.order_id;
 
-                 if (isStagedOrder(order)) {
-                   newData.push(order);
-                 } else if (order.driver_submitted) {
+                 if (order.driver_submitted) {
                    setSuggestedPickupDate({
                      ...suggestedPickupDate,
                      [order.firebaseRefID]: order.driver_suggested_pickup_date,
@@ -211,7 +209,9 @@ export function StagedJobsPage({
                    setSuggestedPayout({ ...suggestedPayout, [order.firebaseRefID]: order.driver_suggested_payout });
                    setComments({ ...comments, [order.firebaseRefID]: order.driver_comments });
                    newData.push(order);
-                 }
+                 } else if (isStagedOrder(order)) {
+                   newData.push(order);
+                 } 
                });
                setStagedJobs(newData);
              })
@@ -287,7 +287,7 @@ export function StagedJobsPage({
                            </Col>
                            <Col style={{ ...columnStyle, paddingTop: '20px' }} xs={24} sm={24} md={10} lg={10} xl={8}>
                              {Object.keys(order.cars).map((index) => (
-                               <>
+                               <div key={index}>
                                  {t('vehicle_label')} {Number(index) + 1}:{' '}
                                  <b>
                                    {order.cars[index].year} {order.cars[index].make} {order.cars[index].model}{' '}
@@ -299,7 +299,7 @@ export function StagedJobsPage({
                                    {t('has_keys_label')}: {order.cars[index].hasKeys ? t('yes_label') : t('no_label')})
                                  </em>{' '}
                                  <br /> <br />
-                               </>
+                               </div>
                              ))}
                            </Col>
                          </Row>
