@@ -18,6 +18,7 @@ import {
   CaretRightOutlined,
   CaretLeftOutlined,
   UserOutlined,
+  FileDoneOutlined,
 } from '@ant-design/icons';
 
 import CustomIcon from './CustomIcon';
@@ -58,6 +59,8 @@ export function BaseLayout({
          userLoggedOut,
          isAdmin,
          isManager,
+         isDriver,
+         isShippingAgent,
        }) {
          const getCurrentLanguageIndex = () => {
            const index = supported_languages.findIndex((item) => item.code === i18n.language);
@@ -292,6 +295,11 @@ export function BaseLayout({
                          {t('menu.jobs.label')}
                        </Menu.Item>
                        {(isAdmin || isManager) && (
+                         <Menu.Item key="/jobs/approve" icon={<FileDoneOutlined />}>
+                           {t('menu.approve.label')}
+                         </Menu.Item>
+                       )}
+                       {(isAdmin) && (
                          <Menu.Item key="/users/manage" icon={<UserOutlined />}>
                            {t('menu.users.label')}
                          </Menu.Item>
@@ -375,6 +383,8 @@ const mapStateToProps = (state) => ({
   isLoggedIn: state.user.isLoggedIn,
   isAdmin: state.user.isAdmin,
   isManager: state.user.isManager,
+  isDriver: state.user.isDriver,
+  isShippingAgent: state.user.isShippingAgent,
 });
 
 const mapDispatchToProps = (dispatch) => {

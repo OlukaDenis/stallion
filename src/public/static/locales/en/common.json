@@ -130,6 +130,9 @@
       "jobs": {
         "label": "Available Jobs"
       },
+      "approve": {
+        "label": "Approve Bids"
+      },
       "users": {
         "label": "Users"
       },

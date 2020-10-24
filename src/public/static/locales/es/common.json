@@ -87,6 +87,9 @@
     "jobs": {
       "label": "Trabajos Disponibles"
     },
+    "approve": {
+      "label": "Aprobar Ofertas"
+    },
     "users": {
       "label": "Usuarias/Usuarios"
     },
