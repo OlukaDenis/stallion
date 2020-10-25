@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { Alert, Button, Card, Col, Input, Row, Spin } from 'antd';
+import { Alert, Button, Card, Col, Input, message, Popconfirm, Row, Spin } from 'antd';
 import {
   setIsLoggedIn,
   setIsPhoneLinked,
@@ -27,8 +27,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Router } from '../utilities/i18n';
 import { useState } from 'react';
-import { UserOutlined } from '@ant-design/icons';
+import { MailOutlined, UserOutlined } from '@ant-design/icons';
 import { useIsLoadingNewPage } from '../hooks/NewPageLoadingIndicator';
+import { isValidEmail } from '../utilities/data_validators';
 
 export function LoginPage({
   t,
@@ -57,9 +58,11 @@ export function LoginPage({
   const[isPhoneNumberSignup, setIsPhoneNumberSignup] = useState(false);
   const[isSavingDisplayName, setIsSavingDisplayName] = useState(false);
   const[currentUser, setCurrentUser] = useState({});
-  const[displayName, setDisplayName] = useState('');
-  const[displayNameError, setDisplayNameError] = useState(false);
+  const [displayName, setDisplayName] = useState('');
+  const [displayNameError, setDisplayNameError] = useState(false);
+  const [emailInput, setEmailInput] = useState('');
   const[pageToLoad, setPageToLoad] = useState(null);
+  const emailErrorText = 'Do you want to proceed without giving us a valid email through which we can send you notifications. We promise not to spam your inbox.';
 
   useIsLoadingNewPage(pageToLoad);
 
@@ -68,8 +71,14 @@ export function LoginPage({
       setDisplayNameError(true);
       return;
     }
+
+    if (isValidEmail(emailInput)) {
+      setEmail(emailInput);
+    }
+
     setIsSavingDisplayName(true);
     await currentUser.updateProfile({
+      email: isValidEmail(emailInput) ? emailInput : null,
       displayName: displayName,
       photoURL: currentUser.photoURL,
     });
@@ -202,15 +211,42 @@ export function LoginPage({
                   <br />
                   {displayNameError && <Alert message="Kindly enter your first and last names." type="error" />}
                   <br />
-                  <Button
-                    shape="round"
-                    size="large"
-                    loading={isSavingDisplayName}
-                    onClick={saveDisplayName}
-                    type="primary"
-                  >
-                    Save Name
-                  </Button>
+                  <Input
+                    onChange={(e) => {
+                      setEmailInput(e.target.value);
+                    }}
+                    value={emailInput}
+                    type="email"
+                    placeholder="Email "
+                    prefix={<MailOutlined />}
+                    style={inputStyle}
+                    required
+                  />
+
+                  <br />
+                  {isValidEmail(emailInput) ? (
+                    <Button
+                      shape="round"
+                      size="large"
+                      onClick={saveDisplayName}
+                      loading={isSavingDisplayName}
+                      type="primary"
+                    >
+                      Save Name
+                    </Button>
+                  ) : (
+                    <Popconfirm
+                      placement="top"
+                      title={emailErrorText}
+                      onConfirm={saveDisplayName}
+                      okText="Yes"
+                      cancelText="No"
+                    >
+                      <Button shape="round" size="large" loading={isSavingDisplayName} type="primary">
+                        Save Name
+                      </Button>
+                    </Popconfirm>
+                  )}
                 </div>
               )}
             </div>
