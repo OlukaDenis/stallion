@@ -2,6 +2,9 @@
     "instructions": "Select bids to approve on the table below.",
     "select_jobs_button": "Approve Bid(s)",
     "reject_jobs_button": "Reject Bid(s)",
+    "dispatched_jobs_button": "Dispatched Job(s)",
+    "firestore_snapshot_error": "Encountered an error when loading bids pending approval.",
+    "zero_bids_action_error": "No action performed. Kindly select at least one bid from the table below.",
 
     "table": {
         "header": "Submitted Bids",
@@ -9,32 +12,32 @@
             "header": "Job Info",
             "columns": {
                 "order_id": "OrderID",
-                "date": "Date",
+                "cars": "Cars",
                 "vehicle": "Vehicle",
                 "inop": "Inop?"
             }
         },
-        "pickup_info_col_group": {
+        "customer_options_col_group": {
             "header": "Customer Options",
             "columns": {
-                "address": "Address",
-                "city": "City",
-                "state": "State",
-                "zip": "ZIP"
+                "name": "Name",
+                "payout": "Payout",
+                "pickup": "Pickup Date",
+                "comments": "Comments"
             }
         },
-        "delivery_info_col_group": {
+        "bidder_options_col_group": {
             "header": "Bidder Options",
             "columns": {
-                "address": "Address",
-                "city": "City",
-                "state": "State",
-                "zip": "ZIP"
+                "name": "Name",
+                "payout": "Bid Payout",
+                "pickup": "Pickup Date",
+                "delivery": "Delivery Date",
+                "comments": "Comments"
             }
         },
         "columns": {
-            "distance": "Distance",
-            "payout": "Payout"
+            "distance": "Distance"
         }
     }
 }

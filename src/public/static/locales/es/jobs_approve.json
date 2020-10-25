@@ -2,6 +2,9 @@
     "instructions": "Seleccione trabajos en la tabla a continuación.",
     "select_jobs_button": "Seleccionar Trabajos",
     "reject_jobs_button": "Rechazar Oferta",
+    "dispatched_jobs_button": "Trabajo(s) Enviado",
+    "firestore_snapshot_error": "Se produjo un error al cargar las ofertas pendientes de aprobación.",
+    "zero_bids_action_error": "No se realizó ninguna acción. Por favor, seleccione al menos una oferta de la siguiente tabla.",
 
     "table": {
         "header": "Trabajos Disponibles",
@@ -9,32 +12,32 @@
             "header": "Información del Trabajo",
             "columns": {
                 "order_id": "SolicitarID",
-                "date": "Fecha",
+                "cars": "Coches",
                 "vehicle": "Vehículo",
                 "inop": "Inop?"
             }
         },
-        "pickup_info_col_group": {
-            "header": "Información de Recogida",
+        "customer_options_col_group": {
+            "header": "Opciones del Cliente",
             "columns": {
-                "address": "Dirección",
-                "city": "Ciudad",
-                "state": "Estado",
-                "zip": "ZIP"
+                "name": "Nombre",
+                "payout": "Pagar",
+                "pickup": "Fecha de Recogida",
+                "comments": "Comentarios"
             }
         },
-        "delivery_info_col_group": {
-            "header": "Delivery Info",
+        "bidder_options_col_group": {
+            "header": "Opciones del Postor",
             "columns": {
-                "address": "Dirección",
-                "city": "Ciudad",
-                "state": "Estado",
-                "zip": "ZIP"
+                "name": "Nombre",
+                "payout": "Pago de Oferta",
+                "pickup": "Fecha de Recogida",
+                "delivery": "Fecha de Entrega",
+                "comments": "Comentarios"
             }
         },
         "columns": {
-            "distance": "Distancia",
-            "payout": "El Pago"
+            "distance": "Distancia"
         }
     }
 }

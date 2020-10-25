@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Card, Table, Row, Col, Button } from 'antd';
+import { Card, Table, Row, Col, Button, message } from 'antd';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -11,11 +11,12 @@ import BaseLayout from '../../components/layout';
 import { Router, withTranslation } from '../../utilities/i18n';
 import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
 
-export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isManager }) {
+export function ApprovalPending({ t, quote, theme, isLoggedIn, userUID, isAdmin, isManager }) {
   const stagingPageParams = { pathname: '/jobs/staged' };
+  const dispatchedJobsPageParams = { pathname: '/jobs/dispatched' };
   const loginPageParams = { pathname: '/login', query: { redirectURL: Router.pathname } };
   const [selectedRows, setSelectedRows] = useState([]);
-  const [isLoadingAvailableJobsData, setIsLoadingAvailableJobsData] = useState(false);
+  const [isLoadingApprovalPendingJobsData, setIsLoadingApprovalPendingJobsData] = useState(false);
   const [isApprovingSelectedBid, setIsApprovingSelectedBid] = useState(false);
   const [isRejectingSelectedBid, setIsRejectingSelectedBid] = useState(false);
   const [data, setData] = useState([]);
@@ -40,6 +41,9 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
   };
 
   const rejectSelectedBid = async () => {
+    if(selectedRows.length < 1) {
+      message.error(t('zero_bids_action_error'));
+    }
     setIsRejectingSelectedBid(true);
     selectedRows.map(async (order) => {
       const status = await firebase.firestore().doc(`/orders/${order.firebaseRefID}`).set(
@@ -57,10 +61,14 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
         { merge: true }
       );
     });
+    setSelectedRows([]);
     setIsRejectingSelectedBid(false);
   };
 
   const markSelectedBidsAsApproved = async () => {
+    if (selectedRows.length < 1) {
+      message.error(t('zero_bids_action_error'));
+    }
     setIsApprovingSelectedBid(true);
     selectedRows.map(async (order) => {
       const status = await firebase.firestore().doc(`/orders/${order.firebaseRefID}`).set(
@@ -72,36 +80,48 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
         { merge: true }
       );
     });
+    setSelectedRows([]);
     setIsApprovingSelectedBid(false);
   };
 
   const fetchData = async () => {
-    setIsLoadingAvailableJobsData(true);
+    setIsLoadingApprovalPendingJobsData(true);
     
     const unsubscribe = firebase
       .firestore()
       .collection('/orders')
       .where('driver_uid', '!=', userUID)
       .where('driver_submitted', '==', true)
-      .onSnapshot((response) => {
-        const newData = [];
-        let order;
-        response.forEach((snapshot) => {
-          order = snapshot.data();
-          order.key = order.order_id;
-          if (!order.approved) {
-            newData.push(order);
-          }
-        });
+      .onSnapshot(
+        (response) => {
+          const newData = [];
+          let order;
+          response.forEach((snapshot) => {
+            order = snapshot.data();
+            order.key = order.order_id;
+            if (!order.approved) {
+              newData.push(order);
+            }
+          });
 
-        setData(newData);
-        setIsLoadingAvailableJobsData(false);
-      });
+          setData(newData);
+          setIsLoadingApprovalPendingJobsData(false);
+        },
+        (error) => {
+          message.error(t('firestore_snapshot_error'));
+          // console.error(error);
+          setIsLoadingApprovalPendingJobsData(false);
+        }
+      );
+      
+      return unsubscribe;
     
   };
 
   useEffect(() => {
-    fetchData();
+    const unsubscribe = fetchData();
+
+    return () => ('function' === typeof unsubscribe ? unsubscribe() : console.log('unsubscribe', unsubscribe));
   }, []);
 
   const columns = [
@@ -115,9 +135,10 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
           sortDirections: ['ascend', 'descend'],
         },
         {
-          title: t('table.job_info_col_group.columns.date'),
-          dataIndex: 'pickupDate',
-          sorter: (a, b) => (moment(a.pickupDate).isBefore(b.pickupDate) ? -1 : 1),
+          title: t('table.job_info_col_group.columns.cars'),
+          dataIndex: 'cars',
+          render: (cars) => Object.keys(cars).length,
+          sorter: (a, b) => a.length - b.length,
           sortDirections: ['ascend', 'descend'],
         },
         {
@@ -139,56 +160,55 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
     },
 
     {
-      title: t('table.pickup_info_col_group.header'),
+      title: t('table.customer_options_col_group.header'),
       children: [
         {
-          title: t('table.pickup_info_col_group.columns.address'),
-          dataIndex: 'pickupLocation',
-          render: (location) => location.address,
+          title: t('table.customer_options_col_group.columns.name'),
+          dataIndex: 'name',
         },
         {
-          title: t('table.pickup_info_col_group.columns.city'),
-          dataIndex: 'originName',
-          render: (originName) => originName.split(',')[0],
-        },
-        {
-          title: t('table.pickup_info_col_group.columns.state'),
-          dataIndex: 'origin',
-          render: (origin) => origin.split(',')[1].split(' ')[1],
-        },
-        {
-          title: t('table.pickup_info_col_group.columns.zip'),
-          dataIndex: 'origin',
-          render: (origin) => origin.split(',')[1].split(' ')[2],
-          sorter: (a, b) => (a.origin.split(',')[1].split(' ')[2] - b.origin.split(',')[1].split(' ')[2] ? -1 : 1),
+          title: t('table.customer_options_col_group.columns.payout'),
+          dataIndex: 'payment_authorized_amount',
+          render: (amount) => '$' + amount,
+          sorter: (a, b) => a.payment_authorized_amount - b.payment_authorized_amount,
           sortDirections: ['ascend', 'descend'],
+        },
+        {
+          title: t('table.customer_options_col_group.columns.pickup'),
+          dataIndex: 'pickupDate',
+          render: (date) => (date ? moment(date).format('MM-DD-YYYY') : date),
+        },
+        {
+          title: t('table.customer_options_col_group.columns.comments'),
+          dataIndex: 'additional_comments',
         },
       ],
     },
     {
-      title: t('table.delivery_info_col_group.header'),
+      title: t('table.bidder_options_col_group.header'),
       children: [
         {
-          title: t('table.delivery_info_col_group.columns.address'),
-          dataIndex: 'deliveryLocation',
-          render: (location) => location.address,
+          title: t('table.bidder_options_col_group.columns.name'),
+          dataIndex: 'driver_name',
         },
         {
-          title: t('table.delivery_info_col_group.columns.city'),
-          dataIndex: 'destinationName',
-          render: (destinationName) => destinationName.split(',')[0],
+          title: t('table.bidder_options_col_group.columns.payout'),
+          dataIndex: 'driver_suggested_payout',
+          render: (amount) => `$${Number(amount).toFixed(2)}`,
         },
         {
-          title: t('table.delivery_info_col_group.columns.state'),
-          dataIndex: 'destination',
-          render: (destination) => destination.split(',')[1].split(' ')[1],
+          title: t('table.bidder_options_col_group.columns.pickup'),
+          dataIndex: 'driver_suggested_pickup_date',
+          render: (date) => (date ? moment(date).format('MM-DD-YYYY') : date),
         },
         {
-          title: t('table.delivery_info_col_group.columns.zip'),
-          dataIndex: 'destination',
-          render: (destination) => destination.split(',')[1].split(' ')[2],
-          sorter: (a, b) => a.destination.split(',')[1].split(' ')[2] - b.destination.split(',')[1].split(' ')[2],
-          sortDirections: ['ascend', 'descend'],
+          title: t('table.bidder_options_col_group.columns.delivery'),
+          dataIndex: 'driver_suggested_delivery_date',
+          render: (date) => (date ? moment(date).format('MM-DD-YYYY') : date),
+        },
+        {
+          title: t('table.bidder_options_col_group.columns.comments'),
+          dataIndex: 'driver_comments',
         },
       ],
     },
@@ -199,13 +219,6 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
           title: t('table.columns.distance'),
           dataIndex: 'distance',
           sorter: (a, b) => a.distance - b.distance,
-          sortDirections: ['ascend', 'descend'],
-        },
-        {
-          title: t('table.columns.payout'),
-          dataIndex: 'payment_authorized_amount',
-          render: (amount) => '$' + amount,
-          sorter: (a, b) => a.payment_authorized_amount - b.payment_authorized_amount,
           sortDirections: ['ascend', 'descend'],
         },
       ],
@@ -253,12 +266,21 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                         <p>{t('instructions')}</p>
                       )}
                     </div>
+                    <div className="float-right" style={{ marginBottom: 16 }}>
+                      <Button
+                        loading={isApprovingSelectedBid || isRejectingSelectedBid}
+                        onClick={() => setIsLoadingNewPage(dispatchedJobsPageParams)}
+                        type="ghost"
+                      >
+                        {t('dispatched_jobs_button')}
+                      </Button>
+                    </div>
                   </div>
 
                   <h3>{t('table.header')}</h3>
 
                   <Table
-                    loading={isLoadingAvailableJobsData}
+                    loading={isLoadingApprovalPendingJobsData}
                     bordered
                     scroll={{ x: true, y: 600 }}
                     pagination={{
@@ -293,11 +315,11 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
   );
 }
 
-Available.getInitialProps = async () => ({
+ApprovalPending.getInitialProps = async () => ({
   namespacesRequired: ['common', 'jobs_approve'],
 });
 
-Available.propTypes = {
+ApprovalPending.propTypes = {
   t: PropTypes.func.isRequired,
 };
 
@@ -310,4 +332,4 @@ const mapStateToProps = (state) => ({
   isManager: state.user.isManager,
 });
 
-export default connect(mapStateToProps, null)(withTranslation('jobs_approve')(Available));
+export default connect(mapStateToProps, null)(withTranslation('jobs_approve')(ApprovalPending));
