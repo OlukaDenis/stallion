@@ -23,6 +23,8 @@ export function StagedJobsPage({
          isManager,
          isShippingAgent,
          isDriver,
+         userEmail,
+         displayName,
        }) {
          const loginPageParams = { pathname: '/login', query: { redirectURL: Router.pathname } };
          const availableJobsPageParams = { pathname: '/jobs/available' };
@@ -102,6 +104,8 @@ export function StagedJobsPage({
                  {
                    driver_submit_timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                    driver_uid: userUID,
+                   driver_email: userEmail,
+                   driver_name: displayName,
                    driver_submitted: true,
                    driver_suggested_pickup_date: suggestedPickupDate[order.firebaseRefID],
                    driver_suggested_delivery_date: suggestedDeliveryDate[order.firebaseRefID],
@@ -211,7 +215,7 @@ export function StagedJobsPage({
                    newData.push(order);
                  } else if (isStagedOrder(order)) {
                    newData.push(order);
-                 } 
+                 }
                });
                setStagedJobs(newData);
              })
@@ -613,6 +617,8 @@ const mapStateToProps = (state) => ({
   isManager: state.user.isManager,
   isShippingAgent: state.user.isShippingAgent,
   isDriver: state.user.isDriver,
+  userEmail: state.user.email,
+  displayName: state.user.name,
 });
 
 export default connect(mapStateToProps, null)(withTranslation('jobs_staged')(StagedJobsPage));
