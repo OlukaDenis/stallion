@@ -203,7 +203,7 @@ export function LoginPage({
                       setDisplayNameError(false);
                     }}
                     value={displayName}
-                    placeholder="First & Last Name "
+                    placeholder="First & Last Name *"
                     prefix={<UserOutlined />}
                     style={inputStyle}
                     required
