@@ -45,7 +45,7 @@ export const makeStore = ({ isServer }) => {
     const storage = require('redux-persist/lib/storage').default;
 
     const persistConfig = {
-      key: 'superstallionlogistics',
+      key: 'superstallionlogistics_v1',
       whitelist: ['quote', 'ui', 'user'], // only whitelisted reducers will be persisted
       storage, // you can use a safer storage
     };
