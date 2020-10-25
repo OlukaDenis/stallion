@@ -14,7 +14,7 @@ export const userInitialState = {
   photoURL: '',
   refreshToken: '',
   isAdmin: false,
-  isManager: true,
+  isManager: false,
   isShippingAgent: false,
   isDriver: false,
   favoriteItems: []
