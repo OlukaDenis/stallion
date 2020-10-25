@@ -62,7 +62,8 @@ export function LoginPage({
   const [displayNameError, setDisplayNameError] = useState(false);
   const [emailInput, setEmailInput] = useState('');
   const[pageToLoad, setPageToLoad] = useState(null);
-  const emailErrorText = 'Do you want to proceed without giving us a valid email through which we can send you notifications. We promise not to spam your inbox.';
+  const emailErrorText =
+    'We need a valid email address to send you notifications. Proceed without one?';
 
   useIsLoadingNewPage(pageToLoad);
 
@@ -78,10 +79,15 @@ export function LoginPage({
 
     setIsSavingDisplayName(true);
     await currentUser.updateProfile({
-      email: isValidEmail(emailInput) ? emailInput : null,
       displayName: displayName,
       photoURL: currentUser.photoURL,
     });
+
+    if (isValidEmail(emailInput)) {
+      await currentUser.updateEmail(emailInput);
+      await currentUser.sendEmailVerification();
+    }
+   
     await executeNewUserSignupFlow(currentUser, 'phone');
     setIsSavingDisplayName(false);
     setPageToLoad({ pathname: onSuccessRedirectUrl });
@@ -142,7 +148,6 @@ export function LoginPage({
         phoneNumber: currentUser.phoneNumber || '',
         email: currentUser.email || '',
         displayName: currentUser.displayName || '',
-        email: currentUser.email || '',
         uid: currentUser.uid || '',
         emailVerified: currentUser.emailVerified || false,
         photoURL: currentUser.photoURL || '',
@@ -224,6 +229,7 @@ export function LoginPage({
                   />
 
                   <br />
+                  <br />
                   {isValidEmail(emailInput) ? (
                     <Button
                       shape="round"
@@ -238,9 +244,9 @@ export function LoginPage({
                     <Popconfirm
                       placement="top"
                       title={emailErrorText}
-                      onConfirm={saveDisplayName}
-                      okText="Yes"
-                      cancelText="No"
+                      onCancel={saveDisplayName}
+                      okText="PROVIDE EMAIL"
+                      cancelText="PROCEED"
                     >
                       <Button shape="round" size="large" loading={isSavingDisplayName} type="primary">
                         Save Name
