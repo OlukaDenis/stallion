@@ -41,7 +41,6 @@ export function StagedJobsPage({
          const [suggestedPayout, setSuggestedPayout] = useState({});
          const [hasPayoutError, setHasPayoutError] = useState({});
          const [comments, setComments] = useState({});
-         const [hasCommentsError, setHasCommentsError] = useState({});
          const [isDataSubmitted, setIsDataSubmitted] = useState({});
 
          useIsLoadingNewPage(isLoadingNewPage);
@@ -84,17 +83,12 @@ export function StagedJobsPage({
              message.error('Amount must be a valid numeric value');
            }
 
-           if (!comments[order.order_id]) {
-             setHasCommentsError({ ...hasCommentsError, [order.order_id]: true });
-           }
-
            if (
              suggestedPickupDate[order.order_id] &&
              suggestedDeliveryDate[order.order_id] &&
              !isPickupDateEarlierThanDeliveryDate(order) &&
              suggestedPayout[order.order_id] &&
-             !Number.isNaN(Number(suggestedPayout[order.order_id])) &&
-             comments[order.order_id]
+             !Number.isNaN(Number(suggestedPayout[order.order_id]))
            ) {
              setIsSubmittingJob({ ...isSubmittingJob, [order.order_id]: true });
              await firebase
@@ -110,7 +104,8 @@ export function StagedJobsPage({
                    driver_suggested_pickup_date: suggestedPickupDate[order.order_id],
                    driver_suggested_delivery_date: suggestedDeliveryDate[order.order_id],
                    driver_suggested_payout: suggestedPayout[order.order_id],
-                   driver_comments: comments[order.order_id],
+                   driver_comments: comments[order.order_id] || null,
+                   approved: false,
                  },
                  { merge: true }
                )
@@ -135,7 +130,7 @@ export function StagedJobsPage({
            ) {
              setHasPickupDateError({ ...hasPickupDateError, [order.order_id]: true });
              setHasDeliveryDateError({ ...hasDeliveryDateError, [order.order_id]: true });
-             message.error('Delivery Date cannot be earlier than the Pickup Date!');
+             message.error(t('pickup_after_delivery_error'));
              return true;
            } else {
              setHasPickupDateError({ ...hasPickupDateError, [order.order_id]: false });
@@ -191,9 +186,9 @@ export function StagedJobsPage({
              .firestore()
              .collection(`/orders`)
              .where('staging_uid', '==', userUID)
+             .where('approved', '==', false)
              .get()
              .then((response) => {
-               console.log('fetchStagedJobs: ', response);
 
                const newData = [];
                let order;
@@ -214,6 +209,17 @@ export function StagedJobsPage({
                    setComments({ ...comments, [order.order_id]: order.driver_comments });
                    newData.push(order);
                  } else if (isStagedOrder(order)) {
+
+                   setSuggestedPickupDate({
+                     ...suggestedPickupDate,
+                     [order.order_id]: order.pickupDate,
+                   });
+
+                   setSuggestedPayout({
+                     ...suggestedPayout,
+                     [order.order_id]: calculateTotalShippingRate(order),
+                   });
+
                    newData.push(order);
                  }
                });
@@ -473,11 +479,11 @@ export function StagedJobsPage({
                                        setHasCommentsError({ ...hasCommentsError, [order.order_id]: false });
                                      }}
                                    />
-                                   {isDataSubmitted[order.order_id] && hasCommentsError[order.order_id] ? (
+                                   {/* {isDataSubmitted[order.order_id] && hasCommentsError[order.order_id] ? (
                                      <Alert message={t('driver_comments_error')} type="error" />
                                    ) : (
                                      <></>
-                                   )}
+                                   )} */}
                                  </Tooltip>
                                </div>
                              </div>
