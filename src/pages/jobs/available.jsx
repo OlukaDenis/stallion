@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Card, Table, Row, Col, Input, Space, Button } from 'antd';
+import { Card, Table, Row, Col, Input, Space, Button, message } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { isStagedOrder } from '../../utilities/common';
 
@@ -13,6 +13,7 @@ import BaseLayout from '../../components/layout';
 import { Router, withTranslation } from '../../utilities/i18n';
 import { SearchOutlined } from '@ant-design/icons';
 import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
+import Head from 'next/head';
 
 export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isManager, isShippingAgent, isDriver }) {
          const stagingPageParams = { pathname: '/jobs/staged' };
@@ -125,31 +126,39 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
 
          const fetchData = async () => {
            setIsLoadingAvailableJobsData(true);
-           await firebase
+           const unsubscribe = firebase
              .firestore()
              .collection('/orders')
              .where('terms_accepted', '==', true)
-             .get()
-             .then((response) => {
-               const newData = [];
-               let order;
-               response.forEach((snapshot) => {
-                 order = snapshot.data();
-                 order.key = order.order_id;
+             .limit(500)
+             .onSnapshot(
+               (response) => {
+                 const newData = [];
+                 let order;
+                 response.forEach((snapshot) => {
+                   order = snapshot.data();
+                   order.key = order.order_id;
 
-                 if (!isStagedOrder(order) && !order.driver_submitted) {
-                   newData.push(order);
-                 }
-               });
-               // console.log(order);
-               setData(newData);
-             })
-             .catch((error) => {});
-           setIsLoadingAvailableJobsData(false);
+                   if (!isStagedOrder(order) && !order.driver_submitted) {
+                     newData.push(order);
+                   }
+                 });
+                 // console.log(order);
+                 setData(newData);
+                 setIsLoadingAvailableJobsData(false);
+               },
+               (error) => {
+                 message(t('error_load_available'));
+                 setIsLoadingAvailableJobsData(false);
+               }
+             );
+           
+           return unsubscribe;
          };
 
          useEffect(() => {
-           fetchData();
+           const unsubscribe = fetchData();
+            return () => 'function' === typeof unsubscribe ? unsubscribe() : null;
          }, []);
 
          const columns = [
@@ -171,7 +180,7 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                {
                  title: t('table.job_info_col_group.columns.vehicle'),
                  dataIndex: 'cars',
-                 render: (cars) => cars[0].make + ' ' + cars[0].model + ' ' + cars[0].year,
+                 render: (cars) => cars.length > 0 ? cars[0].make + ' ' + cars[0].model + ' ' + cars[0].year : '',
                },
                {
                  title: t('table.job_info_col_group.columns.inop'),
@@ -275,8 +284,19 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
            onChange: onSelectChange,
          };
 
+         const useSmallScreenTable =
+           (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) < 720;
+
          return (
            <BaseLayout>
+             <Head>
+               {useSmallScreenTable && (
+                 <meta
+                   name="viewport"
+                   content="width=1600, initial-scale=0, user-scalable=yes"
+                 />
+               )}
+             </Head>
              <Row gutter={[16, 16]} style={{ paddingTop: 30 }} justify="center">
                <Col xs={24} sm={24} md={23} lg={23} xl={23}>
                  <Card>
@@ -313,10 +333,11 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                          <Table
                            loading={isLoadingAvailableJobsData}
                            bordered
-                           scroll={{ x: true, y: 600 }}
+                           size={useSmallScreenTable ? 'small' : 'middle'}
+                            scroll={useSmallScreenTable ? {} : { x: true, y: 600 }}
                            pagination={{
                              position: ['bottomRight'],
-                             defaultPageSize: 20,
+                             defaultPageSize: 500,
                            }}
                            rowSelection={{ ...rowSelection }}
                            columns={columns}

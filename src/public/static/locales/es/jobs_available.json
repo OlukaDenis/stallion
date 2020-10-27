@@ -2,6 +2,7 @@
     "instructions": "Seleccione trabajos en la tabla a continuación.",
     "select_jobs_button": "Seleccionar Trabajos",
     "staged_jobs_button": "Mis Trabajos por Etapas",
+    "error_load_available": "Se produjo un error al intentar cargar los trabajos disponibles. Actualizar página.",
 
     "table": {
         "header": "Trabajos Disponibles",
