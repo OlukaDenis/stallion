@@ -67,39 +67,39 @@ export function StagedJobsPage({
          };
 
          const submitJobForApproval = async (order) => {
-           setIsDataSubmitted({ ...isDataSubmitted, [order.firebaseRefID]: true });
+           setIsDataSubmitted({ ...isDataSubmitted, [order.order_id]: true });
 
-           if (!suggestedPickupDate[order.firebaseRefID]) {
-             setHasPickupDateError({ ...hasPickupDateError, [order.firebaseRefID]: true });
+           if (!suggestedPickupDate[order.order_id]) {
+             setHasPickupDateError({ ...hasPickupDateError, [order.order_id]: true });
            }
 
-           if (!suggestedDeliveryDate[order.firebaseRefID]) {
-             setHasDeliveryDateError({ ...hasDeliveryDateError, [order.firebaseRefID]: true });
+           if (!suggestedDeliveryDate[order.order_id]) {
+             setHasDeliveryDateError({ ...hasDeliveryDateError, [order.order_id]: true });
            }
 
-           if (!suggestedPayout[order.firebaseRefID]) {
-             setHasPayoutError({ ...hasPayoutError, [order.firebaseRefID]: true });
-           } else if (Number.isNaN(Number(suggestedPayout[order.firebaseRefID]))) {
-             setHasPayoutError({ ...hasPayoutError, [order.firebaseRefID]: true });
+           if (!suggestedPayout[order.order_id]) {
+             setHasPayoutError({ ...hasPayoutError, [order.order_id]: true });
+           } else if (Number.isNaN(Number(suggestedPayout[order.order_id]))) {
+             setHasPayoutError({ ...hasPayoutError, [order.order_id]: true });
              message.error('Amount must be a valid numeric value');
            }
 
-           if (!comments[order.firebaseRefID]) {
-             setHasCommentsError({ ...hasCommentsError, [order.firebaseRefID]: true });
+           if (!comments[order.order_id]) {
+             setHasCommentsError({ ...hasCommentsError, [order.order_id]: true });
            }
 
            if (
-             suggestedPickupDate[order.firebaseRefID] &&
-             suggestedDeliveryDate[order.firebaseRefID] &&
+             suggestedPickupDate[order.order_id] &&
+             suggestedDeliveryDate[order.order_id] &&
              !isPickupDateEarlierThanDeliveryDate(order) &&
-             suggestedPayout[order.firebaseRefID] &&
-             !Number.isNaN(Number(suggestedPayout[order.firebaseRefID])) &&
-             comments[order.firebaseRefID]
+             suggestedPayout[order.order_id] &&
+             !Number.isNaN(Number(suggestedPayout[order.order_id])) &&
+             comments[order.order_id]
            ) {
-             setIsSubmittingJob({ ...isSubmittingJob, [order.firebaseRefID]: true });
+             setIsSubmittingJob({ ...isSubmittingJob, [order.order_id]: true });
              await firebase
                .firestore()
-               .doc(`/orders/${order.firebaseRefID}`)
+               .doc(`/orders/${order.order_id}`)
                .set(
                  {
                    driver_submit_timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -107,48 +107,48 @@ export function StagedJobsPage({
                    driver_email: userEmail,
                    driver_name: displayName,
                    driver_submitted: true,
-                   driver_suggested_pickup_date: suggestedPickupDate[order.firebaseRefID],
-                   driver_suggested_delivery_date: suggestedDeliveryDate[order.firebaseRefID],
-                   driver_suggested_payout: suggestedPayout[order.firebaseRefID],
-                   driver_comments: comments[order.firebaseRefID],
+                   driver_suggested_pickup_date: suggestedPickupDate[order.order_id],
+                   driver_suggested_delivery_date: suggestedDeliveryDate[order.order_id],
+                   driver_suggested_payout: suggestedPayout[order.order_id],
+                   driver_comments: comments[order.order_id],
                  },
                  { merge: true }
                )
                .then((success) => {
                  setStagedJobs(
                    stagedJobs.map((orderItem) =>
-                     order.firebaseRefID === orderItem.firebaseRefID ? { ...order, driver_submitted: true } : orderItem
+                     order.order_id === orderItem.order_id ? { ...order, driver_submitted: true } : orderItem
                    )
                  );
                });
-             setIsSubmittingJob({ ...isSubmittingJob, [order.firebaseRefID]: false });
+             setIsSubmittingJob({ ...isSubmittingJob, [order.order_id]: false });
            }
          };
 
          const isPickupDateEarlierThanDeliveryDate = (order) => {
            if (
-             suggestedPickupDate[order.firebaseRefID] &&
-             suggestedDeliveryDate[order.firebaseRefID] &&
-             moment(suggestedDeliveryDate[order.firebaseRefID]).isBefore(
-               moment(suggestedPickupDate[order.firebaseRefID])
+             suggestedPickupDate[order.order_id] &&
+             suggestedDeliveryDate[order.order_id] &&
+             moment(suggestedDeliveryDate[order.order_id]).isBefore(
+               moment(suggestedPickupDate[order.order_id])
              )
            ) {
-             setHasPickupDateError({ ...hasPickupDateError, [order.firebaseRefID]: true });
-             setHasDeliveryDateError({ ...hasDeliveryDateError, [order.firebaseRefID]: true });
+             setHasPickupDateError({ ...hasPickupDateError, [order.order_id]: true });
+             setHasDeliveryDateError({ ...hasDeliveryDateError, [order.order_id]: true });
              message.error('Delivery Date cannot be earlier than the Pickup Date!');
              return true;
            } else {
-             setHasPickupDateError({ ...hasPickupDateError, [order.firebaseRefID]: false });
-             setHasDeliveryDateError({ ...hasDeliveryDateError, [order.firebaseRefID]: false });
+             setHasPickupDateError({ ...hasPickupDateError, [order.order_id]: false });
+             setHasDeliveryDateError({ ...hasDeliveryDateError, [order.order_id]: false });
              return false;
            }
          };
 
          const cancelJobBid = async (order) => {
-           setIsCancelingJobBid({ ...isCancelingJobBid, [order.firebaseRefID]: true });
+           setIsCancelingJobBid({ ...isCancelingJobBid, [order.order_id]: true });
            await firebase
              .firestore()
-             .doc(`/orders/${order.firebaseRefID}`)
+             .doc(`/orders/${order.order_id}`)
              .set(
                {
                  driver_submit_timestamp: null,
@@ -164,15 +164,15 @@ export function StagedJobsPage({
                { merge: true }
              )
              .then((success) => {
-               setStagedJobs(stagedJobs.filter((job) => job.firebaseRefID !== order.firebaseRefID));
+               setStagedJobs(stagedJobs.filter((job) => job.order_id !== order.order_id));
              });
-           setIsCancelingJobBid({ ...isCancelingJobBid, [order.firebaseRefID]: false });
+           setIsCancelingJobBid({ ...isCancelingJobBid, [order.order_id]: false });
          };
 
          const unstageJob = async (order) => {
            await firebase
              .firestore()
-             .doc(`/orders/${order.firebaseRefID}`)
+             .doc(`/orders/${order.order_id}`)
              .set(
                {
                  staging_timestamp: null,
@@ -181,7 +181,7 @@ export function StagedJobsPage({
                { merge: true }
              )
              .then((success) => {
-               setStagedJobs(stagedJobs.filter((job) => job.firebaseRefID !== order.firebaseRefID));
+               setStagedJobs(stagedJobs.filter((job) => job.order_id !== order.order_id));
              });
          };
 
@@ -204,14 +204,14 @@ export function StagedJobsPage({
                  if (order.driver_submitted) {
                    setSuggestedPickupDate({
                      ...suggestedPickupDate,
-                     [order.firebaseRefID]: order.driver_suggested_pickup_date,
+                     [order.order_id]: order.driver_suggested_pickup_date,
                    });
                    setSuggestedDeliveryDate({
                      ...suggestedDeliveryDate,
-                     [order.firebaseRefID]: order.driver_suggested_delivery_date,
+                     [order.order_id]: order.driver_suggested_delivery_date,
                    });
-                   setSuggestedPayout({ ...suggestedPayout, [order.firebaseRefID]: order.driver_suggested_payout });
-                   setComments({ ...comments, [order.firebaseRefID]: order.driver_comments });
+                   setSuggestedPayout({ ...suggestedPayout, [order.order_id]: order.driver_suggested_payout });
+                   setComments({ ...comments, [order.order_id]: order.driver_comments });
                    newData.push(order);
                  } else if (isStagedOrder(order)) {
                    newData.push(order);
@@ -276,7 +276,7 @@ export function StagedJobsPage({
                      )}
 
                      {stagedJobs.map((order, index) => (
-                       <div key={order.firebaseRefID}>
+                       <div key={order.order_id}>
                          <Row gutter={[0, 0]} justify="center">
                            <Col
                              style={{ ...columnStyle, paddingTop: '20px', position: 'relative' }}
@@ -357,8 +357,8 @@ export function StagedJobsPage({
                                      size="small"
                                      style={{ width: '100%' }}
                                      value={
-                                       suggestedPickupDate[order.firebaseRefID]
-                                         ? moment(suggestedPickupDate[order.firebaseRefID], 'YYYY-MM-DD')
+                                       suggestedPickupDate[order.order_id]
+                                         ? moment(suggestedPickupDate[order.order_id], 'YYYY-MM-DD')
                                          : null
                                      }
                                      disabledDate={(moment) => moment.isBefore(new Date())}
@@ -366,12 +366,12 @@ export function StagedJobsPage({
                                      onChange={(date) => {
                                        setSuggestedPickupDate({
                                          ...suggestedPickupDate,
-                                         [order.firebaseRefID]: date == null ? '' : date.format('YYYY-MM-DD'),
+                                         [order.order_id]: date == null ? '' : date.format('YYYY-MM-DD'),
                                        });
-                                       setHasPickupDateError({ ...hasPickupDateError, [order.firebaseRefID]: false });
+                                       setHasPickupDateError({ ...hasPickupDateError, [order.order_id]: false });
                                      }}
                                    />
-                                   {isDataSubmitted[order.firebaseRefID] && hasPickupDateError[order.firebaseRefID] ? (
+                                   {isDataSubmitted[order.order_id] && hasPickupDateError[order.order_id] ? (
                                      <Alert message={t('suggested_pickup_date_error')} type="error" />
                                    ) : (
                                      <></>
@@ -393,8 +393,8 @@ export function StagedJobsPage({
                                      size="small"
                                      style={{ width: '100%' }}
                                      value={
-                                       suggestedDeliveryDate[order.firebaseRefID]
-                                         ? moment(suggestedDeliveryDate[order.firebaseRefID], 'YYYY-MM-DD')
+                                       suggestedDeliveryDate[order.order_id]
+                                         ? moment(suggestedDeliveryDate[order.order_id], 'YYYY-MM-DD')
                                          : null
                                      }
                                      disabledDate={(moment) => moment.isBefore(new Date())}
@@ -402,16 +402,16 @@ export function StagedJobsPage({
                                      onChange={(date) => {
                                        setSuggestedDeliveryDate({
                                          ...suggestedDeliveryDate,
-                                         [order.firebaseRefID]: date == null ? '' : date.format('YYYY-MM-DD'),
+                                         [order.order_id]: date == null ? '' : date.format('YYYY-MM-DD'),
                                        });
                                        setHasDeliveryDateError({
                                          ...hasDeliveryDateError,
-                                         [order.firebaseRefID]: false,
+                                         [order.order_id]: false,
                                        });
                                      }}
                                    />
-                                   {isDataSubmitted[order.firebaseRefID] &&
-                                   hasDeliveryDateError[order.firebaseRefID] ? (
+                                   {isDataSubmitted[order.order_id] &&
+                                   hasDeliveryDateError[order.order_id] ? (
                                      <Alert message={t('suggested_delivery_date_error')} type="error" />
                                    ) : (
                                      <></>
@@ -434,16 +434,16 @@ export function StagedJobsPage({
                                      disabled={order.driver_submitted}
                                      size="small"
                                      // defaultValue={calculateTotalShippingRate(order)}
-                                     value={suggestedPayout[order.firebaseRefID]}
+                                     value={suggestedPayout[order.order_id]}
                                      onChange={(e) => {
                                        setSuggestedPayout({
                                          ...suggestedPayout,
-                                         [order.firebaseRefID]: e.target.value,
+                                         [order.order_id]: e.target.value,
                                        });
-                                       setHasPayoutError({ ...hasPayoutError, [order.firebaseRefID]: false });
+                                       setHasPayoutError({ ...hasPayoutError, [order.order_id]: false });
                                      }}
                                    />
-                                   {isDataSubmitted[order.firebaseRefID] && hasPayoutError[order.firebaseRefID] ? (
+                                   {isDataSubmitted[order.order_id] && hasPayoutError[order.order_id] ? (
                                      <Alert message={t('suggested_payout_error')} type="error" />
                                    ) : (
                                      <></>
@@ -467,13 +467,13 @@ export function StagedJobsPage({
                                    <Input
                                      disabled={order.driver_submitted}
                                      size="small"
-                                     value={comments[order.firebaseRefID]}
+                                     value={comments[order.order_id]}
                                      onChange={(e) => {
-                                       setComments({ ...comments, [order.firebaseRefID]: e.target.value });
-                                       setHasCommentsError({ ...hasCommentsError, [order.firebaseRefID]: false });
+                                       setComments({ ...comments, [order.order_id]: e.target.value });
+                                       setHasCommentsError({ ...hasCommentsError, [order.order_id]: false });
                                      }}
                                    />
-                                   {isDataSubmitted[order.firebaseRefID] && hasCommentsError[order.firebaseRefID] ? (
+                                   {isDataSubmitted[order.order_id] && hasCommentsError[order.order_id] ? (
                                      <Alert message={t('driver_comments_error')} type="error" />
                                    ) : (
                                      <></>
@@ -500,7 +500,7 @@ export function StagedJobsPage({
                                  subTitle="You will receive an email notification once your bid for this order has been accepted."
                                />
                                <Button
-                                 loading={!!isCancelingJobBid[order.firebaseRefID]}
+                                 loading={!!isCancelingJobBid[order.order_id]}
                                  type="primary"
                                  onClick={() => cancelJobBid(order)}
                                >
@@ -520,7 +520,7 @@ export function StagedJobsPage({
                                  xl={16}
                                >
                                  <Button
-                                   loading={!!isSubmittingJob[order.firebaseRefID]}
+                                   loading={!!isSubmittingJob[order.order_id]}
                                    onClick={() => submitJobForApproval(order)}
                                    type="primary"
                                  >

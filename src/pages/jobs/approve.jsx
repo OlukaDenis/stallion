@@ -46,7 +46,7 @@ export function ApprovalPending({ t, quote, theme, isLoggedIn, userUID, isAdmin,
     }
     setIsRejectingSelectedBid(true);
     selectedRows.map(async (order) => {
-      const status = await firebase.firestore().doc(`/orders/${order.firebaseRefID}`).set(
+      const status = await firebase.firestore().doc(`/orders/${order.order_id}`).set(
         {
           driver_submit_timestamp: null,
           driver_uid: null,
@@ -71,7 +71,7 @@ export function ApprovalPending({ t, quote, theme, isLoggedIn, userUID, isAdmin,
     }
     setIsApprovingSelectedBid(true);
     selectedRows.map(async (order) => {
-      const status = await firebase.firestore().doc(`/orders/${order.firebaseRefID}`).set(
+      const status = await firebase.firestore().doc(`/orders/${order.order_id}`).set(
         {
           approving_timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           approver_uid: userUID,
