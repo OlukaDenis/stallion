@@ -52,7 +52,7 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
            selectedRows.map(async (order) => {
              const status = await firebase
                .firestore()
-               .doc(`/orders/${order.firebaseRefID}`)
+               .doc(`/orders/${order.order_id}`)
                .set(
                  { staging_timestamp: firebase.firestore.FieldValue.serverTimestamp(), staging_uid: userUID },
                  { merge: true }
@@ -180,7 +180,14 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                {
                  title: t('table.job_info_col_group.columns.vehicle'),
                  dataIndex: 'cars',
-                 render: (cars) => cars.length > 0 ? cars[0].make + ' ' + cars[0].model + ' ' + cars[0].year : '',
+                 render: (cars) =>
+                   Object.keys(cars).length > 0
+                     ? cars[Object.keys(cars)[0]].make +
+                       ' ' +
+                       cars[Object.keys(cars)[0]].model +
+                       ' ' +
+                       cars[Object.keys(cars)[0]].year
+                     : '',
                },
                {
                  title: t('table.job_info_col_group.columns.inop'),
@@ -291,10 +298,7 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
            <BaseLayout>
              <Head>
                {useSmallScreenTable && (
-                 <meta
-                   name="viewport"
-                   content="width=1600, initial-scale=0, user-scalable=yes"
-                 />
+                 <meta name="viewport" content="width=1000, initial-scale=0, user-scalable=yes" />
                )}
              </Head>
              <Row gutter={[16, 16]} style={{ paddingTop: 30 }} justify="center">
@@ -334,7 +338,7 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                            loading={isLoadingAvailableJobsData}
                            bordered
                            size={useSmallScreenTable ? 'small' : 'middle'}
-                            scroll={useSmallScreenTable ? {} : { x: true, y: 600 }}
+                           scroll={useSmallScreenTable ? {} : { x: true, y: 600 }}
                            pagination={{
                              position: ['bottomRight'],
                              defaultPageSize: 500,
