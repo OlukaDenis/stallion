@@ -11,7 +11,7 @@ import 'firebase/firestore';
 
 import BaseLayout from '../../components/layout';
 import { Router, withTranslation } from '../../utilities/i18n';
-import { SearchOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, SearchOutlined, WarningOutlined } from '@ant-design/icons';
 import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
 import Head from 'next/head';
 
@@ -174,7 +174,7 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                {
                  title: t('table.job_info_col_group.columns.date'),
                  dataIndex: 'pickupDate',
-                 render: (date) => date ? moment(date).format('MM/DD/YYYY') : date,
+                 render: (date) => (date ? moment(date).format('MM/DD/YYYY') : date),
                  sorter: (a, b) => (moment(a.pickupDate).isBefore(b.pickupDate) ? -1 : 1),
                  sortDirections: ['ascend', 'descend'],
                },
@@ -194,9 +194,15 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                  title: t('table.job_info_col_group.columns.inop'),
                  dataIndex: 'cars',
                  render: (cars) =>
-                   !!Object.keys(cars).filter((index) => !cars[index].isOperable || !cars[index].hasKeys).length
-                     ? 'inop'
-                     : 'good',
+                   !!Object.keys(cars).filter((index) => !cars[index].isOperable || !cars[index].hasKeys).length ? (
+                     <p>
+                       inop <WarningOutlined style={{ color: 'red' }} />
+                     </p>
+                   ) : (
+                     <p>
+                       good <CheckCircleOutlined style={{ color: 'green' }} />
+                     </p>
+                   ),
                  // sorter: (a, b) => a.id - b.id,
                  // sortDirections: ['ascend', 'descend'],
                },
