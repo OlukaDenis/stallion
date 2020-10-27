@@ -280,9 +280,9 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                },
                {
                  title: t('table.columns.payout'),
-                 dataIndex: 'payment_authorized_amount',
+                 dataIndex: 'amount',
                  render: (amount) => '$' + amount,
-                 sorter: (a, b) => a.payment_authorized_amount - b.payment_authorized_amount,
+                 sorter: (a, b) => a.amount - b.amount,
                  sortDirections: ['ascend', 'descend'],
                },
              ],
