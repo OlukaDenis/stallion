@@ -217,7 +217,7 @@ export function StagedJobsPage({
 
                    setSuggestedPayout({
                      ...suggestedPayout,
-                     [order.order_id]: calculateTotalShippingRate(order),
+                     [order.order_id]: order.amount,
                    });
 
                    newData.push(order);
