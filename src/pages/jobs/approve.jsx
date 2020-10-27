@@ -10,6 +10,8 @@ import 'firebase/firestore';
 import BaseLayout from '../../components/layout';
 import { Router, withTranslation } from '../../utilities/i18n';
 import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
+import Head from 'next/head';
+import { CheckCircleOutlined, WarningOutlined } from '@ant-design/icons';
 
 export function ApprovalPending({ t, quote, theme, isLoggedIn, userUID, isAdmin, isManager }) {
   const stagingPageParams = { pathname: '/jobs/staged' };
@@ -46,7 +48,7 @@ export function ApprovalPending({ t, quote, theme, isLoggedIn, userUID, isAdmin,
     }
     setIsRejectingSelectedBid(true);
     selectedRows.map(async (order) => {
-      const status = await firebase.firestore().doc(`/orders/${order.firebaseRefID}`).set(
+      const status = await firebase.firestore().doc(`/orders/${order.order_id}`).set(
         {
           driver_submit_timestamp: null,
           driver_uid: null,
@@ -71,7 +73,7 @@ export function ApprovalPending({ t, quote, theme, isLoggedIn, userUID, isAdmin,
     }
     setIsApprovingSelectedBid(true);
     selectedRows.map(async (order) => {
-      const status = await firebase.firestore().doc(`/orders/${order.firebaseRefID}`).set(
+      const status = await firebase.firestore().doc(`/orders/${order.order_id}`).set(
         {
           approving_timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           approver_uid: userUID,
@@ -137,22 +139,35 @@ export function ApprovalPending({ t, quote, theme, isLoggedIn, userUID, isAdmin,
         {
           title: t('table.job_info_col_group.columns.cars'),
           dataIndex: 'cars',
-          render: (cars) => Object.keys(cars).length,
+          render: (cars) => Object.keys(cars).length + ' car(s)',
           sorter: (a, b) => a.length - b.length,
           sortDirections: ['ascend', 'descend'],
         },
         {
           title: t('table.job_info_col_group.columns.vehicle'),
           dataIndex: 'cars',
-          render: (cars) => cars[0].make + ' ' + cars[0].model + ' ' + cars[0].year,
+          render: (cars) =>
+            Object.keys(cars).length > 0
+              ? cars[Object.keys(cars)[0]].make +
+                ' ' +
+                cars[Object.keys(cars)[0]].model +
+                ' ' +
+                cars[Object.keys(cars)[0]].year
+              : '',
         },
         {
           title: t('table.job_info_col_group.columns.inop'),
           dataIndex: 'cars',
           render: (cars) =>
-            !!Object.keys(cars).filter((index) => !cars[index].isOperable || !cars[index].hasKeys).length
-              ? 'inop'
-              : 'good',
+            !!Object.keys(cars).filter((index) => !cars[index].isOperable || !cars[index].hasKeys).length ? (
+              <p>
+                inop <WarningOutlined style={{ color: 'red' }} />
+              </p>
+            ) : (
+              <p>
+                good <CheckCircleOutlined style={{ color: 'green' }} />
+              </p>
+            ),
           // sorter: (a, b) => a.id - b.id,
           // sortDirections: ['ascend', 'descend'],
         },
@@ -168,9 +183,9 @@ export function ApprovalPending({ t, quote, theme, isLoggedIn, userUID, isAdmin,
         },
         {
           title: t('table.customer_options_col_group.columns.payout'),
-          dataIndex: 'payment_authorized_amount',
+          dataIndex: 'amount',
           render: (amount) => '$' + amount,
-          sorter: (a, b) => a.payment_authorized_amount - b.payment_authorized_amount,
+          sorter: (a, b) => a.amount - b.amount,
           sortDirections: ['ascend', 'descend'],
         },
         {
@@ -181,6 +196,7 @@ export function ApprovalPending({ t, quote, theme, isLoggedIn, userUID, isAdmin,
         {
           title: t('table.customer_options_col_group.columns.comments'),
           dataIndex: 'additional_comments',
+          render: (comments) => comments || 'No comments',
         },
       ],
     },
@@ -209,6 +225,7 @@ export function ApprovalPending({ t, quote, theme, isLoggedIn, userUID, isAdmin,
         {
           title: t('table.bidder_options_col_group.columns.comments'),
           dataIndex: 'driver_comments',
+          render: (comments) => comments || 'No comments',
         },
       ],
     },
@@ -234,8 +251,14 @@ export function ApprovalPending({ t, quote, theme, isLoggedIn, userUID, isAdmin,
     onChange: onSelectChange,
   };
 
+  const useSmallScreenTable =
+    (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) < 1000;
+
   return (
     <BaseLayout>
+      <Head>
+        {useSmallScreenTable && <meta name="viewport" content="width=1000, initial-scale=0, user-scalable=yes" />}
+      </Head>
       <Row gutter={[16, 16]} style={{ paddingTop: 30 }} justify="center">
         <Col xs={24} sm={24} md={23} lg={23} xl={23}>
           <Card>

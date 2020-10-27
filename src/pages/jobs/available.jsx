@@ -11,12 +11,13 @@ import 'firebase/firestore';
 
 import BaseLayout from '../../components/layout';
 import { Router, withTranslation } from '../../utilities/i18n';
-import { SearchOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, SearchOutlined, WarningOutlined } from '@ant-design/icons';
 import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
 import Head from 'next/head';
 
 export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isManager, isShippingAgent, isDriver }) {
          const stagingPageParams = { pathname: '/jobs/staged' };
+         const myJobsPageParams = { pathname: '/jobs/pending' };
          const loginPageParams = { pathname: '/login', query: { redirectURL: Router.pathname } };
          const [selectedRows, setSelectedRows] = useState([]);
          const [isLoadingAvailableJobsData, setIsLoadingAvailableJobsData] = useState(false);
@@ -52,9 +53,13 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
            selectedRows.map(async (order) => {
              const status = await firebase
                .firestore()
-               .doc(`/orders/${order.firebaseRefID}`)
+               .doc(`/orders/${order.order_id}`)
                .set(
-                 { staging_timestamp: firebase.firestore.FieldValue.serverTimestamp(), staging_uid: userUID },
+                 {
+                   staging_timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                   staging_uid: userUID,
+                   approved: false,
+                 },
                  { merge: true }
                );
            });
@@ -174,21 +179,35 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                {
                  title: t('table.job_info_col_group.columns.date'),
                  dataIndex: 'pickupDate',
+                 render: (date) => (date ? moment(date).format('MM/DD/YYYY') : date),
                  sorter: (a, b) => (moment(a.pickupDate).isBefore(b.pickupDate) ? -1 : 1),
                  sortDirections: ['ascend', 'descend'],
                },
                {
                  title: t('table.job_info_col_group.columns.vehicle'),
                  dataIndex: 'cars',
-                 render: (cars) => cars.length > 0 ? cars[0].make + ' ' + cars[0].model + ' ' + cars[0].year : '',
+                 render: (cars) =>
+                   Object.keys(cars).length > 0
+                     ? cars[Object.keys(cars)[0]].make +
+                       ' ' +
+                       cars[Object.keys(cars)[0]].model +
+                       ' ' +
+                       cars[Object.keys(cars)[0]].year
+                     : '',
                },
                {
                  title: t('table.job_info_col_group.columns.inop'),
                  dataIndex: 'cars',
                  render: (cars) =>
-                   !!Object.keys(cars).filter((index) => !cars[index].isOperable || !cars[index].hasKeys).length
-                     ? 'inop'
-                     : 'good',
+                   !!Object.keys(cars).filter((index) => !cars[index].isOperable || !cars[index].hasKeys).length ? (
+                     <p>
+                       inop <WarningOutlined style={{ color: 'red' }} />
+                     </p>
+                   ) : (
+                     <p>
+                       good <CheckCircleOutlined style={{ color: 'green' }} />
+                     </p>
+                   ),
                  // sorter: (a, b) => a.id - b.id,
                  // sortDirections: ['ascend', 'descend'],
                },
@@ -266,9 +285,9 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                },
                {
                  title: t('table.columns.payout'),
-                 dataIndex: 'payment_authorized_amount',
+                 dataIndex: 'amount',
                  render: (amount) => '$' + amount,
-                 sorter: (a, b) => a.payment_authorized_amount - b.payment_authorized_amount,
+                 sorter: (a, b) => a.amount - b.amount,
                  sortDirections: ['ascend', 'descend'],
                },
              ],
@@ -285,16 +304,13 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
          };
 
          const useSmallScreenTable =
-           (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) < 720;
+           (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) < 1000;
 
          return (
            <BaseLayout>
              <Head>
                {useSmallScreenTable && (
-                 <meta
-                   name="viewport"
-                   content="width=1600, initial-scale=0, user-scalable=yes"
-                 />
+                 <meta name="viewport" content="width=1000, initial-scale=0, user-scalable=yes" />
                )}
              </Head>
              <Row gutter={[16, 16]} style={{ paddingTop: 30 }} justify="center">
@@ -324,6 +340,14 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                                >
                                  {t('staged_jobs_button')}
                                </Button>
+                               &nbsp;&nbsp;
+                               <Button
+                                 loading={isStagingSelectedJobs}
+                                 onClick={() => setIsLoadingNewPage(myJobsPageParams)}
+                                 type="ghost"
+                               >
+                                 {t('my_jobs_button')}
+                               </Button>
                              </div>
                            )}
                          </div>
@@ -334,7 +358,7 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                            loading={isLoadingAvailableJobsData}
                            bordered
                            size={useSmallScreenTable ? 'small' : 'middle'}
-                            scroll={useSmallScreenTable ? {} : { x: true, y: 600 }}
+                           scroll={useSmallScreenTable ? {} : { x: true, y: 600 }}
                            pagination={{
                              position: ['bottomRight'],
                              defaultPageSize: 500,
