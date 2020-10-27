@@ -17,6 +17,7 @@ import Head from 'next/head';
 
 export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isManager, isShippingAgent, isDriver }) {
          const stagingPageParams = { pathname: '/jobs/staged' };
+         const myJobsPageParams = { pathname: '/jobs/pending' };
          const loginPageParams = { pathname: '/login', query: { redirectURL: Router.pathname } };
          const [selectedRows, setSelectedRows] = useState([]);
          const [isLoadingAvailableJobsData, setIsLoadingAvailableJobsData] = useState(false);
@@ -338,6 +339,14 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                                  type="ghost"
                                >
                                  {t('staged_jobs_button')}
+                               </Button>
+                               &nbsp;&nbsp;
+                               <Button
+                                 loading={isStagingSelectedJobs}
+                                 onClick={() => setIsLoadingNewPage(myJobsPageParams)}
+                                 type="ghost"
+                               >
+                                 {t('my_jobs_button')}
                                </Button>
                              </div>
                            )}
