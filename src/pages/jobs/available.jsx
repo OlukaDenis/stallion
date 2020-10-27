@@ -174,6 +174,7 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                {
                  title: t('table.job_info_col_group.columns.date'),
                  dataIndex: 'pickupDate',
+                 render: (date) => date ? moment(date).format('MM/DD/YYYY') : date,
                  sorter: (a, b) => (moment(a.pickupDate).isBefore(b.pickupDate) ? -1 : 1),
                  sortDirections: ['ascend', 'descend'],
                },
