@@ -125,7 +125,6 @@ export function BaseLayout({
                    <meta name="msapplication-navbutton-color" content="#000000" />
                    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
                    <meta name="msapplication-starturl" content="/" />
-                   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
                    <link rel="shortcut icon" href="/favicons/favicon.ico" type="image/x-icon" />
                    <link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-icon-57x57.png" />
