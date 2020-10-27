@@ -54,7 +54,11 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                .firestore()
                .doc(`/orders/${order.order_id}`)
                .set(
-                 { staging_timestamp: firebase.firestore.FieldValue.serverTimestamp(), staging_uid: userUID },
+                 {
+                   staging_timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                   staging_uid: userUID,
+                   approved: false,
+                 },
                  { merge: true }
                );
            });
@@ -299,7 +303,7 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
          };
 
          const useSmallScreenTable =
-           (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) < 720;
+           (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) < 1000;
 
          return (
            <BaseLayout>
