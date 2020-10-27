@@ -33,5 +33,6 @@
     "suggested_payout": "What is your preferred payout for this job?",
     "suggested_payout_error": "Kindly specify your preferred payout for this job",
     "driver_comments": "Enter any other comments you have about this job",
-    "driver_comments_error": "Kindly enter a comment to accept this job"
+    "driver_comments_error": "Kindly enter a comment to accept this job",
+    "pickup_after_delivery_error": "Delivery Date cannot be earlier than the Pickup Date!"
 }

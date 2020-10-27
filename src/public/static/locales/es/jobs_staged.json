@@ -33,5 +33,6 @@
     "suggested_payout": "¿Cuál es su pago preferido por este trabajo?",
     "suggested_payout_error": "Por favor, especifique su pago preferido para este trabajo.",
     "driver_comments": "Ingrese cualquier otro comentario que tenga sobre este trabajo",
-    "driver_comments_error": "Por favor ingrese un comentario para aceptar este trabajo."
+    "driver_comments_error": "Por favor ingrese un comentario para aceptar este trabajo.",
+    "pickup_after_delivery_error": "La fecha de entrega no puede ser anterior a la fecha de recogida!"
 }
