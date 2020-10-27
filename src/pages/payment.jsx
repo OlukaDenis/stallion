@@ -785,6 +785,7 @@ export function Payment({ t, quote, theme, setIsPaid, setBillingAddress, setIsLo
       ((paymentMethod === 'card' && quote.isPaid) || paymentMethod === 'cash')
     ) {
       const data = {
+        booking_timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         payment_method: paymentMethod === 'card' ? 'PayPal' : 'Cash/Check',
         terms_accepted: hasAcceptedTerms,
         additional_comments: additionalComments,
