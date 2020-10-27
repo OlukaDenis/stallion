@@ -754,7 +754,7 @@ export function Payment({ t, quote, theme, setIsPaid, setBillingAddress, setIsLo
   const isQuoteDataValid  = useIsValidQuoteData(quote);
 
   useEffect(() => {
-    if (!isQuoteDataValid) {
+    if (!isQuoteDataValid && !isSubmitted) {
       (async () => {
         setIsLoadingNewPage(true);
         await Router.push('/quotation');
@@ -900,7 +900,7 @@ export function Payment({ t, quote, theme, setIsPaid, setBillingAddress, setIsLo
               title="Successfully Booked your Shipment!"
               subTitle={
                 <p>
-                  Order/booking ID: {bookingID}. Save and use this order/booking ID to{' '}
+                  Order ID: {bookingID} Save and use this order ID to{' '}
                   <Link href="/track">
                     <a>track your shipment</a>
                   </Link>
