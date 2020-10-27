@@ -252,7 +252,7 @@ export function ApprovalPending({ t, quote, theme, isLoggedIn, userUID, isAdmin,
   };
 
   const useSmallScreenTable =
-    (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) < 720;
+    (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) < 1000;
 
   return (
     <BaseLayout>
