@@ -64,7 +64,7 @@ export function PickedupJobs({
             .collection('/orders')
             .where('driver_uid', '==', userUID)
             .where('pickedup', '==', true)
-            .where('pickedup', '==', false)
+            .where('delivered', '==', false)
         : null;
 
     if (!query) return;
