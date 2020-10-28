@@ -2,6 +2,7 @@
     "unstage_all_button": "Unstage All",
     "available_jobs_button": "Available Jobs",
     "staged_jobs_label": "Staged Jobs",
+    "my_jobs_button": "My Jobs",
     "no_staged_jobs_label": "No staged jobs found. Browse the available jobs and select a job that you can do.",
     "order_num_label": "Order #",
     "vehicle_label": "Vehicle",

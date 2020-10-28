@@ -28,6 +28,7 @@ export function StagedJobsPage({
        }) {
          const loginPageParams = { pathname: '/login', query: { redirectURL: Router.pathname } };
          const availableJobsPageParams = { pathname: '/jobs/available' };
+         const myJobsPageParams = { pathname: '/jobs/pending' };
          const [isLoadingNewPage, setIsLoadingNewPage] = useState(null);
          const [stagedJobs, setStagedJobs] = useState([]);
          const [isRefreshingStagedJobs, setIsRefreshingStagedJobs] = useState(false);
@@ -266,6 +267,14 @@ export function StagedJobsPage({
                            >
                              {t('available_jobs_button')}
                            </Button>
+                           &nbsp;&nbsp;
+                           <Button
+                             loading={!!isLoadingNewPage}
+                             onClick={() => setIsLoadingNewPage(myJobsPageParams)}
+                             type="ghost"
+                           >
+                             {t('my_jobs_button')}
+                           </Button>
                          </div>
                        )}
                      </div>
@@ -416,8 +425,7 @@ export function StagedJobsPage({
                                        });
                                      }}
                                    />
-                                   {isDataSubmitted[order.order_id] &&
-                                   hasDeliveryDateError[order.order_id] ? (
+                                   {isDataSubmitted[order.order_id] && hasDeliveryDateError[order.order_id] ? (
                                      <Alert message={t('suggested_delivery_date_error')} type="error" />
                                    ) : (
                                      <></>

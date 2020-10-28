@@ -2,6 +2,7 @@
     "unstage_all_button": "Desactivar Todo",
     "available_jobs_button": "Trabajos Disponibles",
     "staged_jobs_label": "Trabajos por Etapas",
+    "my_jobs_button": "Mis Trabajos",
     "no_staged_jobs_label": "No se encontraron trabajos preparados. Explore los trabajos disponibles y seleccione un trabajo que pueda realizar.",
     "order_num_label": "Número de Pedido #",
     "vehicle_label": "Vehículo",
