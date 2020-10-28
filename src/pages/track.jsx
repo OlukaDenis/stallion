@@ -29,9 +29,9 @@ export function TrackPage({ t, theme }) {
   }, []);
 
   const BookingDetails = () => {
-    const [orderID, setOrderID] = useState('0011001');
+    const [orderID, setOrderID] = useState('');//('0011001');
     const [orderIDError, setOrderIDError] = useState(false);
-    const [bookingEmail, setBookingEmail] = useState('chariwahome@gmail.com');
+    const [bookingEmail, setBookingEmail] = useState('');//('chariwahome@gmail.com');
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isFetchingOrder, setIsFetchingOrder] = useState(false);
     const isValidEmail = useIsValidEmail(bookingEmail);
