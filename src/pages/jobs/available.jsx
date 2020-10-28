@@ -15,7 +15,18 @@ import { CheckCircleOutlined, SearchOutlined, WarningOutlined } from '@ant-desig
 import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
 import Head from 'next/head';
 
-export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isManager, isShippingAgent, isDriver }) {
+export function Available({
+         t,
+         quote,
+         theme,
+         isLoggedIn,
+         userUID,
+         isAdmin,
+         isManager,
+         isShippingAgent,
+         isDriver,
+         displayName,
+       }) {
          const stagingPageParams = { pathname: '/jobs/staged' };
          const myJobsPageParams = { pathname: '/jobs/pending' };
          const loginPageParams = { pathname: '/login', query: { redirectURL: Router.pathname } };
@@ -51,17 +62,15 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
          const markSelectedJobsAsStaged = async () => {
            setIsStagingSelectedJobs(true);
            selectedRows.map(async (order) => {
-             const status = await firebase
-               .firestore()
-               .doc(`/orders/${order.order_id}`)
-               .set(
-                 {
-                   staging_timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                   staging_uid: userUID,
-                   approved: false,
-                 },
-                 { merge: true }
-               );
+             const status = await firebase.firestore().doc(`/orders/${order.order_id}`).set(
+               {
+                 staging_timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                 staging_uid: userUID,
+                 staging_name: displayName,
+                 approved: false,
+               },
+               { merge: true }
+             );
            });
            setIsStagingSelectedJobs(false);
          };
@@ -157,13 +166,13 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                  setIsLoadingAvailableJobsData(false);
                }
              );
-           
+
            return unsubscribe;
          };
 
          useEffect(() => {
            const unsubscribe = fetchData();
-            return () => 'function' === typeof unsubscribe ? unsubscribe() : null;
+           return () => ('function' === typeof unsubscribe ? unsubscribe() : null);
          }, []);
 
          const columns = [
@@ -408,6 +417,7 @@ const mapStateToProps = (state) => ({
   isManager: state.user.isManager,
   isShippingAgent: state.user.isShippingAgent,
   isDriver: state.user.isDriver,
+  displayName: state.user.name,
 });
 
 export default connect(mapStateToProps, null)(withTranslation('jobs_available')(Available));
