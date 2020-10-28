@@ -1,12 +1,12 @@
 {
     "instructions": "Seleccione trabajos en la tabla a continuación.",
-    "select_jobs_button": "Seleccionar Trabajos",
+    "select_jobs_button": "Elegir Vehículo",
     "staged_jobs_button": "Trabajos por Etapas",
     "my_jobs_button": "Mis Trabajos",
     "error_load_available": "Se produjo un error al intentar cargar los trabajos disponibles. Actualizar página.",
 
     "table": {
-        "header": "Trabajos Disponibles",
+        "header": "Trabajos Enviados",
         "job_info_col_group": {
             "header": "Información del Trabajo",
             "columns": {
