@@ -24,7 +24,6 @@ export function TrackPage({ t, theme }) {
   const [unsubscribeFunction, setUnsubscribeFunction] = useState();
 
   useEffect(() => {
-    console.log('typeof unsubscribeFunction', typeof unsubscribeFunction);
     return 'function' === typeof unsubscribeFunction ? unsubscribeFunction() : undefined;
   }, []);
 
