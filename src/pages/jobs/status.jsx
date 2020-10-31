@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Card, Row, Col, Select, Button, Spin, DatePicker, Alert, Tooltip, message } from 'antd';
+import { Card, Row, Col, Select, Button, Spin, DatePicker, Alert, Tooltip, message, Popconfirm } from 'antd';
 import moment from 'moment';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -404,9 +404,23 @@ export function StagedJobsPage({
                   <Row gutter={[0, 0]} justify="center">
                     <Col style={{ ...columnStyle, textAlign: 'center' }} xs={24} sm={24} md={20} lg={20} xl={16}>
                       <br />
-                      <Button loading={isUpdatingOrderStatus} onClick={() => updateOrderStatus(order)} type="primary">
-                        Update Status
-                      </Button>
+                      {!file || !file.dataURL ? (
+                        <Popconfirm
+                          placement="top"
+                          title={'Proceed without attaching any document?'}
+                          onCancel={() => updateOrderStatus(order)}
+                          okText="ATTACH"
+                          cancelText="PROCEED"
+                        >
+                          <Button loading={isUpdatingOrderStatus} type="primary">
+                            Update Status
+                          </Button>
+                        </Popconfirm>
+                      ) : (
+                        <Button loading={isUpdatingOrderStatus} onClick={() => updateOrderStatus(order)} type="primary">
+                          Update Status
+                        </Button>
+                      )}
                     </Col>
                   </Row>
                 </div>
