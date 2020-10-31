@@ -483,7 +483,6 @@ export function StagedJobsPage({
                                      value={comments[order.order_id]}
                                      onChange={(e) => {
                                        setComments({ ...comments, [order.order_id]: e.target.value });
-                                       setHasCommentsError({ ...hasCommentsError, [order.order_id]: false });
                                      }}
                                    />
                                    {/* {isDataSubmitted[order.order_id] && hasCommentsError[order.order_id] ? (
