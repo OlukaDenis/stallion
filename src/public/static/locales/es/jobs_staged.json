@@ -3,6 +3,7 @@
     "available_jobs_button": "Trabajos Disponibles",
     "staged_jobs_label": "Trabajos por Etapas",
     "my_jobs_button": "Mis Trabajos",
+    "cancel_bid_button": "Cancelar Oferta",
     "no_staged_jobs_label": "No se encontraron trabajos preparados. Explore los trabajos disponibles y seleccione un trabajo que pueda realizar.",
     "order_num_label": "Número de Pedido #",
     "vehicle_label": "Vehículo",
@@ -35,5 +36,7 @@
     "suggested_payout_error": "Por favor, especifique su pago preferido para este trabajo.",
     "driver_comments": "Ingrese cualquier otro comentario que tenga sobre este trabajo",
     "driver_comments_error": "Por favor ingrese un comentario para aceptar este trabajo.",
-    "pickup_after_delivery_error": "La fecha de entrega no puede ser anterior a la fecha de recogida!"
+    "pickup_after_delivery_error": "La fecha de entrega no puede ser anterior a la fecha de recogida!",
+    "submission_success_title": "Oferta enviada con éxito!",
+    "submission_success_message": "Recibirá una notificación por correo electrónico una vez que se haya aceptado su oferta para este pedido."
 }
