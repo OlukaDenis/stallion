@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Card, Table, Row, Col, Input, Space, Button, message } from 'antd';
+import { Card, Table, Row, Col, Button, message, Input, Space } from 'antd';
 import Highlighter from 'react-highlight-words';
-import { isStagedOrder, US_STATES_FILTER } from '../../utilities/common';
+import { US_STATES_FILTER } from '../../utilities/common';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -64,16 +64,39 @@ export function PendingJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, isM
     setIsStagingSelectedJobs(false);
   };
 
-  const getColumnSearchProps = (dataIndex) => {};
+  const searchLabels = {
+    originName: 'Search Pickup City',
+    destinationName: 'Search Delivery City',
+    pickupLocation: 'Search Pickup Address',
+    deliveryLocation: 'Search Delivery Address',
+  };
 
-  const getColumnSearchProp = (dataIndex) => ({
+  const renderFormatted = {
+    originName: (originName) => originName.split(',')[0],
+    destinationName: (destinationName) => destinationName.split(',')[0],
+    pickupLocation: (location) => location.address,
+    deliveryLocation: (location) => location.address,
+  };
+
+  const filterFuncs = {
+    originName: (value, record, dataIndex) =>
+      record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
+    destinationName: (value, record, dataIndex) =>
+      record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
+    pickupLocation: (value, record, dataIndex) =>
+      record[dataIndex].address ? record[dataIndex].address.toString().toLowerCase().includes(value.toLowerCase()) : '',
+    deliveryLocation: (value, record, dataIndex) =>
+      record[dataIndex].address ? record[dataIndex].address.toString().toLowerCase().includes(value.toLowerCase()) : '',
+  };
+
+  const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
         <Input
           ref={(node) => {
             searchInputRef.current = node;
           }}
-          placeholder={`Search ${dataIndex}`}
+          placeholder={`${searchLabels[dataIndex]}`}
           value={selectedKeys[0]}
           onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -96,8 +119,7 @@ export function PendingJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, isM
       </div>
     ),
     filterIcon: (filtered) => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-    onFilter: (value, record) =>
-      record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
+    onFilter: (value, record) => filterFuncs[dataIndex](value, record, dataIndex),
     onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInputRef.current.select(), 100);
@@ -109,10 +131,10 @@ export function PendingJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, isM
           highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
           searchWords={[searchText]}
           autoEscape
-          textToHighlight={text ? text.toString() : ''}
+          textToHighlight={renderFormatted[dataIndex](text) ? renderFormatted[dataIndex](text).toString() : ''}
         />
       ) : (
-        text
+        renderFormatted[dataIndex](text)
       ),
   });
 
@@ -313,7 +335,7 @@ export function PendingJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, isM
     columns[1]['children'].shift();
     columns[2]['children'].shift();
   }
-  
+
   const onSelectChange = (selectedRowKeys, selectedRows) => {
     // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
     setSelectedRows(selectedRows);

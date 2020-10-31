@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Card, Table, Row, Col, Button, message } from 'antd';
+import { Card, Table, Row, Col, Button, message, Input, Space } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
+import Highlighter from 'react-highlight-words';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -21,6 +23,9 @@ export function DeliveredJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, i
   const [isLoadingAvailableJobsData, setIsLoadingAvailableJobsData] = useState(false);
   const [data, setData] = useState([]);
   const [isLoadingNewPage, setIsLoadingNewPage] = useState(null);
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const searchInputRef = useRef();
 
   useIsLoadingNewPage(isLoadingNewPage);
 
@@ -36,7 +41,90 @@ export function DeliveredJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, i
     if (!isLoggedIn) setIsLoadingNewPage(loginPageParams);
   }, [isLoggedIn]);
 
-  const getColumnSearchProps = (dataIndex) => {};
+  const searchLabels = {
+    originName: 'Search Pickup City',
+    destinationName: 'Search Delivery City',
+    pickupLocation: 'Search Pickup Address',
+    deliveryLocation: 'Search Delivery Address',
+  };
+
+  const renderFormatted = {
+    originName: (originName) => originName.split(',')[0],
+    destinationName: (destinationName) => destinationName.split(',')[0],
+    pickupLocation: (location) => location.address,
+    deliveryLocation: (location) => location.address,
+  };
+
+  const filterFuncs = {
+    originName: (value, record, dataIndex) =>
+      record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
+    destinationName: (value, record, dataIndex) =>
+      record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
+    pickupLocation: (value, record, dataIndex) =>
+      record[dataIndex].address ? record[dataIndex].address.toString().toLowerCase().includes(value.toLowerCase()) : '',
+    deliveryLocation: (value, record, dataIndex) =>
+      record[dataIndex].address ? record[dataIndex].address.toString().toLowerCase().includes(value.toLowerCase()) : '',
+  };
+
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={(node) => {
+            searchInputRef.current = node;
+          }}
+          placeholder={`${searchLabels[dataIndex]}`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+            Reset
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+    onFilter: (value, record) => filterFuncs[dataIndex](value, record, dataIndex),
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInputRef.current.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={renderFormatted[dataIndex](text) ? renderFormatted[dataIndex](text).toString() : ''}
+        />
+      ) : (
+        renderFormatted[dataIndex](text)
+      ),
+  });
+
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText('');
+  };
 
   const fetchData = async () => {
     const query =

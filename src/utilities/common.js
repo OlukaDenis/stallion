@@ -1,6 +1,3 @@
-// import { SearchOutlined } from '@ant-design/icons';
-// import { Button, Input, Space } from 'antd';
-// import Highlighter from 'react-highlight-words';
 import moment from 'moment';
 
 export const composeActionFromThunk = (actionDispatcher) => {
