@@ -14,6 +14,7 @@ import { Router, withTranslation } from '../../utilities/i18n';
 import { CheckCircleOutlined, SearchOutlined, WarningOutlined } from '@ant-design/icons';
 import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
 import Head from 'next/head';
+import EditOrderPrice from '../../components/jobs/EditOrderPrice';
 
 export function Available({
          t,
@@ -295,7 +296,9 @@ export function Available({
                {
                  title: t('table.columns.payout'),
                  dataIndex: 'amount',
-                 render: (amount) => '$' + amount,
+                 render: (amount, order) => (
+                   <EditOrderPrice text={amount} order={order} isAdmin={isAdmin} isManager={isManager} />
+                 ),
                  sorter: (a, b) => a.amount - b.amount,
                  sortDirections: ['ascend', 'descend'],
                },

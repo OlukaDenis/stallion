@@ -15,6 +15,7 @@ import { CheckCircleOutlined, SearchOutlined, WarningOutlined } from '@ant-desig
 import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
 import Head from 'next/head';
 import JobViewsMenu from '../../components/jobs/JobViewsNavigator';
+import EditOrderPrice from '../../components/jobs/EditOrderPrice';
 
 export function PendingJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, isManager, isShippingAgent, isDriver }) {
   const stagingPageParams = { pathname: '/jobs/staged' };
@@ -291,7 +292,9 @@ export function PendingJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, isM
         {
           title: t('table.columns.payout'),
           dataIndex: 'amount',
-          render: (amount) => '$' + amount,
+          render: (amount, order) => (
+            <EditOrderPrice editable={false} text={amount} order={order} isAdmin={isAdmin} isManager={isManager} />
+          ),
           sorter: (a, b) => a.amount - b.amount,
           sortDirections: ['ascend', 'descend'],
         },

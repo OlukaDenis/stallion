@@ -13,6 +13,7 @@ import { CheckCircleOutlined, WarningOutlined } from '@ant-design/icons';
 import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
 import Head from 'next/head';
 import JobViewsMenu from '../../components/jobs/JobViewsNavigator';
+import EditOrderPrice from '../../components/jobs/EditOrderPrice';
 
 export function PickedupJobs({
   t,
@@ -216,7 +217,9 @@ export function PickedupJobs({
         {
           title: t('table.columns.payout'),
           dataIndex: 'amount',
-          render: (amount) => '$' + amount,
+          render: (amount, order) => (
+            <EditOrderPrice editable={false} text={amount} order={order} isAdmin={isAdmin} isManager={isManager} />
+          ),
           sorter: (a, b) => a.amount - b.amount,
           sortDirections: ['ascend', 'descend'],
         },

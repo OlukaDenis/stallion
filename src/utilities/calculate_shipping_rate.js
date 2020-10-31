@@ -51,3 +51,38 @@ export function calculateTotalShippingRate(quote) {
     )
   ).toFixed(2);
 }
+
+
+const calculateNegotiationFee = (miles) => {
+
+  const TIER_ONE_NEGOTIATION_FEE = 100;
+  const TIER_TWO_NEGOTIATION_FEE = 150;
+  const TIER_THREE_NEGOTIATION_FEE = 200;
+
+  const TIER_ONE_MAX_MILES = 250;
+  const TIER_TWO_MAX_MILES = 750;
+
+  let negotiationFee = miles <= TIER_ONE_MAX_MILES
+      ? TIER_ONE_NEGOTIATION_FEE
+      : miles <= TIER_TWO_MAX_MILES
+      ? TIER_TWO_NEGOTIATION_FEE
+      : TIER_THREE_NEGOTIATION_FEE;
+
+  return negotiationFee;
+}
+
+export function calculateTotalNegotiationFee(quote) {
+  return Number(
+    Object.keys(quote.cars).reduce(
+      (total, key) =>
+        total +
+        calculateNegotiationFee(
+          quote.distance,
+          quote.cars[key].isTruck,
+          quote.cars[key].isOperable,
+          quote.cars[key].hasKeys
+        ),
+      0
+    )
+  ).toFixed(2);
+}
