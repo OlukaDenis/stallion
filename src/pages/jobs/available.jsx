@@ -63,6 +63,10 @@ export function Available({
          const markSelectedJobsAsStaged = async () => {
            setIsStagingSelectedJobs(true);
            selectedRows.map(async (order) => {
+             if (!order.amount_has_admin_approval) {
+               message.error(t('error_driver_amount_not_approved'));
+               return;
+             }
              const status = await firebase.firestore().doc(`/orders/${order.order_id}`).set(
                {
                  staging_timestamp: firebase.firestore.FieldValue.serverTimestamp(),
