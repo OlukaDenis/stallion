@@ -36,6 +36,7 @@ export default function EditOrderPrice({ text, order, isAdmin, isManager, editab
             amount: totalPayout,
             amount_negotiation_fee: negotiationFee,
             amount_driver: Number(totalPayout - negotiationFee).toFixed(2),
+            amount_has_admin_approval: true,
           },
           { merge: true }
         )
