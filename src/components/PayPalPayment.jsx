@@ -17,7 +17,7 @@ export default function PayPalPayment({ orderID, currency, amount, onSuccess, on
 
   useEffect(() => {
     if (isPayPalContainerLoaded()) {
-      renderPaypalButtons(orderID, currency, amount);
+      setTimeout(() => renderPaypalButtons(orderID, currency, amount), 300);
     }
   }, [orderID, currency, amount, paypal]);
 
