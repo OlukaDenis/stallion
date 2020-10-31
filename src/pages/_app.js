@@ -193,6 +193,9 @@ const MyApp = ({ Component, pageProps }) => {
               max-width: 100%;
               height: auto;
             }
+            .pickup-info-col {
+              background: skyblue !important;
+            }
 
             .custom-icon-image {
               height: 1em;

@@ -178,6 +178,7 @@ export function PickedupJobs({
     },
     {
       title: t('table.delivery_info_col_group.header'),
+      className: 'pickup-info-col',
       children: [
         {
           title: t('table.delivery_info_col_group.columns.address'),

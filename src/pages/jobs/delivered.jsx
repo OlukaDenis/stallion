@@ -126,6 +126,7 @@ export function DeliveredJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, i
 
     {
       title: t('table.pickup_info_col_group.header'),
+      className: 'pickup-info-col',
       children: [
         {
           title: t('table.pickup_info_col_group.columns.address'),
@@ -155,6 +156,7 @@ export function DeliveredJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, i
     },
     {
       title: t('table.delivery_info_col_group.header'),
+      className: 'pickup-info-col',
       children: [
         {
           title: t('table.delivery_info_col_group.columns.address'),

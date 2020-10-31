@@ -149,6 +149,7 @@ export function DispatchedJobs({
 
     {
       title: t('table.pickup_info_col_group.header'),
+      className: 'pickup-info-col',
       children: [
         {
           title: t('table.pickup_info_col_group.columns.address'),
