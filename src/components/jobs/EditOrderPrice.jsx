@@ -2,6 +2,7 @@ import { Button, Input, message, Popconfirm, Spin } from 'antd';
 import { useRef, useState } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import { EditOutlined } from '@ant-design/icons';
 
 export default function EditOrderPrice({ text, order, isAdmin, isManager, editable = true }) {
   const [isUpdatingPayout, setIsUpdatingPayout] = useState(false);
@@ -22,6 +23,7 @@ export default function EditOrderPrice({ text, order, isAdmin, isManager, editab
     ) {
       message.error('Incorrect values! Please edit correctly before committing.');
     } else if (
+      order.amount_has_admin_approval &&
       Number(totalPayout).toFixed(2) === Number(order.amount).toFixed(2) &&
       Number(negotiationFee).toFixed(2) === Number(order.amount_negotiation_fee).toFixed(2)
     ) {
@@ -92,7 +94,7 @@ export default function EditOrderPrice({ text, order, isAdmin, isManager, editab
           disabled
           //   disabled={order.driver_submitted}
           placeholder="Negotiation Fee"
-          value={totalPayout - negotiationFee}
+          value={Number(totalPayout - negotiationFee).toFixed(2)}
         />
       </>
     );
@@ -112,6 +114,7 @@ export default function EditOrderPrice({ text, order, isAdmin, isManager, editab
           >
             {isUpdatingPayout && <Spin disabled={isUpdatingPayout} />}
             <a disabled={isUpdatingPayout}>${text}</a>
+            {!order.amount_has_admin_approval && <EditOutlined />}
           </Popconfirm>
         </>
       ) : (
