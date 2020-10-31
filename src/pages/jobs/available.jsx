@@ -57,7 +57,7 @@ export function Available({
 
          const stageSelectedJobs = async () => {
            await markSelectedJobsAsStaged();
-           setIsLoadingNewPage('/jobs/staged');
+           setIsLoadingNewPage(stagingPageParams);
          };
 
          const markSelectedJobsAsStaged = async () => {
