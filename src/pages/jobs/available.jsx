@@ -306,6 +306,11 @@ export function Available({
            },
          ];
 
+         if (isDriver || isManager) {
+           columns[1]['children'].shift();
+           columns[2]['children'].shift();
+         }
+
          const onSelectChange = (selectedRowKeys, selectedRows) => {
            // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
            setSelectedRows(selectedRows);
