@@ -335,8 +335,8 @@ export function Available({
          ];
 
          if (isDriver || isShippingAgent) {
-          //  columns[1]['children'].shift();
-          //  columns[2]['children'].shift();
+           columns[1]['children'].shift();
+           columns[2]['children'].shift();
          }
 
          const onSelectChange = (selectedRowKeys, selectedRows) => {
