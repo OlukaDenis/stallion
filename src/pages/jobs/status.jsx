@@ -5,11 +5,13 @@ import { Card, Row, Col, Select, Button, Spin, DatePicker, Alert, Tooltip, messa
 import moment from 'moment';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import 'firebase/storage';
 import BaseLayout from '../../components/layout';
 import { Router, withTranslation } from '../../utilities/i18n';
 import TextArea from 'antd/lib/input/TextArea';
 import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
 import { AimOutlined, FlagOutlined, SelectOutlined } from '@ant-design/icons';
+import FileUpload from '../../components/jobs/FileUpload';
 const { Option } = Select;
 
 export function StagedJobsPage({
@@ -44,10 +46,16 @@ export function StagedJobsPage({
   const [selectedOrderStatus, setSelectedOrderStatus] = useState('select');
   const [hasSelectedOrderStatusError, setHasSelectedOrderStatusError] = useState(false);
 
+  const [file, setFile] = useState();
+
   const [isDataSubmitted, setIsDataSubmitted] = useState(false);
   const [isUpdatingOrderStatus, setIsUpdatingOrderStatus] = useState(false);
 
   useIsLoadingNewPage(isLoadingNewPage);
+  
+  // useEffect(() => {
+  //   console.log('file', file);
+  // }, [file]);
 
   useEffect(() => {
     if (isLoadingNewPage) setIsLoadingNewPage(null);
@@ -84,7 +92,27 @@ export function StagedJobsPage({
     setIsLoadingJobToEdit(false);
   };
 
-  const updateOrderStatus = (order) => {
+  const uploadFile = async (order) => {
+    if (!file || !file.dataURL) {
+      return null;
+    }
+
+    let storageRef = firebase.storage().ref();
+
+    let orderStatusDocumentRef =
+      selectedOrderStatus === 'pickedup'
+        ? storageRef.child(`pickup_sheets/${order.order_id + file.typeExtension}`)
+        : selectedOrderStatus === 'delivered'
+        ? storageRef.child(`delivery_sheets/${order.order_id + file.typeExtension}`)
+        : storageRef.child(`status_docs/${order.order_id + file.typeExtension}`);
+
+        // console.log('file.dataURL', file.dataURL);
+      const uploadTask = orderStatusDocumentRef.putString(file.dataURL, 'data_url');
+      await uploadTask;
+      return await uploadTask.snapshot.ref.getDownloadURL();
+  };
+
+  const updateOrderStatus = async (order) => {
     setIsDataSubmitted(true);
 
     if (selectedOrderStatus === 'select') {
@@ -95,6 +123,7 @@ export function StagedJobsPage({
     }
     if (selectedOrderStatus !== 'select' && selectedDate) {
       setIsUpdatingOrderStatus(true);
+      const filePath = await uploadFile(order);
       firebase
         .firestore()
         .doc(`/orders/${Router.query[0]}`)
@@ -108,6 +137,7 @@ export function StagedJobsPage({
                   pickedup_name: displayName,
                   pickedup_date: selectedDate,
                   pickedup_timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                  pickupSheet: filePath,
                 }
               : {}),
             ...(selectedOrderStatus === 'delivered'
@@ -117,6 +147,7 @@ export function StagedJobsPage({
                   delivered_name: displayName,
                   delivered_date: selectedDate,
                   delivered_timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                  deliverySheet: filePath,
                 }
               : {}),
           },
@@ -344,8 +375,35 @@ export function StagedJobsPage({
                       </div>
                     </Col>
                   </Row>
+                  {(Router.query['source'] === 'pickup' || Router.query['source'] === 'dispatch') && (
+                    <Row gutter={[0, 0]} justify="center">
+                      <Col style={{ ...columnStyle }} xs={3} sm={3} md={5} lg={5} xl={4}></Col>
+                      <Col
+                        style={{ ...columnStyle, display: 'inline-flex', justifyContent: 'center' }}
+                        xs={18}
+                        sm={18}
+                        md={10}
+                        lg={10}
+                        xl={8}
+                      >
+                        <b>File: </b> &nbsp;&nbsp;
+                        <FileUpload
+                          label={`Attach ${
+                            Router.query['source'] === 'dispatch'
+                              ? 'Pickup Sheet'
+                              : Router.query['source'] === 'pickup'
+                              ? 'Delivery Sheet'
+                              : 'Document'
+                          }  Sheet (< 5 MB)`}
+                          onChange={(dataURL, mimeType, typeExtension) => setFile({ dataURL, mimeType, typeExtension })}
+                        />
+                      </Col>
+                      <Col style={{ ...columnStyle }} xs={3} sm={3} md={5} lg={5} xl={4}></Col>
+                    </Row>
+                  )}
                   <Row gutter={[0, 0]} justify="center">
                     <Col style={{ ...columnStyle, textAlign: 'center' }} xs={24} sm={24} md={20} lg={20} xl={16}>
+                      <br />
                       <Button loading={isUpdatingOrderStatus} onClick={() => updateOrderStatus(order)} type="primary">
                         Update Status
                       </Button>
