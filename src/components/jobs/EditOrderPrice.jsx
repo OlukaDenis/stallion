@@ -1,4 +1,4 @@
-import { Button, Input, message, Popconfirm } from 'antd';
+import { Button, Input, message, Popconfirm, Spin } from 'antd';
 import { useRef, useState } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -100,17 +100,19 @@ export default function EditOrderPrice({ text, order, isAdmin, isManager, editab
   return (
     <>
       {isAdmin || isManager ? (
-        <Popconfirm
-          placement="left"
-          title={<EditPriceUI updateOrder={updateOrderPrice} key={order.order_id} />}
-          onConfirm={() => mClickEventRef.current()}
-          okText="Update"
-          cancelText="Cancel"
-        >
-          <Button size="small" loading={isUpdatingPayout} type="text">
-            ${text}
-          </Button>
-        </Popconfirm>
+        <>
+          {/* {isUpdatingPayout && <Spin />} */}
+          <Popconfirm
+            placement="left"
+            title={<EditPriceUI updateOrder={updateOrderPrice} key={order.order_id} />}
+            onConfirm={() => mClickEventRef.current()}
+            okText="Update"
+            cancelText="Cancel"
+          >
+            {isUpdatingPayout && <Spin disabled={isUpdatingPayout} />}
+            <a disabled={isUpdatingPayout}>${text}</a>
+          </Popconfirm>
+        </>
       ) : (
         <span>${order.amount_driver}</span>
       )}
