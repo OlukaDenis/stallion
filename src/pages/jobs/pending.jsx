@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { Card, Table, Row, Col, Input, Space, Button, message } from 'antd';
 import Highlighter from 'react-highlight-words';
-import { isStagedOrder } from '../../utilities/common';
+import { isStagedOrder, US_STATES_FILTER } from '../../utilities/common';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -242,6 +242,9 @@ export function PendingJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, isM
           title: t('table.pickup_info_col_group.columns.state'),
           dataIndex: 'origin',
           render: (origin) => origin.split(',')[1].split(' ')[1],
+          filters: US_STATES_FILTER,
+          width: 60,
+          onFilter: (filter, order) => order.origin.split(',')[1].split(' ')[1] === filter,
         },
         {
           title: t('table.pickup_info_col_group.columns.zip'),
@@ -271,6 +274,9 @@ export function PendingJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, isM
           title: t('table.delivery_info_col_group.columns.state'),
           dataIndex: 'destination',
           render: (destination) => destination.split(',')[1].split(' ')[1],
+          width: 60,
+          filters: US_STATES_FILTER,
+          onFilter: (filter, order) => order.destination.split(',')[1].split(' ')[1] === filter,
         },
         {
           title: t('table.delivery_info_col_group.columns.zip'),

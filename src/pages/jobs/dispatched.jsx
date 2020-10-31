@@ -14,6 +14,7 @@ import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
 import Head from 'next/head';
 import JobViewsMenu from '../../components/jobs/JobViewsNavigator';
 import EditOrderPrice from '../../components/jobs/EditOrderPrice';
+import { US_STATES_FILTER } from '../../utilities/common';
 
 export function DispatchedJobs({
   t,
@@ -167,6 +168,9 @@ export function DispatchedJobs({
           title: t('table.pickup_info_col_group.columns.state'),
           dataIndex: 'origin',
           render: (origin) => origin.split(',')[1].split(' ')[1],
+          filters: US_STATES_FILTER,
+          width: 60,
+          onFilter: (filter, order) => order.origin.split(',')[1].split(' ')[1] === filter,
         },
         {
           title: t('table.pickup_info_col_group.columns.zip'),
@@ -196,6 +200,9 @@ export function DispatchedJobs({
           title: t('table.delivery_info_col_group.columns.state'),
           dataIndex: 'destination',
           render: (destination) => destination.split(',')[1].split(' ')[1],
+          width: 60,
+          filters: US_STATES_FILTER,
+          onFilter: (filter, order) => order.destination.split(',')[1].split(' ')[1] === filter,
         },
         {
           title: t('table.delivery_info_col_group.columns.zip'),
