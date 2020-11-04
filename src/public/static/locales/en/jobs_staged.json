@@ -2,6 +2,8 @@
     "unstage_all_button": "Unstage All",
     "available_jobs_button": "Available Jobs",
     "staged_jobs_label": "Staged Jobs",
+    "my_jobs_button": "My Jobs",
+    "cancel_bid_button": "Cancel Bid",
     "no_staged_jobs_label": "No staged jobs found. Browse the available jobs and select a job that you can do.",
     "order_num_label": "Order #",
     "vehicle_label": "Vehicle",
@@ -34,5 +36,7 @@
     "suggested_payout_error": "Kindly specify your preferred payout for this job",
     "driver_comments": "Enter any other comments you have about this job",
     "driver_comments_error": "Kindly enter a comment to accept this job",
-    "pickup_after_delivery_error": "Delivery Date cannot be earlier than the Pickup Date!"
+    "pickup_after_delivery_error": "Delivery Date cannot be earlier than the Pickup Date!",
+    "submission_success_title": "Successfully Submitted Bid!",
+    "submission_success_message": "You will receive an email notification once your bid for this order has been accepted."
 }

@@ -1,12 +1,12 @@
 {
     "instructions": "Select jobs on the table below.",
-    "select_jobs_button": "Select Jobs",
+    "select_jobs_button": "Pick Vehicle",
     "staged_jobs_button": "Staged Jobs",
     "my_jobs_button": "My Jobs",
     "error_load_available": "An error occurred while trying to load available jobs. Refresh page.",
 
     "table": {
-        "header": "Available Jobs",
+        "header": "Dispatched Jobs",
         "job_info_col_group": {
             "header": "Job Info",
             "columns": {

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { Card, Table, Row, Col, Input, Space, Button, message } from 'antd';
 import Highlighter from 'react-highlight-words';
-import { isStagedOrder } from '../../utilities/common';
+import { isStagedOrder, US_STATES_FILTER } from '../../utilities/common';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -14,8 +14,20 @@ import { Router, withTranslation } from '../../utilities/i18n';
 import { CheckCircleOutlined, SearchOutlined, WarningOutlined } from '@ant-design/icons';
 import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
 import Head from 'next/head';
+import EditOrderPrice from '../../components/jobs/EditOrderPrice';
 
-export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isManager, isShippingAgent, isDriver }) {
+export function Available({
+         t,
+         quote,
+         theme,
+         isLoggedIn,
+         userUID, 
+         isAdmin,
+         isManager,
+         isShippingAgent,
+         isDriver,
+         displayName,
+       }) {
          const stagingPageParams = { pathname: '/jobs/staged' };
          const myJobsPageParams = { pathname: '/jobs/pending' };
          const loginPageParams = { pathname: '/login', query: { redirectURL: Router.pathname } };
@@ -45,37 +57,62 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
 
          const stageSelectedJobs = async () => {
            await markSelectedJobsAsStaged();
-           setIsLoadingNewPage('/jobs/staged');
+           setIsLoadingNewPage(stagingPageParams);
          };
 
          const markSelectedJobsAsStaged = async () => {
            setIsStagingSelectedJobs(true);
            selectedRows.map(async (order) => {
-             const status = await firebase
-               .firestore()
-               .doc(`/orders/${order.order_id}`)
-               .set(
-                 {
-                   staging_timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                   staging_uid: userUID,
-                   approved: false,
-                 },
-                 { merge: true }
-               );
+             if (!order.amount_has_admin_approval) {
+               message.error(t('error_driver_amount_not_approved'));
+               return;
+             }
+             const status = await firebase.firestore().doc(`/orders/${order.order_id}`).set(
+               {
+                 staging_timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                 staging_uid: userUID,
+                 staging_name: displayName,
+                 approved: false,
+               },
+               { merge: true }
+             );
            });
            setIsStagingSelectedJobs(false);
          };
 
-         const getColumnSearchProps = (dataIndex) => {};
+         const searchLabels = {
+           originName: 'Search Pickup City',
+           destinationName: 'Search Delivery City',
+           pickupLocation: 'Search Pickup Address',
+           deliveryLocation: 'Search Delivery Address',
+         };
 
-         const getColumnSearchProp = (dataIndex) => ({
+         const renderFormatted = {
+           originName: (originName) => originName.split(',')[0],
+           destinationName: (destinationName) => destinationName.split(',')[0],
+           pickupLocation: (location) => location.address,
+           deliveryLocation: (location) => location.address,
+         };
+
+         const filterFuncs = {
+           originName: (value, record, dataIndex) =>
+             record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
+           destinationName: (value, record, dataIndex) =>
+             record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
+           pickupLocation: (value, record, dataIndex) =>
+             record[dataIndex].address ? record[dataIndex].address.toString().toLowerCase().includes(value.toLowerCase()) : '',
+           deliveryLocation: (value, record, dataIndex) =>
+             record[dataIndex].address ? record[dataIndex].address.toString().toLowerCase().includes(value.toLowerCase()) : '',
+         };
+
+         const getColumnSearchProps = (dataIndex) => ({
            filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
              <div style={{ padding: 8 }}>
                <Input
                  ref={(node) => {
                    searchInputRef.current = node;
                  }}
-                 placeholder={`Search ${dataIndex}`}
+                 placeholder={`${searchLabels[dataIndex]}`}
                  value={selectedKeys[0]}
                  onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                  onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -98,8 +135,7 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
              </div>
            ),
            filterIcon: (filtered) => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-           onFilter: (value, record) =>
-             record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
+           onFilter: (value, record) => filterFuncs[dataIndex](value, record, dataIndex),
            onFilterDropdownVisibleChange: (visible) => {
              if (visible) {
                setTimeout(() => searchInputRef.current.select(), 100);
@@ -111,10 +147,10 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                  highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
                  searchWords={[searchText]}
                  autoEscape
-                 textToHighlight={text ? text.toString() : ''}
+                 textToHighlight={renderFormatted[dataIndex](text) ? renderFormatted[dataIndex](text).toString() : ''}
                />
              ) : (
-               text
+               renderFormatted[dataIndex](text)
              ),
          });
 
@@ -157,13 +193,13 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                  setIsLoadingAvailableJobsData(false);
                }
              );
-           
+
            return unsubscribe;
          };
 
          useEffect(() => {
            const unsubscribe = fetchData();
-            return () => 'function' === typeof unsubscribe ? unsubscribe() : null;
+           return () => ('function' === typeof unsubscribe ? unsubscribe() : null);
          }, []);
 
          const columns = [
@@ -233,6 +269,9 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                  title: t('table.pickup_info_col_group.columns.state'),
                  dataIndex: 'origin',
                  render: (origin) => origin.split(',')[1].split(' ')[1],
+                 filters: US_STATES_FILTER,
+                 width: 60,
+                 onFilter: (filter, order) => order.origin.split(',')[1].split(' ')[1] === filter,
                },
                {
                  title: t('table.pickup_info_col_group.columns.zip'),
@@ -263,6 +302,9 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                  title: t('table.delivery_info_col_group.columns.state'),
                  dataIndex: 'destination',
                  render: (destination) => destination.split(',')[1].split(' ')[1],
+                 width: 60,
+                 filters: US_STATES_FILTER,
+                 onFilter: (filter, order) => order.destination.split(',')[1].split(' ')[1] === filter,
                },
                {
                  title: t('table.delivery_info_col_group.columns.zip'),
@@ -286,13 +328,20 @@ export function Available({ t, quote, theme, isLoggedIn, userUID, isAdmin, isMan
                {
                  title: t('table.columns.payout'),
                  dataIndex: 'amount',
-                 render: (amount) => '$' + amount,
+                 render: (amount, order) => (
+                   <EditOrderPrice text={amount} order={order} isAdmin={isAdmin} isManager={isManager} />
+                 ),
                  sorter: (a, b) => a.amount - b.amount,
                  sortDirections: ['ascend', 'descend'],
                },
              ],
            },
          ];
+
+         if (isDriver || isShippingAgent) {
+           columns[1]['children'].shift();
+           columns[2]['children'].shift();
+         }
 
          const onSelectChange = (selectedRowKeys, selectedRows) => {
            // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
@@ -408,6 +457,7 @@ const mapStateToProps = (state) => ({
   isManager: state.user.isManager,
   isShippingAgent: state.user.isShippingAgent,
   isDriver: state.user.isDriver,
+  displayName: state.user.name,
 });
 
 export default connect(mapStateToProps, null)(withTranslation('jobs_available')(Available));

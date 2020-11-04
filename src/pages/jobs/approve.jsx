@@ -78,6 +78,7 @@ export function ApprovalPending({ t, quote, theme, isLoggedIn, userUID, isAdmin,
           approving_timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           approver_uid: userUID,
           approved: true,
+          pickedup: false,
         },
         { merge: true }
       );

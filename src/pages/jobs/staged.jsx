@@ -10,7 +10,6 @@ import BaseLayout from '../../components/layout';
 import { Router, withTranslation } from '../../utilities/i18n';
 import TextArea from 'antd/lib/input/TextArea';
 import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
-import { calculateTotalShippingRate } from '../../utilities/calculate_shipping_rate';
 const { Option } = Select;
 
 export function StagedJobsPage({
@@ -28,6 +27,7 @@ export function StagedJobsPage({
        }) {
          const loginPageParams = { pathname: '/login', query: { redirectURL: Router.pathname } };
          const availableJobsPageParams = { pathname: '/jobs/available' };
+         const myJobsPageParams = { pathname: '/jobs/pending' };
          const [isLoadingNewPage, setIsLoadingNewPage] = useState(null);
          const [stagedJobs, setStagedJobs] = useState([]);
          const [isRefreshingStagedJobs, setIsRefreshingStagedJobs] = useState(false);
@@ -217,7 +217,7 @@ export function StagedJobsPage({
 
                    setSuggestedPayout({
                      ...suggestedPayout,
-                     [order.order_id]: order.amount,
+                     [order.order_id]: order.amount_driver,
                    });
 
                    newData.push(order);
@@ -265,6 +265,14 @@ export function StagedJobsPage({
                              type="ghost"
                            >
                              {t('available_jobs_button')}
+                           </Button>
+                           &nbsp;&nbsp;
+                           <Button
+                             loading={!!isLoadingNewPage}
+                             onClick={() => setIsLoadingNewPage(myJobsPageParams)}
+                             type="ghost"
+                           >
+                             {t('my_jobs_button')}
                            </Button>
                          </div>
                        )}
@@ -416,8 +424,7 @@ export function StagedJobsPage({
                                        });
                                      }}
                                    />
-                                   {isDataSubmitted[order.order_id] &&
-                                   hasDeliveryDateError[order.order_id] ? (
+                                   {isDataSubmitted[order.order_id] && hasDeliveryDateError[order.order_id] ? (
                                      <Alert message={t('suggested_delivery_date_error')} type="error" />
                                    ) : (
                                      <></>
@@ -456,7 +463,7 @@ export function StagedJobsPage({
                                    )}
                                  </Tooltip>
                                  <span style={{ fontSize: '11px' }}>
-                                   <em>{t('asking_label', { amount: `$${calculateTotalShippingRate(order)}` })}</em>
+                                   <em>{t('asking_label', { amount: `$${order.amount_driver}` })}</em>
                                    <br />
                                    <em>{t('distance_label', { distance: order.distance })}</em>
                                  </span>
@@ -476,7 +483,6 @@ export function StagedJobsPage({
                                      value={comments[order.order_id]}
                                      onChange={(e) => {
                                        setComments({ ...comments, [order.order_id]: e.target.value });
-                                       setHasCommentsError({ ...hasCommentsError, [order.order_id]: false });
                                      }}
                                    />
                                    {/* {isDataSubmitted[order.order_id] && hasCommentsError[order.order_id] ? (
@@ -502,15 +508,15 @@ export function StagedJobsPage({
                              >
                                <Result
                                  status="success"
-                                 title="Successfully Submitted Bid!"
-                                 subTitle="You will receive an email notification once your bid for this order has been accepted."
+                                 title={t('submission_success_title')}
+                                 subTitle={t('submission_success_message')}
                                />
                                <Button
                                  loading={!!isCancelingJobBid[order.order_id]}
                                  type="primary"
                                  onClick={() => cancelJobBid(order)}
                                >
-                                 Cancel Bid
+                                 {t('cancel_bid_button')}
                                </Button>
                              </Col>
                            </Row>

@@ -4,6 +4,7 @@
     "staged_jobs_button": "Staged Jobs",
     "my_jobs_button": "My Jobs",
     "error_load_available": "An error occurred while trying to load available jobs. Refresh page.",
+    "error_driver_amount_not_approved": "You cannot stage a job whose payout has not been approved yet!",
 
     "table": {
         "header": "Available Jobs",
