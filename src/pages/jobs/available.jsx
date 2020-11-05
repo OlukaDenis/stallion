@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import moment from 'moment';
-import { Card, Table, Row, Col, Input, Space, Button, message } from 'antd';
+import { Card, Table, Row, Col, Input, Space, Button, message, Modal } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { isStagedOrder, US_STATES_FILTER } from '../../utilities/common';
 
@@ -12,9 +12,16 @@ import 'firebase/firestore';
 import BaseLayout from '../../components/layout';
 import { Router, withTranslation } from '../../utilities/i18n';
 import { CheckCircleOutlined, SearchOutlined, WarningOutlined } from '@ant-design/icons';
+import {
+  setOrigin,
+  setDestination,
+  setDistance,
+  setDuration,
+} from '../../state/quote/action';
 import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
 import Head from 'next/head';
 import EditOrderPrice from '../../components/jobs/EditOrderPrice';
+import MapView from '../../components/MapView';
 
 export function Available({
          t,
@@ -38,6 +45,9 @@ export function Available({
          const [searchText, setSearchText] = useState('');
          const [searchedColumn, setSearchedColumn] = useState('');
          const [isLoadingNewPage, setIsLoadingNewPage] = useState(null);
+         const [open, setOpen] = useState(false);
+         const [selectedOrder, setSelectedOrder] = useState({});
+         const dispatch = useDispatch();
 
          const searchInputRef = useRef();
 
@@ -197,6 +207,22 @@ export function Available({
            return unsubscribe;
          };
 
+         const showModal = (record) => {
+           console.log(record);
+           setSelectedOrder(record);
+
+           dispatch(setOrigin(record.origin));
+           dispatch(setDestination(record.destination));
+           dispatch(setDistance(record.distance));
+           dispatch(setDuration(record.duration));
+
+            setOpen(true);
+         };
+
+         const closeModal = () => {
+            setOpen(false);
+         };
+
          useEffect(() => {
            const unsubscribe = fetchData();
            return () => ('function' === typeof unsubscribe ? unsubscribe() : null);
@@ -334,6 +360,15 @@ export function Available({
                  sorter: (a, b) => a.amount - b.amount,
                  sortDirections: ['ascend', 'descend'],
                },
+               {
+                 title: 'Action',
+                 dataIndex: 'action',
+                 render: (text, record) => (
+                  <Button size="small" onClick={() => showModal(record)}>
+                    View Map
+                  </Button>
+                 )
+               }
              ],
            },
          ];
@@ -422,6 +457,16 @@ export function Available({
                  </Card>
                </Col>
              </Row>
+
+              <Modal
+                title={selectedOrder.id}
+                visible={open}
+                width={1000}
+                onOk={closeModal}
+                onCancel={closeModal}
+              >
+                <MapView />
+              </Modal>
 
              <style jsx>
                {`
