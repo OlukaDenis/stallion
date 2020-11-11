@@ -4,7 +4,8 @@ export const uiInitialState = {
   theme: 'light',
   language: 'en',
   isSideMenuShowing: false,
-  isLoadingNewPage: false
+  isLoadingNewPage: false,
+  selectedOrder: {}
 };
 
 export default function reducer(state = uiInitialState, action) {
@@ -28,6 +29,11 @@ export default function reducer(state = uiInitialState, action) {
       return {
         ...state,
         isLoadingNewPage: action.payload,
+      };
+    case uiActionTypes.SELECTED_ORDER:
+      return {
+        ...state,
+        selectedOrder: action.payload,
       };
     default:
       return state;

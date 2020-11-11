@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import { Card, Table, Row, Col, Input, Space, Button, message, Modal } from 'antd';
 import Highlighter from 'react-highlight-words';
@@ -18,6 +19,7 @@ import {
   setDistance,
   setDuration,
 } from '../../state/quote/action';
+import { setSelectedOrder } from '../../state/ui/action';
 import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
 import Head from 'next/head';
 import EditOrderPrice from '../../components/jobs/EditOrderPrice';
@@ -33,9 +35,11 @@ export function Available({
          isManager,
          isShippingAgent,
          isDriver,
+         setSelectedOrder,
          displayName,
        }) {
          const stagingPageParams = { pathname: '/jobs/staged' };
+         const viewMapRoute = { pathname: '/jobs/view-map' };
          const myJobsPageParams = { pathname: '/jobs/pending' };
          const loginPageParams = { pathname: '/login', query: { redirectURL: Router.pathname } };
          const [selectedRows, setSelectedRows] = useState([]);
@@ -46,7 +50,6 @@ export function Available({
          const [searchedColumn, setSearchedColumn] = useState('');
          const [isLoadingNewPage, setIsLoadingNewPage] = useState(null);
          const [open, setOpen] = useState(false);
-         const [selectedOrder, setSelectedOrder] = useState({});
          const dispatch = useDispatch();
 
          const searchInputRef = useRef();
@@ -208,15 +211,16 @@ export function Available({
          };
 
          const showModal = (record) => {
+           console.log("Selected Qoute>> ");
            console.log(record);
            setSelectedOrder(record);
-
            dispatch(setOrigin(record.origin));
            dispatch(setDestination(record.destination));
            dispatch(setDistance(record.distance));
            dispatch(setDuration(record.duration));
 
-            setOpen(true);
+            // setOpen(true);
+            setIsLoadingNewPage(viewMapRoute);
          };
 
          const closeModal = () => {
@@ -459,7 +463,7 @@ export function Available({
              </Row>
 
               <Modal
-                title={selectedOrder.id}
+                title="Map View"
                 visible={open}
                 width={1000}
                 onOk={closeModal}
@@ -505,4 +509,10 @@ const mapStateToProps = (state) => ({
   displayName: state.user.name,
 });
 
-export default connect(mapStateToProps, null)(withTranslation('jobs_available')(Available));
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setSelectedOrder: bindActionCreators(setSelectedOrder, dispatch),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation('jobs_available')(Available));
