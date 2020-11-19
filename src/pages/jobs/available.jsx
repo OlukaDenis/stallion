@@ -11,7 +11,7 @@ import 'firebase/firestore';
 
 import BaseLayout from '../../components/layout';
 import { Router, withTranslation } from '../../utilities/i18n';
-import { CheckCircleOutlined, SearchOutlined, WarningOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, GlobalOutlined, SearchOutlined, WarningOutlined } from '@ant-design/icons';
 import {
   setOrigin,
   setDestination,
@@ -45,7 +45,7 @@ export function Available({
          const [searchText, setSearchText] = useState('');
          const [searchedColumn, setSearchedColumn] = useState('');
          const [isLoadingNewPage, setIsLoadingNewPage] = useState(null);
-         const [open, setOpen] = useState(false);
+         const [isRouteModalShown, setOpenIsRouteModalShown] = useState(false);
          const [selectedOrder, setSelectedOrder] = useState({});
          const dispatch = useDispatch();
 
@@ -208,19 +208,17 @@ export function Available({
          };
 
          const showModal = (record) => {
-           console.log(record);
+           
            setSelectedOrder(record);
-
+            console.log('record', record);
            dispatch(setOrigin(record.origin));
            dispatch(setDestination(record.destination));
-           dispatch(setDistance(record.distance));
-           dispatch(setDuration(record.duration));
 
-            setOpen(true);
+            setOpenIsRouteModalShown(true);
          };
 
          const closeModal = () => {
-            setOpen(false);
+            setOpenIsRouteModalShown(false);
          };
 
          useEffect(() => {
@@ -302,6 +300,7 @@ export function Available({
                {
                  title: t('table.pickup_info_col_group.columns.zip'),
                  dataIndex: 'origin',
+                 width: 50,
                  render: (origin) => origin.split(',')[1].split(' ')[2],
                  sorter: (a, b) =>
                    a.origin.split(',')[1].split(' ')[2] - b.origin.split(',')[1].split(' ')[2] ? -1 : 1,
@@ -335,6 +334,7 @@ export function Available({
                {
                  title: t('table.delivery_info_col_group.columns.zip'),
                  dataIndex: 'destination',
+                 width: 50,
                  render: (destination) => destination.split(',')[1].split(' ')[2],
                  sorter: (a, b) =>
                    a.destination.split(',')[1].split(' ')[2] - b.destination.split(',')[1].split(' ')[2],
@@ -348,6 +348,12 @@ export function Available({
                {
                  title: t('table.columns.distance'),
                  dataIndex: 'distance',
+                 render: (distance, order) => (
+                   <>
+                     {distance}miles &nbsp;{' '}
+                     <GlobalOutlined style={{ color: '#f86942' }} onClick={() => showModal(order)} />
+                   </>
+                 ),
                  sorter: (a, b) => a.distance - b.distance,
                  sortDirections: ['ascend', 'descend'],
                },
@@ -360,15 +366,15 @@ export function Available({
                  sorter: (a, b) => a.amount - b.amount,
                  sortDirections: ['ascend', 'descend'],
                },
-               {
-                 title: 'Action',
-                 dataIndex: 'action',
-                 render: (text, record) => (
-                  <Button size="small" onClick={() => showModal(record)}>
-                    View Map
-                  </Button>
-                 )
-               }
+               //  {
+               //    title: 'Action',
+               //    dataIndex: 'action',
+               //    render: (text, record) => (
+               //     <Button size="small" onClick={() => showModal(record)}>
+               //       View Map
+               //     </Button>
+               //    )
+               //  }
              ],
            },
          ];
@@ -393,6 +399,7 @@ export function Available({
          return (
            <BaseLayout>
              <Head>
+               <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="preload" as="style" />
                {useSmallScreenTable && (
                  <meta name="viewport" content="width=1000, initial-scale=0, user-scalable=yes" />
                )}
@@ -458,15 +465,15 @@ export function Available({
                </Col>
              </Row>
 
-              <Modal
-                title={selectedOrder.id}
-                visible={open}
-                width={1000}
-                onOk={closeModal}
-                onCancel={closeModal}
-              >
-                <MapView />
-              </Modal>
+             <Modal
+               title={`Route for Order ID # ${selectedOrder.id}`}
+               visible={isRouteModalShown}
+               width={1000}
+               onOk={closeModal}
+               onCancel={closeModal}
+             >
+               <MapView />
+             </Modal>
 
              <style jsx>
                {`

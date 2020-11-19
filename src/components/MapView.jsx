@@ -14,6 +14,7 @@ import {
   setDistance,
   setDuration,
 } from '../state/quote/action';
+import Head from 'next/head';
 
 var map;
 var mapboxgl;
@@ -31,12 +32,14 @@ const MapView = ({
   setDuration,
 }) => {
 
-  const isLightMode = theme === 'light';
-
   const [origin, setOrigin] = useState();
   const [destination, setDestination] = useState();
+  const [originMarker, setOriginMarker] = useState();
+  const [destinationMarker, setDestinationMarker] = useState();
+
 
   useEffect(() => {
+    
     if (quote.originLat && quote.originLon) {
       setOrigin(quote.origin);
     }
@@ -80,13 +83,29 @@ const MapView = ({
 
   const setMarkers = () => {
     if (!map) return;
-    var originMarker = new mapboxgl.Marker({ color: '#f63e0c' })
-      .setLngLat([quote.originLon, quote.originLat])
-      .addTo(map);
-    var destinationMarker = new mapboxgl.Marker().setLngLat([quote.destinationLon, quote.destinationLat]).addTo(map);
-    originMarker.addTo(map);
-    destinationMarker.addTo(map);
-  }
+
+    if (originMarker) {
+      originMarker.setLngLat([quote.originLon, quote.originLat]);
+      originMarker._update();
+    } else {
+      let oMarker = new mapboxgl.Marker({ color: '#f63e0c' }).setLngLat([quote.originLon, quote.originLat]);
+      oMarker.addTo(map);
+      var popup = new mapboxgl.Popup().setText('Pickup Location');
+      oMarker.setPopup(popup);
+      setOriginMarker(oMarker);
+    }
+
+    if (destinationMarker) {
+      destinationMarker.setLngLat([quote.destinationLon, quote.destinationLat]);
+      destinationMarker._update();
+    } else {
+      let dMarker = new mapboxgl.Marker().setLngLat([quote.destinationLon, quote.destinationLat]);
+      dMarker.addTo(map);
+      var popup = new mapboxgl.Popup().setText('Drop-off Location');
+      dMarker.setPopup(popup);
+      setDestinationMarker(dMarker);
+    }
+  };
 
   const drawRoute = (route) => {
     const geojson = {
@@ -163,7 +182,7 @@ const MapView = ({
   }, [destination]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && document.getElementById('map-container')) {
+    if (typeof window !== 'undefined' && document.getElementById('map-container') && !map) {
       mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
 
       const bounds = getMapBounds();
@@ -202,7 +221,13 @@ const MapView = ({
     return [result[0].x, result[0].y, result[0].label];
   };
 
-  return <div id="map-container" style={{ width: '100%', height: '400px' }}></div>;
+  return (
+    <div id="map-container" style={{ width: '100%', height: '400px' }}>
+      <Head>
+        <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+      </Head>
+    </div>
+  );
 };
 
 const mapStateToProps = (state) => ({

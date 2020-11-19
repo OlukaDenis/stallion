@@ -15,11 +15,11 @@ export function QuotationPage({ t, quote }) {
   return (
     <BaseLayout>
       <Head>
-        <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+        <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="preload" as="style" />
       </Head>
 
       {hasQuoteDataError ? (
-        <Row gutter={[16, 16]} style={{paddingTop: 50}} justify="center">
+        <Row gutter={[16, 16]} style={{ paddingTop: 50 }} justify="center">
           <Col xs={20} sm={18} md={12} lg={10} xl={10}>
             <QuotationGenerator />
           </Col>
