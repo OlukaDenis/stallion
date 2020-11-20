@@ -190,6 +190,7 @@ export function BaseLayout({
                    <meta name="theme-color" content="#2b76b1" />
 
                    {marketingHeader}
+                   {/* Step 1. make some change in the code using VS Code editor */}
                  </Head>
                  <Header
                    onClick={() => {
