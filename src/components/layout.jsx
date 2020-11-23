@@ -45,6 +45,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { changeTheme, setIsSideMenuShowing, setIsLoadingNewPage } from '../state/ui/action'
 import { userLoggedOut } from '../state/user/action';
+import parse from 'html-react-parser';
 
 export function BaseLayout({
          t,
@@ -70,6 +71,26 @@ export function BaseLayout({
          const [isScreenTooSmall, setScreenTooSmall] = useState(false);
          const [isThemeLightMode, setIsThemeLightMode] = useState(theme === 'light');
          const [selectedLanguageIndex, setSelectedLanguageIndex] = useState(getCurrentLanguageIndex());
+        const [marketingHeader, setMarketingHeader] = useState('');
+
+         const fetchMarketingHeader = () => {
+           firebase
+             .firestore()
+             .doc('/pixel/current')
+             .get()
+             .then((doc) => {
+               let data = doc.data();
+               console.log('data.value', data.value);
+               setMarketingHeader(data ? parse(data.value) : '');
+             })
+             .catch((e) => {
+               console.error('Exception');
+             });
+         };
+
+         useEffect(() => {
+           fetchMarketingHeader();
+         }, []);
 
          useEffect(() => {
            i18n.changeLanguage(supported_languages[selectedLanguageIndex].code);
@@ -167,6 +188,9 @@ export function BaseLayout({
                    <link rel="manifest" href="/manifest.json" />
                    <link rel="apple-touch-icon" href="/apple-icon.png"></link>
                    <meta name="theme-color" content="#2b76b1" />
+
+                   {marketingHeader}
+                   {/* Step 1. make some change in the code using VS Code editor */}
                  </Head>
                  <Header
                    onClick={() => {
@@ -298,7 +322,7 @@ export function BaseLayout({
                            {t('menu.approve.label')}
                          </Menu.Item>
                        )}
-                       {(isAdmin) && (
+                       {isAdmin && (
                          <Menu.Item key="/users/manage" icon={<UserOutlined />}>
                            {t('menu.users.label')}
                          </Menu.Item>
