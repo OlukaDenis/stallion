@@ -182,7 +182,7 @@ export function BaseLayout({
                    <meta name="description" content="Super Stallion Logistics's website" />
                    <meta
                      name="keywords"
-                     content="app, build, create, software, UI, UX, mobile, integration, ecommerce, service, product, cheap, affordable, hybrid, cross, platform, mac, linux, android, ios, windows, web, website, design, developers, development, dev, CBD, Kenya, Mombasa, Nakuru, Eldoret, Nairobi, Nyeri, Kisumu, Kampala, Mbarara, Entebbe, Jinja, Uganda"
+                     content="auto, transport, Copart, IAAI, DOT, Transportation, Fleet, vehicle, tow, towing, hauling, haul, carrier, carriers, car-carrier, hotshot, quote, transportation-quote, car-transport, Metrologistics, cararrival, montway, central-dispatch, dispatch, unitedroads"
                    />
 
                    <link rel="manifest" href="/manifest.json" />
