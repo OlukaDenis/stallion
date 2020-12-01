@@ -51,6 +51,7 @@ export function QuotationGenerator({
       setIsLoadingNewPage(false);
     } else {
       setIsDataSubmitted(true);
+      setIsLoadingNewPage;
     }
   };
 
