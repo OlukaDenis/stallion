@@ -24,7 +24,7 @@ export function QuotationGenerator({
   setName,
   setEmail,
   setPhone,
-  setIsLoadingNewPage
+  //setIsLoadingNewPage
 }) {
   
   const hasOriginError = !useIsValidOrigin(quote.origin);
@@ -264,7 +264,7 @@ const mapDispatchToProps = (dispatch) => {
     setName: bindActionCreators(setName, dispatch),
     setEmail: bindActionCreators(setEmail, dispatch),
     setPhone: bindActionCreators(setPhone, dispatch),
-    setIsLoadingNewPage: bindActionCreators(setIsLoadingNewPage, dispatch),
+    //setIsLoadingNewPage: bindActionCreators(setIsLoadingNewPage, dispatch),
   };
 };
 
