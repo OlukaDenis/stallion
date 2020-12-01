@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import { Card, Table, Row, Col, Input, Space, Button, message, Modal } from 'antd';
 import Highlighter from 'react-highlight-words';
@@ -18,6 +19,7 @@ import {
   setDistance,
   setDuration,
 } from '../../state/quote/action';
+import { setSelectedOrder } from '../../state/ui/action';
 import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
 import Head from 'next/head';
 import EditOrderPrice from '../../components/jobs/EditOrderPrice';
@@ -36,6 +38,7 @@ export function Available({
          displayName,
        }) {
          const stagingPageParams = { pathname: '/jobs/staged' };
+         const viewMapRoute = { pathname: '/jobs/view-map' };
          const myJobsPageParams = { pathname: '/jobs/pending' };
          const loginPageParams = { pathname: '/login', query: { redirectURL: Router.pathname } };
          const [selectedRows, setSelectedRows] = useState([]);
@@ -512,4 +515,9 @@ const mapStateToProps = (state) => ({
   displayName: state.user.name,
 });
 
-export default connect(mapStateToProps, null)(withTranslation('jobs_available')(Available));
+const mapDispatchToProps = (dispatch) => {
+  return {
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation('jobs_available')(Available));
