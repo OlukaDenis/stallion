@@ -9,7 +9,7 @@ import moment from 'moment';
 import ClearableInputElement from './ClearableInputElement';
 import SelectedCars from './SelectedCars';
 import { useState } from 'react';
-import { setIsLoadingNewPage } from '../state/ui/action';
+//import { setIsLoadingNewPage } from '../state/ui/action';
 import { isValidPhoneNumber } from '../utilities/data_validators';
 import useIsValidQuoteData, { useIsValidDestination, useIsValidEmail, useIsValidName, useIsValidOrigin, useIsValidPhoneNumber, useIsValidPickupDate, useIsValidSelectedCars } from '../hooks/QuoteDataValidation';
 import { generateUniqueQuoteID } from '../utilities/generate_push_id';
@@ -253,7 +253,7 @@ const mapStateToProps = (state) => ({
   theme: state.ui.theme,
   quote: state.quote,
 });
-
+/*
 const mapDispatchToProps = (dispatch) => {
   return {
     setCars: bindActionCreators(setCars, dispatch),
@@ -264,8 +264,8 @@ const mapDispatchToProps = (dispatch) => {
     setName: bindActionCreators(setName, dispatch),
     setEmail: bindActionCreators(setEmail, dispatch),
     setPhone: bindActionCreators(setPhone, dispatch),
-    //setIsLoadingNewPage: bindActionCreators(setIsLoadingNewPage, dispatch),
+    setIsLoadingNewPage: bindActionCreators(setIsLoadingNewPage, dispatch),
   };
 };
-
+*/
 export default connect(mapStateToProps, mapDispatchToProps)(withTranslation('common')(QuotationGenerator));
