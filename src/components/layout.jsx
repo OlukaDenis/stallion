@@ -182,7 +182,7 @@ export function BaseLayout({
                    <meta name="description" content="Super Stallion Logistics's website" />
                    <meta
                      name="keywords"
-                     content="app, build, create, software, UI, UX, mobile, integration, ecommerce, service, product, cheap, affordable, hybrid, cross, platform, mac, linux, android, ios, windows, web, website, design, developers, development, dev, CBD, Kenya, Mombasa, Nakuru, Eldoret, Nairobi, Nyeri, Kisumu, Kampala, Mbarara, Entebbe, Jinja, Uganda"
+                     content="auto, transport, Copart, IAAI, DOT, Transportation, Fleet, vehicle, tow, towing, hauling, haul, carrier, carriers, car-carrier, hotshot, quote, transportation-quote, car-transport, Metrologistics, cararrival, montway, central-dispatch, dispatch, unitedroads"
                    />
 
                    <link rel="manifest" href="/manifest.json" />
@@ -384,13 +384,6 @@ export function BaseLayout({
                          <p>Super Stallion Logistics &copy;{new Date().getFullYear()}</p>
                        </div>
                      </Col>
-                     <Col xs={24} sm={24} md={12} lg={10} xl={8}>
-                       <div className="vertical-center-div">
-                         <p>
-                           Designed by: <a href="https://premar.tech">Premar Systems</a>
-                         </p>
-                       </div>
-                     </Col>
                    </Row>
                  </Footer>
                </Layout>
@@ -398,7 +391,7 @@ export function BaseLayout({
            </FirestoreProvider>
          );
        }
-
+//Removed footer column on row 387
 const mapStateToProps = (state) => ({
   theme: state.ui.theme,
   isSideMenuShowing: state.ui.isSideMenuShowing,
