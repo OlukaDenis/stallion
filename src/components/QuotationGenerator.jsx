@@ -48,7 +48,7 @@ export function QuotationGenerator({
       setPhone(isValidPhoneNumber(quote.phone));
       setIsLoadingNewPage(true);
       await Router.push('/quotation');
-      //setIsLoadingNewPage(false);
+      setIsLoadingNewPage(false);
     } else {
       setIsDataSubmitted(true);
     }
