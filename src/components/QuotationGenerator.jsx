@@ -9,7 +9,7 @@ import moment from 'moment';
 import ClearableInputElement from './ClearableInputElement';
 import SelectedCars from './SelectedCars';
 import { useState } from 'react';
-import { setIsLoadingNewPage } from '../state/ui/action';
+//import { setIsLoadingNewPage } from '../state/ui/action';
 import { isValidPhoneNumber } from '../utilities/data_validators';
 import useIsValidQuoteData, { useIsValidDestination, useIsValidEmail, useIsValidName, useIsValidOrigin, useIsValidPhoneNumber, useIsValidPickupDate, useIsValidSelectedCars } from '../hooks/QuoteDataValidation';
 import { generateUniqueQuoteID } from '../utilities/generate_push_id';
@@ -24,7 +24,7 @@ export function QuotationGenerator({
   setName,
   setEmail,
   setPhone,
-  setIsLoadingNewPage
+  //setIsLoadingNewPage
 }) {
   
   const hasOriginError = !useIsValidOrigin(quote.origin);
@@ -46,9 +46,9 @@ export function QuotationGenerator({
     if (!hasQuoteDataError) {
       if (!quote.id) setID(generateUniqueQuoteID());
       setPhone(isValidPhoneNumber(quote.phone));
-      setIsLoadingNewPage(true);
+      //setIsLoadingNewPage(true);
       await Router.push('/quotation');
-      setIsLoadingNewPage(false);
+      //setIsLoadingNewPage(false);
     } else {
       setIsDataSubmitted(true);
     }
@@ -264,7 +264,7 @@ const mapDispatchToProps = (dispatch) => {
     setName: bindActionCreators(setName, dispatch),
     setEmail: bindActionCreators(setEmail, dispatch),
     setPhone: bindActionCreators(setPhone, dispatch),
-    setIsLoadingNewPage: bindActionCreators(setIsLoadingNewPage, dispatch),
+    //setIsLoadingNewPage: bindActionCreators(setIsLoadingNewPage, dispatch),
   };
 };
 
