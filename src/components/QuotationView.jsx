@@ -286,7 +286,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setIsLoadingNewPage: bindActionCreators(setIsLoadingNewPage, dispatch),
+    //setIsLoadingNewPage: bindActionCreators(setIsLoadingNewPage, dispatch),
+    print("Why hello there");
   };
 };
 
