@@ -80,11 +80,11 @@ export function BaseLayout({
              .get()
              .then((doc) => {
                let data = doc.data();
-               console.log('data.value', data.value);
+              //  console.log('data.value', data.value);
                setMarketingHeader(data ? parse(data.value) : '');
              })
-             .catch((e) => {
-               console.error('Exception');
+             .catch((ex) => {
+               console.error('Error', ex);
              });
          };
 
@@ -171,7 +171,7 @@ export function BaseLayout({
                        'development' === process.env.NODE_ENV
                          ? "default-src 'self' 'unsafe-eval' data:; style-src 'self' 'unsafe-inline';" // 'nonce-" + cspNonce + "';"
                          : "default-src 'self' data:; style-src 'self' 'unsafe-inline';" // 'nonce-" + cspNonce + "';"
-                     }  style-src-elem 'self' https://*.googleapis.com 'unsafe-inline' https://unpkg.com https://api.mapbox.com;  script-src-elem 'self' https://*.paypal.com 'sha256-7nnKyr+RUZ9a44Hg3lYwjgkUx5VyFQwv2ZUhVw6N7J4=' https://*.gstatic.com http://*.gstatic.com https://*.google.com https://unpkg.com;  img-src https://* 'self' data:; font-src 'self' data: https://*.gstatic.com; child-src 'none'; connect-src 'self' https://*.paypal.com https://*.googleapis.com https://*.openstreetmap.org https://*.mapbox.com; worker-src 'self' blob:;frame-src 'self' https://*.accountchooser.com/ https://*.paypal.com https://*.google.com https://super-stallion-logistics.firebaseapp.com;`}
+                     }  style-src-elem 'self' https://*.googleapis.com 'unsafe-inline' https://unpkg.com https://api.mapbox.com;  script-src-elem 'self' https://*.paypal.com *.bing.com 'sha256-7nnKyr+RUZ9a44Hg3lYwjgkUx5VyFQwv2ZUhVw6N7J4=' 'sha256-qHSWNWOBU7+I7H5eQlPDXTltpWrwWXLEaLsjOrCkTwo=' https://*.gstatic.com http://*.gstatic.com https://*.google.com https://unpkg.com;  img-src https://* 'self' data:; font-src 'self' data: https://*.gstatic.com; child-src 'none'; connect-src 'self' https://*.paypal.com https://*.googleapis.com https://*.openstreetmap.org https://*.mapbox.com; worker-src 'self' blob:;frame-src 'self' https://*.accountchooser.com/ https://*.paypal.com https://*.google.com https://super-stallion-logistics.firebaseapp.com;`}
                    ></meta>
                    <meta charSet="utf-8" />
                    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
