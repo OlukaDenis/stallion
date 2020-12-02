@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect, useDispatch } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import { Card, Table, Row, Col, Input, Space, Button, message, Modal } from 'antd';
 import Highlighter from 'react-highlight-words';
@@ -15,27 +14,27 @@ import { Router, withTranslation } from '../../utilities/i18n';
 import { CheckCircleOutlined, GlobalOutlined, SearchOutlined, WarningOutlined } from '@ant-design/icons';
 import {
   setOrigin,
-  setDestination,
-  setDistance,
-  setDuration,
+  setDestination
 } from '../../state/quote/action';
-import { setSelectedOrder } from '../../state/ui/action';
 import { useIsLoadingNewPage } from '../../hooks/NewPageLoadingIndicator';
 import Head from 'next/head';
 import EditOrderPrice from '../../components/jobs/EditOrderPrice';
 import MapView from '../../components/MapView';
+import { bindActionCreators } from 'redux';
 
 export function Available({
          t,
          quote,
          theme,
          isLoggedIn,
-         userUID, 
+         userUID,
          isAdmin,
          isManager,
          isShippingAgent,
          isDriver,
          displayName,
+         setOrigin,
+         setDestination,
        }) {
          const stagingPageParams = { pathname: '/jobs/staged' };
          const viewMapRoute = { pathname: '/jobs/view-map' };
@@ -50,7 +49,6 @@ export function Available({
          const [isLoadingNewPage, setIsLoadingNewPage] = useState(null);
          const [isRouteModalShown, setOpenIsRouteModalShown] = useState(false);
          const [selectedOrder, setSelectedOrder] = useState({});
-         const dispatch = useDispatch();
 
          const searchInputRef = useRef();
 
@@ -113,9 +111,13 @@ export function Available({
            destinationName: (value, record, dataIndex) =>
              record[dataIndex] ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()) : '',
            pickupLocation: (value, record, dataIndex) =>
-             record[dataIndex].address ? record[dataIndex].address.toString().toLowerCase().includes(value.toLowerCase()) : '',
+             record[dataIndex].address
+               ? record[dataIndex].address.toString().toLowerCase().includes(value.toLowerCase())
+               : '',
            deliveryLocation: (value, record, dataIndex) =>
-             record[dataIndex].address ? record[dataIndex].address.toString().toLowerCase().includes(value.toLowerCase()) : '',
+             record[dataIndex].address
+               ? record[dataIndex].address.toString().toLowerCase().includes(value.toLowerCase())
+               : '',
          };
 
          const getColumnSearchProps = (dataIndex) => ({
@@ -211,17 +213,16 @@ export function Available({
          };
 
          const showModal = (record) => {
-           
            setSelectedOrder(record);
-            console.log('record', record);
-           dispatch(setOrigin(record.origin));
-           dispatch(setDestination(record.destination));
+          //  console.log('record', record);
+           setOrigin(record.origin);
+           setDestination(record.destination);
 
-            setOpenIsRouteModalShown(true);
+           setOpenIsRouteModalShown(true);
          };
 
          const closeModal = () => {
-            setOpenIsRouteModalShown(false);
+           setOpenIsRouteModalShown(false);
          };
 
          useEffect(() => {
@@ -474,6 +475,7 @@ export function Available({
                width={1000}
                onOk={closeModal}
                onCancel={closeModal}
+              //  destroyOnClose={true}
              >
                <MapView />
              </Modal>
@@ -517,6 +519,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    setOrigin: bindActionCreators(setOrigin, dispatch),
+    setDestination: bindActionCreators(setDestination, dispatch),
   };
 }
 

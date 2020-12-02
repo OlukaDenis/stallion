@@ -15,6 +15,7 @@ import {
   setDuration,
 } from '../state/quote/action';
 import Head from 'next/head';
+import { debounce } from '../utilities/common';
 
 var map;
 var mapboxgl;
@@ -30,42 +31,32 @@ const MapView = ({
   setDestinationLon,
   setDistance,
   setDuration,
+  origin,
+  destination,
+  destinationLon,
+  destinationLat,
+  originLon,
+  originLat,
 }) => {
-
-  const [origin, setOrigin] = useState();
-  const [destination, setDestination] = useState();
+  
   const [originMarker, setOriginMarker] = useState();
   const [destinationMarker, setDestinationMarker] = useState();
 
-
-  useEffect(() => {
-    
-    if (quote.originLat && quote.originLon) {
-      setOrigin(quote.origin);
-    }
-
-    if (quote.destinationLat && quote.destinationLon) {
-      setDestination(quote.destination);
-    }
-    
-  }, [quote]);
-
-  const getMapBounds = () => {
-    let originLon = quote.originLon || -65,
-      originLat = quote.originLat || 50,
-      destinationLon = quote.destinationLon || -130,
-      destinationLat = quote.destinationLat || 25;
-    const padding = 3;
+  const getMapBounds = (padding=8) => {
+    let originLongitude = originLon || -65,
+      originLatitude = originLat || 50,
+      destinationLongitude = destinationLon || -130,
+      destinationLatitude = destinationLat || 25;
 
     const [leftBound, rightBound] =
-      originLon > destinationLon
-        ? [destinationLon - padding, originLon + padding]
-        : [originLon - padding, destinationLon + padding];
+      originLongitude > destinationLongitude
+        ? [destinationLongitude - padding, originLongitude + padding]
+        : [originLongitude - padding, destinationLongitude + padding];
 
     const [downsideBound, upsideBound] =
-      originLat > destinationLat
-        ? [destinationLat - padding, originLat + padding]
-        : [originLat - padding, destinationLat + padding];
+      originLatitude > destinationLatitude
+        ? [destinationLatitude - padding, originLatitude + padding]
+        : [originLatitude - padding, destinationLatitude + padding];
 
     return [
       [leftBound, downsideBound],
@@ -77,34 +68,30 @@ const MapView = ({
     if (!map) return;
 
     var bounds = getMapBounds();
-
     map.fitBounds(bounds);
-  }
+  };
 
   const setMarkers = () => {
     if (!map) return;
 
     if (originMarker) {
-      originMarker.setLngLat([quote.originLon, quote.originLat]);
-      originMarker._update();
-    } else {
-      let oMarker = new mapboxgl.Marker({ color: '#f63e0c' }).setLngLat([quote.originLon, quote.originLat]);
-      oMarker.addTo(map);
-      var popup = new mapboxgl.Popup().setText('Pickup Location');
-      oMarker.setPopup(popup);
-      setOriginMarker(oMarker);
+      originMarker.remove();
     }
+    let oMarker = new mapboxgl.Marker({ color: '#f63e0c' }).setLngLat([originLon, originLat]);
+    oMarker.addTo(map);
+    var popup = new mapboxgl.Popup().setText('Pickup Location');
+    oMarker.setPopup(popup);
+    setOriginMarker(oMarker);
 
     if (destinationMarker) {
-      destinationMarker.setLngLat([quote.destinationLon, quote.destinationLat]);
-      destinationMarker._update();
-    } else {
-      let dMarker = new mapboxgl.Marker().setLngLat([quote.destinationLon, quote.destinationLat]);
-      dMarker.addTo(map);
-      var popup = new mapboxgl.Popup().setText('Drop-off Location');
-      dMarker.setPopup(popup);
-      setDestinationMarker(dMarker);
+      destinationMarker.remove();
     }
+
+    let dMarker = new mapboxgl.Marker().setLngLat([destinationLon, destinationLat]);
+    dMarker.addTo(map);
+    var popup = new mapboxgl.Popup().setText('Drop-off Location');
+    dMarker.setPopup(popup);
+    setDestinationMarker(dMarker);
   };
 
   const drawRoute = (route) => {
@@ -145,10 +132,10 @@ const MapView = ({
     Axios.post(
       '/api/navigation',
       {
-        originLat: quote.originLat,
-        originLon: quote.originLon,
-        destinationLat: quote.destinationLat,
-        destinationLon: quote.destinationLon,
+        originLat: originLat,
+        originLon: originLon,
+        destinationLat: destinationLat,
+        destinationLon: destinationLon,
       },
       { headers: { 'Content-Type': 'application/json' } }
     ).then((response) => {
@@ -161,9 +148,13 @@ const MapView = ({
     });
   };
 
-  const convertMetersToMiles = (meters) => Number(Number((meters / 1000) / 1.609344).toFixed(2))
+  const fetchRouteDebounced = debounce(fetchRoute, 400);
+
+  const convertMetersToMiles = (meters) => Number(Number(meters / 1000 / 1.609344).toFixed(2));
 
   useEffect(() => {
+    setOriginLat(null);
+    setOriginLon(null);
     (async () => {
       const [lon, lat, encodedName] = await geoEncodeLocation(quote.origin);
       setOriginName(encodedName);
@@ -173,6 +164,8 @@ const MapView = ({
   }, [origin]);
 
   useEffect(() => {
+    setDestinationLat(null);
+    setDestinationLon(null);
     (async () => {
       const [lon, lat, encodedName] = await geoEncodeLocation(quote.destination);
       setDestinationName(encodedName);
@@ -185,7 +178,10 @@ const MapView = ({
     if (typeof window !== 'undefined' && document.getElementById('map-container') && !map) {
       mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
 
-      const bounds = getMapBounds();
+      const bounds = [
+        [-132, 23],
+        [-63, 52],
+      ];
 
       mapboxgl.accessToken =
         'pk.eyJ1IjoicHJlbWFyc3lzdGVtcyIsImEiOiJja2VtdmZ6aXAxcnAyMzBwYzZnaTFjaWJzIn0.BQJ4ok3AEE5_2cSq0KlIJg';
@@ -195,18 +191,25 @@ const MapView = ({
         maxBounds: bounds,
       });
     }
+    if (map.getLayer('route')) map.removeLayer('route');
+    if (map.getSource('route')) map.removeSource('route');
+    if (originMarker) {
+      originMarker.remove();
+    }
+    if (destinationMarker) {
+      destinationMarker.remove();
+    }
   }, [origin, destination]);
 
-
   useEffect(() => {
-    if (!quote.originLat || !quote.originLon || !quote.destinationLat || !quote.destinationLon) {
+    if (!originLat || !originLon || !destinationLat || !destinationLon) {
       return;
     }
 
     setMarkers();
     adjustMapBounds();
-    fetchRoute();
-  }, [origin, destination]);
+    fetchRouteDebounced();
+  }, [originLat, originLon, destinationLat, destinationLon]);
 
   const geoEncodeLocation = async (location) => {
     let result = [0, 0];
@@ -233,6 +236,12 @@ const MapView = ({
 const mapStateToProps = (state) => ({
   theme: state.ui.theme,
   quote: state.quote,
+  origin: state.quote.origin,
+  destination: state.quote.destination,
+  destinationLon: state.quote.destinationLon,
+  destinationLat: state.quote.destinationLat,
+  originLon: state.quote.originLon,
+  originLat: state.quote.originLat,
 });
 
 const mapDispatchToProps = (dispatch) => {
