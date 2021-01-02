@@ -41,6 +41,13 @@ export function DeliveredJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, i
     if (!isLoggedIn) setIsLoadingNewPage(loginPageParams);
   }, [isLoggedIn]);
 
+  const pickSelectedVehicle = async () => {
+    setIsLoadingNewPage({
+      pathname: '/jobs/status',
+      query: { source: 'dispatch', ...selectedRows.map((order) => order.order_id) },
+    });
+  };
+
   const searchLabels = {
     originName: 'Search Pickup City',
     destinationName: 'Search Delivery City',
@@ -316,8 +323,16 @@ export function DeliveredJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, i
               <Col md={24} lg={24} xl={24}>
                 <div className="table__section">
                   <div>
-                    <div className="float-left" style={{ marginBottom: 16 }}>
-                      {/* <p>{t('instructions')}</p> */}
+                  <div className="float-left" style={{ marginBottom: 16 }}>
+                      {selectedRows.length > 0 ? (
+                        <div>
+                          <Button onClick={pickSelectedVehicle} type="primary">
+                            {t('select_jobs_button')}
+                          </Button>
+                        </div>
+                      ) : (
+                        <p>{t('instructions')}</p>
+                      )}
                     </div>
                     {isLoggedIn && (
                       <div className="float-right" style={{ marginBottom: 16 }}>
@@ -337,6 +352,7 @@ export function DeliveredJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, i
                       position: ['bottomRight'],
                       defaultPageSize: 500,
                     }}
+                    rowSelection={{ ...rowSelection }}
                     columns={columns}
                     dataSource={data}
                   />
