@@ -40,7 +40,7 @@ export function DeliveredJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, i
   useEffect(() => {
     if (!isLoggedIn) setIsLoadingNewPage(loginPageParams);
   }, [isLoggedIn]);
-
+// adding a editview button on the derivery page
   const pickSelectedVehicle = async () => {
     setIsLoadingNewPage({
       pathname: '/jobs/status',
