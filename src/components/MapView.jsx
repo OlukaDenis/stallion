@@ -257,3 +257,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withTranslation('common')(MapView));
+
