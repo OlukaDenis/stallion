@@ -46,9 +46,9 @@ export function QuotationGenerator({
     if (!hasQuoteDataError) {
       if (!quote.id) setID(generateUniqueQuoteID());
       setPhone(isValidPhoneNumber(quote.phone));
-      //setIsLoadingNewPage(true);
+      setIsLoadingNewPage(true);
       await Router.push('/quotation');
-      //setIsLoadingNewPage(false);
+      setIsLoadingNewPage(false);
     } else {
       setIsDataSubmitted(true);
     }

@@ -7,7 +7,6 @@ import QuotationGenerator from '../components/QuotationGenerator';
 import QuotationView from '../components/QuotationView';
 import Head from 'next/head';
 import useIsValidQuoteData from '../hooks/QuoteDataValidation';
-import MapView from '../../components/MapView';
 
 export function QuotationPage({ t, quote }) {
 
@@ -23,7 +22,6 @@ export function QuotationPage({ t, quote }) {
         <Row gutter={[16, 16]} style={{ paddingTop: 50 }} justify="center">
           <Col xs={20} sm={18} md={12} lg={10} xl={10}>
             <QuotationGenerator />
-            <MapView />
           </Col>
         </Row>
       ) : (
@@ -47,7 +45,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-     setIsLoggedIn: bindActionCreators(setIsLoggedIn, dispatch),
+    // setIsLoggedIn: bindActionCreators(setIsLoggedIn, dispatch),
   };
 };
 
