@@ -20,6 +20,7 @@ import { US_STATES_FILTER } from '../../utilities/common';
 
 export function DeliveredJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, isManager, isShippingAgent, isDriver }) {
   const loginPageParams = { pathname: '/login', query: { redirectURL: Router.pathname } };
+  const [selectedRows, setSelectedRows] = useState([]);
   const [isLoadingAvailableJobsData, setIsLoadingAvailableJobsData] = useState(false);
   const [data, setData] = useState([]);
   const [isLoadingNewPage, setIsLoadingNewPage] = useState(null);
@@ -40,11 +41,11 @@ export function DeliveredJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, i
   useEffect(() => {
     if (!isLoggedIn) setIsLoadingNewPage(loginPageParams);
   }, [isLoggedIn]);
-// adding a editview button on the derivery page to display uploaded files
+
   const pickSelectedVehicle = async () => {
     setIsLoadingNewPage({
-      pathname: '/jobs/status',
-      query: { source: 'dispatch', ...selectedRows.map((order) => order.order_id) },
+      pathname: '/jobs/display',
+      query: { source: 'delivered', ...selectedRows.map((order) => order.order_id) },
     });
   };
 
@@ -307,7 +308,15 @@ export function DeliveredJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, i
       ],
     },
   ];
+  const onSelectChange = (selectedRowKeys, selectedRows) => {
+    // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    setSelectedRows(selectedRows);
+  };
 
+  const rowSelection = {
+    onChange: onSelectChange,
+    type: 'radio',
+  };
   const useSmallScreenTable =
     (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) < 1000;
 
@@ -331,7 +340,7 @@ export function DeliveredJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, i
                           </Button>
                         </div>
                       ) : (
-                        {/* <p>{t('instructions')}</p> */}
+                        <p>{t('instructions')}</p>
                       )}
                     </div>
                     {isLoggedIn && (
