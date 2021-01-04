@@ -174,7 +174,7 @@ const MapView = ({
   }, [destination]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && document.getElementById('map-container') && !map) {
+    if (typeof window !== 'undefined' && document.getElementById('map-container')) {
       mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
 
       const bounds = [
