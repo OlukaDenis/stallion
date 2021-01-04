@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { withTranslation } from '../utilities/i18n';
-
 import { useEffect, useState } from 'react';
 import Axios from 'axios';
 import { bindActionCreators } from 'redux';
