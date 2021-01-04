@@ -331,7 +331,7 @@ export function DeliveredJobs({ t, quote, theme, isLoggedIn, userUID, isAdmin, i
                           </Button>
                         </div>
                       ) : (
-                        <p>{t('instructions')}</p>
+                        {/* <p>{t('instructions')}</p> */}
                       )}
                     </div>
                     {isLoggedIn && (
